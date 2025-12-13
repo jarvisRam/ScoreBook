@@ -1,0 +1,31 @@
+{
+  "name": "scorebook-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ScoreBook - Cross-platform sports score application",
+  "scripts": {
+    "mobile": "cd mobile && npm start",
+    "backend": "cd backend && npm run dev",
+    "test": "npm run test:mobile && npm run test:backend",
+    "test:mobile": "cd mobile && npm test",
+    "test:backend": "cd backend && npm test",
+    "lint": "npm run lint:mobile && npm run lint:backend",
+    "lint:mobile": "cd mobile && npm run lint",
+    "lint:backend": "cd backend && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/ScoreBook.git"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "sports",
+    "scores",
+    "testing",
+    "automation",
+    "cross-platform"
+  ],
+  "author": "Sriram",
+  "license": "MIT"
+}
