@@ -57,12 +57,12 @@ This document provides complete context for continuing ScoreBook development on 
    - [x] All technical decisions confirmed
 
 2. **Documentation Created**
-   - [x] [implementation_plan.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/implementation_plan.md) - Complete implementation roadmap
-   - [x] [technical_architecture.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/technical_architecture.md) - System architecture with diagrams
-   - [x] [design_proposal.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/design_proposal.md) - Original design and questions
-   - [x] [technical_decisions_summary.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/technical_decisions_summary.md) - All confirmed decisions
-   - [x] [windows_vs_mac_analysis.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/windows_vs_mac_analysis.md) - Development platform analysis
-   - [x] [task.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/task.md) - Implementation task checklist
+   - [x] [implementation-plan.md](./implementation-plan.md) - Complete implementation roadmap
+   - [x] [technical-architecture.md](./technical-architecture.md) - System architecture with diagrams
+   - [x] [design-proposal.md](./design-proposal.md) - Original design and questions
+   - [x] [technical-decisions.md](./technical-decisions.md) - All confirmed decisions
+   - [x] [windows-vs-mac-analysis.md](./windows-vs-mac-analysis.md) - Development platform analysis
+   - [x] [task.md](./task.md) - Implementation task checklist
 
 ### 🔄 To Be Done on Mac
 
@@ -315,11 +315,12 @@ After providing the above context, AntiGravity will:
 If AntiGravity needs more context, reference these files:
 
 ```
-Key documentation files:
-- implementation_plan.md - Complete file structure and implementation steps
-- technical_architecture.md - System architecture with diagrams
-- technical_decisions_summary.md - All confirmed decisions
+Key documentation files (all in docs/ directory):
+- implementation-plan.md - Complete file structure and implementation steps
+- technical-architecture.md - System architecture with diagrams
+- technical-decisions.md - All confirmed decisions
 - task.md - Implementation checklist
+- design-proposal.md - Original design mockups
 ```
 
 ---
@@ -410,20 +411,20 @@ Once AntiGravity is ready on your Mac, here are the first tasks:
 
 ### Must Read Before Implementation
 
-1. **[implementation_plan.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/implementation_plan.md)**
+1. **[implementation-plan.md](./implementation-plan.md)**
    - Complete file structure
    - Every component and its purpose
    - Implementation workflow
    - Verification plan
 
-2. **[technical_architecture.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/technical_architecture.md)**
+2. **[technical-architecture.md](./technical-architecture.md)**
    - System architecture diagrams
    - Component hierarchy
    - Data flow patterns
    - State management strategy
    - Design decisions and rationale
 
-3. **[technical_decisions_summary.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/technical_decisions_summary.md)**
+3. **[technical-decisions.md](./technical-decisions.md)**
    - All confirmed technical choices
    - State management explanation
    - Team logos strategy
@@ -431,11 +432,11 @@ Once AntiGravity is ready on your Mac, here are the first tasks:
 
 ### Reference During Development
 
-4. **[task.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/task.md)**
+4. **[task.md](./task.md)**
    - Implementation checklist
    - Track progress
 
-5. **[design_proposal.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/design_proposal.md)**
+5. **[design-proposal.md](./design-proposal.md)**
    - Original UI mockups
    - Design structure
    - Initial questions and answers
@@ -604,8 +605,8 @@ lsof -ti:8081 | xargs kill
 
 If you have any questions while implementing on Mac, refer to:
 
-1. Check [implementation_plan.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/implementation_plan.md) for file structure details
-2. Check [technical_architecture.md](file:///C:/Users/srira/.gemini/antigravity/brain/94162211-4084-4ba2-87b0-4d231062ec33/technical_architecture.md) for architecture clarifications
+1. Check [implementation-plan.md](./implementation-plan.md) for file structure details
+2. Check [technical-architecture.md](./technical-architecture.md) for architecture clarifications
 3. Ask AntiGravity specific questions with context from these docs
 
 ---
