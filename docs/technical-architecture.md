@@ -42,7 +42,7 @@ ScoreBook is a cross-platform mobile and web application built with React Native
 
 ### High-Level System Architecture
 
-\`\`\`mermaid
+```mermaid
 graph TB
     subgraph Client["Client Applications"]
         iOS["iOS App<br/>(React Native)"]
@@ -79,11 +79,11 @@ graph TB
     Cypress -.-> Web
     Jest -.-> Client
     Jest -.-> Backend
-\`\`\`
+```
 
 ### Component Hierarchy
 
-\`\`\`mermaid
+```mermaid
 graph TD
     App["App Root<br/>(Theme Provider)"]
     App --> QueryProvider["React Query Provider"]
@@ -113,7 +113,7 @@ graph TD
     MatchCard --> LiveIndicator["Live Indicator"]
     MatchCard --> VenueInfo["Venue Info"]
     MatchCard --> HomeAwayBadge["Home/Away Badge"]
-\`\`\`
+```
 
 ---
 
@@ -134,7 +134,7 @@ graph TD
 
 ### Directory Structure
 
-\`\`\`
+```
 mobile/
 ├── src/
 │   ├── components/          # Reusable UI components
@@ -179,21 +179,21 @@ mobile/
 ├── app.json               # Expo configuration
 ├── package.json
 └── tsconfig.json
-\`\`\`
+```
 
 ### Component Architecture
 
 #### Core Components
 
 **1. MatchCard Component**
-\`\`\`typescript
+```typescript
 interface MatchCardProps {
   match: Match;
   sport: Sport;
   onPress?: () => void;
   testID?: string;
 }
-\`\`\`
+```
 
 Renders:
 - Team names and logos
@@ -236,7 +236,7 @@ Renders:
 
 ### Directory Structure
 
-\`\`\`
+```
 backend/
 ├── src/
 │   ├── routes/              # API routes
@@ -268,11 +268,11 @@ backend/
 ├── .env.example
 ├── package.json
 └── tsconfig.json
-\`\`\`
+```
 
 ### API Endpoints
 
-\`\`\`
+```
 GET  /api/health
      Returns: { status: 'ok', mode: 'mock' | 'real', timestamp: number }
 
@@ -287,11 +287,11 @@ GET  /api/matches/:sport?status=live|upcoming|completed
 
 GET  /api/match/:id
      Returns: MatchDetail
-\`\`\`
+```
 
 ### Data Service Architecture
 
-\`\`\`mermaid
+```mermaid
 graph LR
     Request["HTTP Request"] --> Router["Express Router"]
     Router --> Controller["Route Controller"]
@@ -306,18 +306,18 @@ graph LR
     RealService --> Cache
     
     Cache --> Response["HTTP Response"]
-\`\`\`
+```
 
 ### Mock vs Real Data Toggle
 
 **Environment Variable:**
-\`\`\`env
+```env
 USE_MOCK_DATA=true   # Use mock data
 USE_MOCK_DATA=false  # Use real APIs
-\`\`\`
+```
 
 **Implementation:**
-\`\`\`typescript
+```typescript
 // dataService.ts
 export function getMatches(sport: Sport, status: Status) {
   if (config.USE_MOCK_DATA) {
@@ -326,7 +326,7 @@ export function getMatches(sport: Sport, status: Status) {
     return realDataService.getMatches(sport, status);
   }
 }
-\`\`\`
+```
 
 ---
 
@@ -334,7 +334,7 @@ export function getMatches(sport: Sport, status: Status) {
 
 ### Data Fetching Flow
 
-\`\`\`mermaid
+```mermaid
 sequenceDiagram
     participant UI as React Component
     participant RQ as React Query
@@ -365,18 +365,18 @@ sequenceDiagram
     end
     
     Note over RQ,UI: Auto-refetch after 30-60 seconds
-\`\`\`
+```
 
 ### State Update Flow
 
-\`\`\`mermaid
+```mermaid
 graph LR
     UserAction["User Action<br/>(Select Tab)"] --> Zustand["Zustand Store<br/>(Update selectedSport)"]
     Zustand --> Component["Component Re-render"]
     Component --> ReactQuery["React Query<br/>(Trigger new query)"]
     ReactQuery --> API["Backend API"]
     API --> Update["UI Update with New Data"]
-\`\`\`
+```
 
 ---
 
@@ -392,7 +392,7 @@ graph LR
 
 ### React Query Configuration
 
-\`\`\`typescript
+```typescript
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -404,11 +404,11 @@ const queryClient = new QueryClient({
     },
   },
 });
-\`\`\`
+```
 
 ### Auto-Polling Implementation
 
-\`\`\`typescript
+```typescript
 // useLiveMatches.ts
 export function useLiveMatches(sport: Sport) {
   return useQuery({
@@ -418,11 +418,11 @@ export function useLiveMatches(sport: Sport) {
     enabled: true,           // Always poll when component mounted
   });
 }
-\`\`\`
+```
 
 ### Zustand Store Example
 
-\`\`\`typescript
+```typescript
 interface AppState {
   selectedSport: Sport;
   selectedStatus: MatchStatus;
@@ -436,7 +436,7 @@ export const useAppStore = create<AppState>((set) => ({
   setSelectedSport: (sport) => set({ selectedSport: sport }),
   setSelectedStatus: (status) => set({ selectedStatus: status }),
 }));
-\`\`\`
+```
 
 ---
 
@@ -444,7 +444,7 @@ export const useAppStore = create<AppState>((set) => ({
 
 ### Navigation Structure
 
-\`\`\`mermaid
+```mermaid
 graph TD
     Root["Root Navigator<br/>(Stack)"]
     Root --> SportTabs["Sport Tab Navigator<br/>(Material Top Tabs)"]
@@ -458,11 +458,11 @@ graph TD
     
     Cricket --> CricketScreen["Cricket Screen<br/>(with Status Tabs)"]
     CricketScreen --> MatchDetail["Match Detail Screen<br/>(Future)"]
-\`\`\`
+```
 
 ### Navigation Types (TypeScript)
 
-\`\`\`typescript
+```typescript
 export type RootStackParamList = {
   Home: undefined;
   MatchDetail: { matchId: string };
@@ -476,7 +476,7 @@ export type SportTabParamList = {
   Tennis: undefined;
   Badminton: undefined;
 };
-\`\`\`
+```
 
 ---
 
@@ -484,7 +484,7 @@ export type SportTabParamList = {
 
 ### Testing Pyramid
 
-\`\`\`mermaid
+```mermaid
 graph TD
     E2E["E2E Tests<br/>(Detox, Cypress)<br/>10% - Critical User Flows"]
     Integration["Integration Tests<br/>(React Testing Library)<br/>30% - Component Integration"]
@@ -492,7 +492,7 @@ graph TD
     
     E2E --> Integration
     Integration --> Unit
-\`\`\`
+```
 
 ### Test Coverage Strategy
 
@@ -507,7 +507,7 @@ graph TD
 
 All interactive elements have testID attributes following this pattern:
 
-\`\`\`typescript
+```typescript
 testID="{component}_{element}_{descriptor}"
 
 Examples:
@@ -516,11 +516,11 @@ Examples:
 - testID="statusTab_button_live"
 - testID="matchCard_teamName_home"
 - testID="matchCard_score_current"
-\`\`\`
+```
 
 ### E2E Test Example (Detox)
 
-\`\`\`typescript
+```typescript
 describe('Sport Navigation', () => {
   it('should navigate between sport tabs', async () => {
     await element(by.id('sportTab_button_cricket')).tap();
@@ -536,11 +536,11 @@ describe('Sport Navigation', () => {
     await expect(element(by.id('liveIndicator_badge'))).toBeVisible();
   });
 });
-\`\`\`
+```
 
 ### Mock vs Real Data for Testing
 
-\`\`\`typescript
+```typescript
 // Test with mock data (predictable)
 beforeAll(() => {
   process.env.USE_MOCK_DATA = 'true';
@@ -550,7 +550,7 @@ beforeAll(() => {
 beforeAll(() => {
   process.env.USE_MOCK_DATA = 'false';
 });
-\`\`\`
+```
 
 ---
 
@@ -558,7 +558,7 @@ beforeAll(() => {
 
 ### Mobile Deployment
 
-\`\`\`mermaid
+```mermaid
 graph LR
     Code["Code Changes"] --> Build["EAS Build<br/>(Cloud)"]
     Build --> iOS["iOS Build<br/>(.ipa)"]
@@ -569,11 +569,11 @@ graph LR
     
     TestFlight --> AppStore["App Store<br/>(Production)"]
     PlayBeta --> PlayStore["Google Play Store<br/>(Production)"]
-\`\`\`
+```
 
 ### Web Deployment
 
-\`\`\`
+```
 mobile/ (Expo Web)
   ↓
 npx expo export:web
@@ -581,7 +581,7 @@ npx expo export:web
 Build Output (static files)
   ↓
 Deploy to Vercel / Netlify
-\`\`\`
+```
 
 ### Backend Deployment
 
@@ -592,7 +592,7 @@ Options:
 
 ### CI/CD Pipeline
 
-\`\`\`mermaid
+```mermaid
 graph LR
     Push["Git Push"] --> GHA["GitHub Actions"]
     GHA --> Lint["Lint & Type Check"]
@@ -605,7 +605,7 @@ graph LR
     
     Deploy --> Manual["Manual Approval"]
     Manual --> Prod["Deploy to Production"]
-\`\`\`
+```
 
 ---
 
