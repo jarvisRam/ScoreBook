@@ -1,0 +1,68 @@
+[
+    {
+        "id": "soccer_upcoming_1",
+        "sport": "soccer",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_bayern",
+            "name": "Bayern Munich",
+            "initials": "BAY"
+        },
+        "awayTeam": {
+            "id": "team_dortmund",
+            "name": "Borussia Dortmund",
+            "initials": "DOR"
+        },
+        "venue": {
+            "name": "Allianz Arena",
+            "city": "Munich",
+            "country": "Germany"
+        },
+        "startTime": "2025-12-26T17:30:00Z",
+        "tournament": "Bundesliga"
+    },
+    {
+        "id": "soccer_upcoming_2",
+        "sport": "soccer",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_psg",
+            "name": "Paris Saint-Germain",
+            "initials": "PSG"
+        },
+        "awayTeam": {
+            "id": "team_marseille",
+            "name": "Olympique de Marseille",
+            "initials": "OM"
+        },
+        "venue": {
+            "name": "Parc des Princes",
+            "city": "Paris",
+            "country": "France"
+        },
+        "startTime": "2025-12-26T20:00:00Z",
+        "tournament": "Ligue 1"
+    },
+    {
+        "id": "soccer_upcoming_3",
+        "sport": "soccer",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_juventus",
+            "name": "Juventus FC",
+            "initials": "JUV"
+        },
+        "awayTeam": {
+            "id": "team_milan",
+            "name": "AC Milan",
+            "initials": "ACM"
+        },
+        "venue": {
+            "name": "Allianz Stadium",
+            "city": "Turin",
+            "country": "Italy"
+        },
+        "startTime": "2025-12-27T19:45:00Z",
+        "tournament": "Serie A"
+    }
+]

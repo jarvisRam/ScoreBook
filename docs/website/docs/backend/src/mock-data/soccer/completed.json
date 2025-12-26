@@ -1,0 +1,62 @@
+[
+    {
+        "id": "soccer_completed_1",
+        "sport": "soccer",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_man_utd",
+            "name": "Manchester United",
+            "initials": "MUN",
+            "score": {
+                "goals": 3,
+                "half": "Final"
+            }
+        },
+        "awayTeam": {
+            "id": "team_spurs",
+            "name": "Tottenham Hotspur",
+            "initials": "TOT",
+            "score": {
+                "goals": 2,
+                "half": "Final"
+            }
+        },
+        "venue": {
+            "name": "Old Trafford",
+            "city": "Manchester",
+            "country": "England"
+        },
+        "startTime": "2025-12-24T15:00:00Z",
+        "tournament": "Premier League"
+    },
+    {
+        "id": "soccer_completed_2",
+        "sport": "soccer",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_inter",
+            "name": "Inter Milan",
+            "initials": "INT",
+            "score": {
+                "goals": 1,
+                "half": "Final"
+            }
+        },
+        "awayTeam": {
+            "id": "team_napoli",
+            "name": "SSC Napoli",
+            "initials": "NAP",
+            "score": {
+                "goals": 1,
+                "half": "Final"
+            }
+        },
+        "venue": {
+            "name": "San Siro",
+            "city": "Milan",
+            "country": "Italy"
+        },
+        "startTime": "2025-12-24T19:00:00Z",
+        "tournament": "Serie A"
+    }
+]

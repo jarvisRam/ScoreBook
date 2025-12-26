@@ -1,0 +1,94 @@
+[
+    {
+        "id": "football_upcoming_1",
+        "sport": "football",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_eagles",
+            "name": "Philadelphia Eagles",
+            "initials": "PHI"
+        },
+        "awayTeam": {
+            "id": "team_giants",
+            "name": "New York Giants",
+            "initials": "NYG"
+        },
+        "venue": {
+            "name": "Lincoln Financial Field",
+            "city": "Philadelphia",
+            "state": "Pennsylvania",
+            "country": "USA"
+        },
+        "startTime": "2025-12-26T18:00:00Z",
+        "tournament": "NFL Regular Season"
+    },
+    {
+        "id": "football_upcoming_2",
+        "sport": "football",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_bengals",
+            "name": "Cincinnati Bengals",
+            "initials": "CIN"
+        },
+        "awayTeam": {
+            "id": "team_ravens",
+            "name": "Baltimore Ravens",
+            "initials": "BAL"
+        },
+        "venue": {
+            "name": "Paul Brown Stadium",
+            "city": "Cincinnati",
+            "state": "Ohio",
+            "country": "USA"
+        },
+        "startTime": "2025-12-26T21:00:00Z",
+        "tournament": "NFL Regular Season"
+    },
+    {
+        "id": "football_upcoming_3",
+        "sport": "football",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_bills",
+            "name": "Buffalo Bills",
+            "initials": "BUF"
+        },
+        "awayTeam": {
+            "id": "team_dolphins",
+            "name": "Miami Dolphins",
+            "initials": "MIA"
+        },
+        "venue": {
+            "name": "Highmark Stadium",
+            "city": "Buffalo",
+            "state": "New York",
+            "country": "USA"
+        },
+        "startTime": "2025-12-27T13:00:00Z",
+        "tournament": "NFL Regular Season"
+    },
+    {
+        "id": "football_upcoming_4",
+        "sport": "football",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_rams",
+            "name": "Los Angeles Rams",
+            "initials": "LAR"
+        },
+        "awayTeam": {
+            "id": "team_seahawks",
+            "name": "Seattle Seahawks",
+            "initials": "SEA"
+        },
+        "venue": {
+            "name": "SoFi Stadium",
+            "city": "Los Angeles",
+            "state": "California",
+            "country": "USA"
+        },
+        "startTime": "2025-12-27T20:20:00Z",
+        "tournament": "NFL Regular Season"
+    }
+]

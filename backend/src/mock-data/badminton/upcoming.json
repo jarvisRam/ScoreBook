@@ -1,0 +1,71 @@
+[
+    {
+        "id": "badminton_upcoming_1",
+        "sport": "badminton",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "player_momota",
+            "name": "Kento Momota",
+            "initials": "KM"
+        },
+        "awayTeam": {
+            "id": "player_ginting",
+            "name": "Anthony Ginting",
+            "initials": "AG"
+        },
+        "venue": {
+            "name": "Nimibutr Stadium",
+            "city": "Bangkok",
+            "country": "Thailand"
+        },
+        "startTime": "2025-12-26T09:00:00Z",
+        "tournament": "Thailand Open",
+        "round": "Quarterfinal"
+    },
+    {
+        "id": "badminton_upcoming_2",
+        "sport": "badminton",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "player_chen",
+            "name": "Chen Yufei",
+            "initials": "CY"
+        },
+        "awayTeam": {
+            "id": "player_marin",
+            "name": "Carolina Marin",
+            "initials": "CM"
+        },
+        "venue": {
+            "name": "China Olympic Sports Center",
+            "city": "Beijing",
+            "country": "China"
+        },
+        "startTime": "2025-12-26T12:00:00Z",
+        "tournament": "China Open",
+        "round": "Final"
+    },
+    {
+        "id": "badminton_upcoming_3",
+        "sport": "badminton",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "pair_minions",
+            "name": "The Minions",
+            "initials": "TM"
+        },
+        "awayTeam": {
+            "id": "pair_chia",
+            "name": "Aaron Chia / Soh Wooi Yik",
+            "initials": "AC/SWY"
+        },
+        "venue": {
+            "name": "Axiata Arena",
+            "city": "Kuala Lumpur",
+            "country": "Malaysia"
+        },
+        "startTime": "2025-12-27T08:30:00Z",
+        "tournament": "Malaysia Open",
+        "round": "Semifinal"
+    }
+]

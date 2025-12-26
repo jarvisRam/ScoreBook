@@ -7,8 +7,11 @@ on:
     branches: [main, develop]
 
 jobs:
+  # ============================================
+  # PHASE 1: Lint, Type Check, and Unit Tests
+  # ============================================
   lint-and-test:
-    name: Lint and Test
+    name: Lint, Type Check, and Test
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +21,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
 
       - name: Install mobile dependencies
@@ -47,20 +50,17 @@ jobs:
 
       - name: Run mobile tests
         working-directory: ./mobile
-        run: npm test -- --coverage
+        run: npm test
 
       - name: Run backend tests
         working-directory: ./backend
-        run: npm test -- --coverage
+        run: npm test
 
-      - name: Upload coverage reports
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./mobile/coverage/lcov.info,./backend/coverage/lcov.info
-          fail_ci_if_error: false
-
-  build-android:
-    name: Build Android
+  # ============================================
+  # PHASE 2: Build - Web
+  # ============================================
+  build-web:
+    name: Build Web
     runs-on: ubuntu-latest
     needs: lint-and-test
 
@@ -71,47 +71,190 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
 
-      - name: Set up Expo
+      - name: Install dependencies
+        working-directory: ./mobile
+        run: npm ci
+
+      - name: Build web bundle
+        working-directory: ./mobile
+        run: npx expo export --platform web
+
+      - name: Upload web build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: mobile/dist/
+          retention-days: 7
+
+  # ============================================
+  # PHASE 2: Build - Android (Native)
+  # ============================================
+  build-android:
+    name: Build Android (Native)
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Install dependencies
+        working-directory: ./mobile
+        run: npm ci
+
+      - name: Build Android APK
+        working-directory: ./mobile
+        run: |
+          npx expo prebuild --platform android
+          cd android
+          ./gradlew assembleRelease
+
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: mobile/android/app/build/outputs/apk/release/*.apk
+          retention-days: 7
+
+  # ============================================
+  # PHASE 2: Build - iOS (EAS Build)
+  # ============================================
+  build-ios:
+    name: Build iOS (EAS)
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: Setup Expo
         uses: expo/expo-github-action@v8
         with:
           expo-version: latest
+          eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
         working-directory: ./mobile
         run: npm ci
 
-      - name: Build Android app
+      - name: Build iOS with EAS
         working-directory: ./mobile
-        run: npx expo export:web
+        run: eas build --platform ios --profile preview --non-interactive --no-wait
 
-  # e2e-tests:
-  #   name: E2E Tests (Android)
-  #   runs-on: macos-latest
-  #   needs: lint-and-test
-  #
+      # Note: EAS builds happen on Expo servers, so we don't wait or download here
+      # Builds can be accessed via: eas build:list
+      # To download: eas build:download --platform ios --latest
+
+  # ============================================
+  # PHASE 3: E2E Tests (Commented - Ready for Future Implementation)
+  # ============================================
+  
+  # Uncomment when Detox is configured
+  # e2e-android:
+  #   name: E2E Tests - Android
+  #   runs-on: ubuntu-latest
+  #   needs: build-android
+  #   
   #   steps:
   #     - name: Checkout code
   #       uses: actions/checkout@v3
-  #
+  #     
   #     - name: Set up Node.js
   #       uses: actions/setup-node@v3
   #       with:
   #         node-version: '18'
-  #
+  #     
+  #     - name: Set up Java
+  #       uses: actions/setup-java@v3
+  #       with:
+  #         distribution: 'temurin'
+  #         java-version: '17'
+  #     
+  #     - name: Download Android APK
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: android-apk
+  #         path: ./mobile/android/app/build/outputs/apk/release/
+  #     
   #     - name: Install dependencies
   #       working-directory: ./mobile
   #       run: npm ci
-  #
+  #     
   #     - name: Set up Android Emulator
   #       uses: reactivecircus/android-emulator-runner@v2
   #       with:
   #         api-level: 30
   #         target: google_apis
   #         arch: x86_64
-  #
+  #         script: |
+  #           cd mobile
+  #           npx detox test --configuration android.emu.release
+  
+  # Uncomment when Detox is configured
+  # e2e-ios:
+  #   name: E2E Tests - iOS
+  #   runs-on: macos-latest
+  #   needs: build-ios
+  #   
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18'
+  #     
+  #     - name: Setup Expo
+  #       uses: expo/expo-github-action@v8
+  #       with:
+  #         expo-version: latest
+  #         eas-version: latest
+  #         token: ${{ secrets.EXPO_TOKEN }}
+  #     
+  #     - name: Install dependencies
+  #       working-directory: ./mobile
+  #       run: npm ci
+  #     
+  #     - name: Download iOS build from EAS
+  #       working-directory: ./mobile
+  #       run: eas build:download --platform ios --latest --output ./ios-build.app
+  #     
+  #     - name: Install Detox dependencies
+  #       working-directory: ./mobile
+  #       run: |
+  #         brew tap wix/brew
+  #         brew install applesimutils
+  #     
   #     - name: Run Detox tests
   #       working-directory: ./mobile
-  #       run: npm run test:e2e
+  #       run: npx detox test --configuration ios.sim.release

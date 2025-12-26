@@ -1,0 +1,64 @@
+[
+    {
+        "id": "hockey_completed_1",
+        "sport": "hockey",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_capitals",
+            "name": "Washington Capitals",
+            "initials": "WSH",
+            "score": {
+                "goals": 5,
+                "period": "Final"
+            }
+        },
+        "awayTeam": {
+            "id": "team_penguins",
+            "name": "Pittsburgh Penguins",
+            "initials": "PIT",
+            "score": {
+                "goals": 3,
+                "period": "Final"
+            }
+        },
+        "venue": {
+            "name": "Capital One Arena",
+            "city": "Washington",
+            "state": "DC",
+            "country": "USA"
+        },
+        "startTime": "2025-12-24T19:00:00Z",
+        "tournament": "NHL Regular Season"
+    },
+    {
+        "id": "hockey_completed_2",
+        "sport": "hockey",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_blackhawks",
+            "name": "Chicago Blackhawks",
+            "initials": "CHI",
+            "score": {
+                "goals": 2,
+                "period": "Final"
+            }
+        },
+        "awayTeam": {
+            "id": "team_red_wings",
+            "name": "Detroit Red Wings",
+            "initials": "DET",
+            "score": {
+                "goals": 4,
+                "period": "Final"
+            }
+        },
+        "venue": {
+            "name": "United Center",
+            "city": "Chicago",
+            "state": "Illinois",
+            "country": "USA"
+        },
+        "startTime": "2025-12-24T20:00:00Z",
+        "tournament": "NHL Regular Season"
+    }
+]

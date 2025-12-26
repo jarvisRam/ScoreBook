@@ -1,0 +1,78 @@
+[
+    {
+        "id": "badminton_completed_1",
+        "sport": "badminton",
+        "status": "completed",
+        "homeTeam": {
+            "id": "player_lee",
+            "name": "Lee Zii Jia",
+            "initials": "LZJ",
+            "score": {
+                "sets": [
+                    21,
+                    19
+                ],
+                "currentSet": 2
+            }
+        },
+        "awayTeam": {
+            "id": "player_vitidsarn",
+            "name": "Kunlavut Vitidsarn",
+            "initials": "KV",
+            "score": {
+                "sets": [
+                    18,
+                    17
+                ],
+                "currentSet": 2
+            }
+        },
+        "venue": {
+            "name": "Impact Arena",
+            "city": "Bangkok",
+            "country": "Thailand"
+        },
+        "startTime": "2025-12-24T10:00:00Z",
+        "tournament": "Thailand Open",
+        "round": "Final"
+    },
+    {
+        "id": "badminton_completed_2",
+        "sport": "badminton",
+        "status": "completed",
+        "homeTeam": {
+            "id": "player_sindhu",
+            "name": "PV Sindhu",
+            "initials": "PVS",
+            "score": {
+                "sets": [
+                    21,
+                    15,
+                    21
+                ],
+                "currentSet": 3
+            }
+        },
+        "awayTeam": {
+            "id": "player_intanon",
+            "name": "Ratchanok Intanon",
+            "initials": "RI",
+            "score": {
+                "sets": [
+                    15,
+                    21,
+                    18
+                ],
+                "currentSet": 3
+            }
+        },
+        "venue": {
+            "name": "Indira Gandhi Stadium",
+            "city": "New Delhi",
+            "country": "India"
+        },
+        "startTime": "2025-12-24T07:00:00Z",
+        "tournament": "India Open",
+        "round": "Semifinal"
+    }
+]

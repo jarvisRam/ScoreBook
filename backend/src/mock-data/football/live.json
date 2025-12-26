@@ -1,0 +1,101 @@
+[
+    {
+        "id": "football_live_1",
+        "sport": "football",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_cowboys",
+            "name": "Dallas Cowboys",
+            "initials": "DAL",
+            "score": {
+                "points": 24,
+                "quarter": "3rd",
+                "timeRemaining": "8:45"
+            }
+        },
+        "awayTeam": {
+            "id": "team_patriots",
+            "name": "New England Patriots",
+            "initials": "NE",
+            "score": {
+                "points": 21,
+                "quarter": "3rd",
+                "timeRemaining": "8:45"
+            }
+        },
+        "venue": {
+            "name": "AT&T Stadium",
+            "city": "Arlington",
+            "state": "Texas",
+            "country": "USA"
+        },
+        "startTime": "2025-12-25T18:00:00Z",
+        "tournament": "NFL Regular Season"
+    },
+    {
+        "id": "football_live_2",
+        "sport": "football",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_49ers",
+            "name": "San Francisco 49ers",
+            "initials": "SF",
+            "score": {
+                "points": 14,
+                "quarter": "2nd",
+                "timeRemaining": "2:15"
+            }
+        },
+        "awayTeam": {
+            "id": "team_packers",
+            "name": "Green Bay Packers",
+            "initials": "GB",
+            "score": {
+                "points": 10,
+                "quarter": "2nd",
+                "timeRemaining": "2:15"
+            }
+        },
+        "venue": {
+            "name": "Levi's Stadium",
+            "city": "Santa Clara",
+            "state": "California",
+            "country": "USA"
+        },
+        "startTime": "2025-12-25T20:00:00Z",
+        "tournament": "NFL Regular Season"
+    },
+    {
+        "id": "football_live_3",
+        "sport": "football",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_chiefs",
+            "name": "Kansas City Chiefs",
+            "initials": "KC",
+            "score": {
+                "points": 31,
+                "quarter": "4th",
+                "timeRemaining": "5:20"
+            }
+        },
+        "awayTeam": {
+            "id": "team_raiders",
+            "name": "Las Vegas Raiders",
+            "initials": "LV",
+            "score": {
+                "points": 27,
+                "quarter": "4th",
+                "timeRemaining": "5:20"
+            }
+        },
+        "venue": {
+            "name": "Arrowhead Stadium",
+            "city": "Kansas City",
+            "state": "Missouri",
+            "country": "USA"
+        },
+        "startTime": "2025-12-25T16:30:00Z",
+        "tournament": "NFL Regular Season"
+    }
+]
