@@ -1,0 +1,81 @@
+[
+    {
+        "id": "tennis_completed_1",
+        "sport": "tennis",
+        "status": "completed",
+        "homeTeam": {
+            "id": "player_nadal",
+            "name": "Rafael Nadal",
+            "initials": "RN",
+            "score": {
+                "sets": [
+                    6,
+                    7,
+                    6,
+                    6
+                ],
+                "currentSet": 4
+            }
+        },
+        "awayTeam": {
+            "id": "player_federer",
+            "name": "Roger Federer",
+            "initials": "RF",
+            "score": {
+                "sets": [
+                    4,
+                    6,
+                    3,
+                    1
+                ],
+                "currentSet": 4
+            }
+        },
+        "venue": {
+            "name": "Rod Laver Arena",
+            "city": "Melbourne",
+            "country": "Australia"
+        },
+        "startTime": "2025-12-24T09:00:00Z",
+        "tournament": "Australian Open",
+        "round": "Final"
+    },
+    {
+        "id": "tennis_completed_2",
+        "sport": "tennis",
+        "status": "completed",
+        "homeTeam": {
+            "id": "player_gauff",
+            "name": "Coco Gauff",
+            "initials": "CG",
+            "score": {
+                "sets": [
+                    6,
+                    6
+                ],
+                "currentSet": 2
+            }
+        },
+        "awayTeam": {
+            "id": "player_keys",
+            "name": "Madison Keys",
+            "initials": "MK",
+            "score": {
+                "sets": [
+                    3,
+                    4
+                ],
+                "currentSet": 2
+            }
+        },
+        "venue": {
+            "name": "Arthur Ashe Stadium",
+            "city": "New York",
+            "state": "New York",
+            "country": "USA"
+        },
+        "startTime": "2025-12-24T18:00:00Z",
+        "tournament": "US Open",
+        "round": "Semifinal"
+    }
+]

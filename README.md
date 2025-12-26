@@ -1,288 +1,309 @@
-# ScoreBook
+# ScoreBook App
 
-A cross-platform React Native application for viewing live sports scores across Cricket, American Football, Hockey, Soccer, Tennis, and Badminton. Built specifically as a testbed for AI-based test automation solutions.
+A cross-platform sports scoreboard application built with React Native (Expo) and Node.js, supporting iOS, Android, and Web platforms.
 
-![ScoreBook Banner](docs/assets/banner.png)
+## Features
 
-## 🎯 Project Overview
+- **Multi-Sport Support**: Cricket, American Football, Hockey, Soccer, Tennis, and Badminton
+- **Real-Time Updates**: Live match scores with auto-polling
+- **Cross-Platform**: Single codebase for iOS, Android, and Web
+- **Test Automation Ready**: Comprehensive testIDs for E2E testing
+- **Mock Data**: Comprehensive mock data for development and testing
 
-**ScoreBook** provides real-time sports scores across six major sports with comprehensive E2E testing capabilities, making it perfect for demonstrating test automation tools and strategies.
+## Tech Stack
 
-### Key Features
+**Frontend (Mobile & Web)**
+- React Native with Expo
+- TypeScript
+- React Navigation
+- React Query (TanStack Query)
+- Zustand (State Management)
+- Axios (API Client)
 
-- ✅ **Cross-Platform**: iOS, Android, and Web from a single codebase
-- ✅ **6 Sports Covered**: Cricket, American Football, Hockey, Soccer, Tennis, Badminton
-- ✅ **Real-Time Updates**: Auto-polling every 30-60 seconds
-- ✅ **Test-Friendly**: Comprehensive testID attributes on all elements
-- ✅ **Flexible Data**: Toggle between mock (predictable) and real API data
-- ✅ **Multi-Layered Testing**: Unit, Integration, and E2E tests
-- ✅ **Professional UI**: Modern, premium design with sport-specific theming
+**Backend**
+- Node.js with Express
+- TypeScript
+- Comprehensive mock data for all sports
 
-## 🚀 Quick Start
+## Prerequisites
 
-### Prerequisites
+Before you begin, ensure you have the following installed:
 
-- Node.js 18+ ([Download](https://nodejs.org/))
-- Git
-- **For iOS development**: macOS with Xcode installed
-- **For Android development**: Android Studio installed
+- **Node.js** (v18 or higher) - [Download](https://nodejs.org/)
+- **npm** or **yarn**
+- **Git**
 
-### Installation
+### Platform-Specific Requirements
+
+**For iOS Development:**
+- macOS
+- Xcode (latest version)
+- CocoaPods: `sudo gem install cocoapods`
+
+**For Android Development:**
+- Java Development Kit (JDK 17): `brew install openjdk@17`
+- Android Studio with Android SDK
+- Android Emulator or physical device
+
+**For Web Development:**
+- Any modern browser (Chrome, Firefox, Safari)
+
+## Quick Start
+
+### 1. Clone the Repository
 
 ```bash
-# Clone the repository
 git clone https://github.com/YOUR_USERNAME/ScoreBook.git
 cd ScoreBook
-
-# Install mobile app dependencies
-cd mobile
-npm install
-
-# Install backend dependencies
-cd ../backend
-npm install
 ```
 
-### Running the App
+### 2. Backend Setup
 
-**Start the Backend:**
 ```bash
+# Navigate to backend directory
 cd backend
+
+# Install dependencies
+npm install
+
+# Create environment file
+cp .env.example .env
+
+# Start the backend server
 npm run dev
-# Backend runs on http://localhost:3000
 ```
 
-**Start the Mobile App:**
+The backend will run at `http://localhost:3000`
+
+**Verify backend is running:**
+```bash
+curl http://localhost:3000/api/health
+```
+
+### 3. Mobile App Setup
+
+```bash
+# Navigate to mobile directory
+cd mobile
+
+# Install dependencies
+npm install
+```
+
+### 4. Environment Configuration
+
+**For iOS and Web:** No additional configuration needed.
+
+**For Android:** The app is pre-configured to use `10.0.2.2:3000` (Android emulator's host machine address).
+
+## Running the App
+
+### Web
+
 ```bash
 cd mobile
-npx expo start
-
-# Options:
-# - Press 'i' for iOS Simulator
-# - Press 'a' for Android Emulator  
-# - Press 'w' for Web Browser
-# - Scan QR code with Expo Go app on your phone
+npx expo start --web
 ```
 
-## 📁 Project Structure
+Opens at `http://localhost:8081`
+
+### iOS Simulator
+
+```bash
+cd mobile
+npx expo run:ios
+```
+
+**Or use Expo Go:**
+```bash
+npx expo start
+# Then press 'i' for iOS simulator
+```
+
+### Android Emulator
+
+**First-time setup:**
+1. Ensure Java 17 is installed and in PATH:
+   ```bash
+   export JAVA_HOME=/opt/homebrew/opt/openjdk@17
+   export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+   ```
+
+2. Set Android SDK environment variables:
+   ```bash
+   export ANDROID_HOME=$HOME/Library/Android/sdk
+   export PATH=$PATH:$ANDROID_HOME/emulator
+   export PATH=$PATH:$ANDROID_HOME/platform-tools
+   ```
+
+3. Start your Android emulator from Android Studio
+
+**Run the app:**
+```bash
+cd mobile
+npx expo run:android
+```
+
+**Or use Expo Go:**
+```bash
+npx expo start
+# Then press 'a' for Android emulator
+```
+
+## Project Structure
 
 ```
 ScoreBook/
-├── mobile/                 # React Native Expo app
+├── backend/                 # Node.js Express backend
 │   ├── src/
-│   │   ├── components/    # Reusable UI components
-│   │   ├── screens/       # Screen components
-│   │   ├── navigation/    # Navigation configuration
-│   │   ├── services/      # API services
-│   │   ├── store/         # State management (React Query + Zustand)
-│   │   ├── theme/         # Design system
-│   │   └── types/         # TypeScript types
-│   └── e2e/              # Detox E2E tests
+│   │   ├── routes/         # API route handlers
+│   │   ├── services/       # Business logic
+│   │   ├── mock-data/      # Mock data for all sports
+│   │   └── types/          # TypeScript type definitions
+│   └── package.json
 │
-├── backend/               # Node.js Express backend
+├── mobile/                  # React Native mobile app
 │   ├── src/
-│   │   ├── routes/       # API endpoints
-│   │   ├── services/     # Business logic
-│   │   └── mock-data/    # Mock JSON fixtures
+│   │   ├── components/     # Reusable UI components
+│   │   ├── screens/        # Screen components
+│   │   ├── navigation/     # Navigation configuration
+│   │   ├── services/       # API services
+│   │   ├── store/          # State management
+│   │   ├── types/          # TypeScript types
+│   │   ├── constants/      # App constants
+│   │   └── theme/          # Theme configuration
+│   ├── App.tsx             # Main app entry point
+│   └── package.json
 │
-├── docs/                  # Documentation
-│   ├── technical-architecture.md
-│   ├── api-documentation.md
-│   ├── testing-strategy.md
-│   └── mac-setup-guide.md
-│
-└── .github/              # GitHub Actions CI/CD
+└── docs/                    # Project documentation
 ```
 
-## 🛠️ Tech Stack
+## API Endpoints
 
-### Frontend (Mobile)
-- **Framework**: React Native (Expo SDK 49+)
-- **Language**: TypeScript
-- **Navigation**: React Navigation v6
-- **State Management**: 
-  - React Query (TanStack Query) - Server state
-  - Zustand - Client state
-- **Styling**: Styled Components
-- **UI Components**: React Native Paper
+**Base URL:** `http://localhost:3000/api`
 
-### Backend
-- **Runtime**: Node.js 18+
-- **Framework**: Express.js
-- **Language**: TypeScript
-- **Data**: Toggle between Mock (JSON) and Real (External APIs)
+- `GET /health` - Health check
+- `GET /sports` - List all supported sports
+- `GET /matches/live` - Get all live matches
+- `GET /matches/:sport?status=live|upcoming|completed` - Get matches for a specific sport
+- `GET /match/:id` - Get detailed match information
+
+## Development
+
+### Backend Development
+
+```bash
+cd backend
+npm run dev          # Start with auto-reload
+npm run build        # Build for production
+npm start            # Run production build
+```
+
+### Mobile Development
+
+```bash
+cd mobile
+npx expo start       # Start Metro bundler
+npx expo start --clear  # Clear cache and start
+```
 
 ### Testing
-- **Unit**: Jest + React Testing Library
-- **E2E (Mobile)**: Detox
-- **E2E (Web)**: Cypress
-- **Future**: Appium, Playwright support
 
-### DevOps
-- **CI/CD**: GitHub Actions
-- **Version Control**: Git
-- **Package Manager**: npm
+The app includes comprehensive `testID` attributes for E2E testing with tools like Detox or Appium.
 
-## 🧪 Testing
+## Troubleshooting
 
-### Running Tests
+### Android Build Issues
 
-**Unit Tests:**
+**Java not found:**
 ```bash
-# Mobile
-cd mobile && npm test
-
-# Backend
-cd backend && npm test
+brew install openjdk@17
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17
 ```
 
-**E2E Tests (Mobile):**
+**SDK location not found:**
+```bash
+export ANDROID_HOME=$HOME/Library/Android/sdk
+```
+
+**Network errors on Android emulator:**
+- The app uses `10.0.2.2:3000` for Android emulator
+- Ensure backend is running at `localhost:3000`
+
+### iOS Build Issues
+
+**CocoaPods not installed:**
+```bash
+sudo gem install cocoapods
+cd mobile/ios
+pod install
+```
+
+### Web Build Issues
+
+**Blank screen:**
+- Check browser console for errors
+- Ensure backend is running
+- Try clearing cache: `npx expo start --web --clear`
+
+## Environment Variables
+
+### Backend `.env`
+
+```env
+PORT=3000
+USE_MOCK_DATA=true
+NODE_ENV=development
+```
+
+### Mobile (Optional)
+
+The app auto-detects platform and configures API URLs accordingly:
+- **iOS/Web**: `http://localhost:3000/api`
+- **Android**: `http://10.0.2.2:3000/api`
+
+## Building for Production
+
+### iOS
+
 ```bash
 cd mobile
-npm run test:e2e
+npx expo build:ios
 ```
 
-**E2E Tests (Web):**
+### Android
+
 ```bash
 cd mobile
-npm run test:web
+npx expo build:android
 ```
 
-### Testing Strategy
-
-ScoreBook implements a **multi-layered testing approach**:
-
-1. **Mock Data Tests** (First Defense)
-   - Predictable, fast, no API dependencies
-   - Test edge cases (ties, overtime, etc.)
-   - Run in CI/CD pipeline
-
-2. **Real API Tests** (Integration)
-   - Validate real-world scenarios
-   - Test API error handling
-   - Run before releases
-
-3. **E2E Tests** (Critical Flows)
-   - User journey validation
-   - Cross-platform testing
-   - Automated in CI/CD
-
-See [testing-strategy.md](docs/testing-strategy.md) for details.
-
-## 📱 Supported Platforms
-
-| Platform | Support | Testing |
-|----------|---------|---------|
-| **iOS** | ✅ iOS 13+ | ✅ Detox on Simulator |
-| **Android** | ✅ Android 8+ | ✅ Detox on Emulator |
-| **Web** | ✅ Modern Browsers | ✅ Cypress |
-
-## 🎨 UI/UX
-
-### Navigation Structure
-
-```
-Sport Tabs (Top Level)
-  └─ Cricket / Football / Hockey / Soccer / Tennis / Badminton
-      └─ Match Status Tabs
-          └─ Live Now / Upcoming / Completed
-              └─ Match Cards
-```
-
-### Match Card Components
-
-Each match card displays:
-- Team names and logos
-- Current score (or scheduled time)
-- Live indicator (for ongoing matches)
-- Venue/location
-- Home/Away badges (for team sports)
-
-## 🔧 Configuration
-
-### Backend API Modes
-
-Toggle between mock and real data:
+### Web
 
 ```bash
-# backend/.env
-USE_MOCK_DATA=true   # Use mock JSON fixtures
-USE_MOCK_DATA=false  # Use real external APIs
+cd mobile
+npx expo export:web
+# Output in mobile/web-build/
 ```
 
-### API Endpoints
+## Contributing
 
-```
-GET  /api/health                    # Health check
-GET  /api/sports                    # List of supported sports
-GET  /api/matches/live              # All live matches
-GET  /api/matches/:sport            # Matches for a sport
-     ?status=live|upcoming|completed
-GET  /api/match/:id                 # Detailed match info
-```
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-See [api-documentation.md](docs/api-documentation.md) for full API reference.
+## License
 
-## 📚 Documentation
+This project is licensed under the MIT License.
 
-Comprehensive documentation is available in the `docs/` directory:
+## Support
 
-- [Technical Architecture](docs/technical-architecture.md) - System architecture, diagrams, design decisions
-- [API Documentation](docs/api-documentation.md) - Complete API reference
-- [Testing Strategy](docs/testing-strategy.md) - Testing philosophy and guidelines
-- [Mac Setup Guide](docs/mac-setup-guide.md) - Environment setup for macOS
-- [Component Library](docs/component-library.md) - UI component documentation
-- [AntiGravity Handoff](docs/antigravity-handoff.md) - Development continuation guide
+For issues and questions:
+- Create an issue in the GitHub repository
+- Check existing documentation in the `/docs` folder
 
-## 🤝 Contributing
+## Acknowledgments
 
-This project follows a standard Git Flow workflow:
-
-```bash
-# Create feature branch from develop
-git checkout -b feature/your-feature-name
-
-# Make changes and commit
-git add .
-git commit -m "feat: your feature description"
-
-# Push and create PR
-git push origin feature/your-feature-name
-```
-
-## 🔄 CI/CD Pipeline
-
-GitHub Actions automatically:
-- ✅ Runs linting and type checking
-- ✅ Executes unit tests
-- ✅ Runs E2E tests on Android
-- ✅ Validates builds for all platforms
-- ✅ Deploys to staging (on develop branch)
-
-## 📄 License
-
-MIT License - See [LICENSE](LICENSE) for details
-
-## 👤 Author
-
-**Sriram**
-
-## 🙏 Acknowledgments
-
-- Built with [Expo](https://expo.dev/)
-- UI components from [React Native Paper](https://reactnativepaper.com/)
-- State management by [TanStack Query](https://tanstack.com/query) & [Zustand](https://github.com/pmndrs/zustand)
-
----
-
-## 📖 Additional Resources
-
-- [Expo Documentation](https://docs.expo.dev/)
-- [React Navigation](https://reactnavigation.org/)
-- [React Query Docs](https://tanstack.com/query/latest)
-- [Detox Testing](https://wix.github.io/Detox/)
-- [Cypress Testing](https://www.cypress.io/)
-
----
-
-**Built for Testing Excellence** 🧪 | **Cross-Platform by Design** 📱 | **Open Source** ❤️
+Built as a demo application for test automation practice, supporting multiple sports with comprehensive mock data.

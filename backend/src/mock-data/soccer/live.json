@@ -1,0 +1,98 @@
+[
+    {
+        "id": "soccer_live_1",
+        "sport": "soccer",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_liverpool",
+            "name": "Liverpool FC",
+            "initials": "LIV",
+            "score": {
+                "goals": 2,
+                "half": "2nd",
+                "minute": "78'"
+            }
+        },
+        "awayTeam": {
+            "id": "team_man_city",
+            "name": "Manchester City",
+            "initials": "MCI",
+            "score": {
+                "goals": 2,
+                "half": "2nd",
+                "minute": "78'"
+            }
+        },
+        "venue": {
+            "name": "Anfield",
+            "city": "Liverpool",
+            "country": "England"
+        },
+        "startTime": "2025-12-25T17:30:00Z",
+        "tournament": "Premier League"
+    },
+    {
+        "id": "soccer_live_2",
+        "sport": "soccer",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_barcelona",
+            "name": "FC Barcelona",
+            "initials": "BAR",
+            "score": {
+                "goals": 3,
+                "half": "2nd",
+                "minute": "65'"
+            }
+        },
+        "awayTeam": {
+            "id": "team_real_madrid",
+            "name": "Real Madrid",
+            "initials": "RM",
+            "score": {
+                "goals": 1,
+                "half": "2nd",
+                "minute": "65'"
+            }
+        },
+        "venue": {
+            "name": "Camp Nou",
+            "city": "Barcelona",
+            "country": "Spain"
+        },
+        "startTime": "2025-12-25T19:00:00Z",
+        "tournament": "La Liga"
+    },
+    {
+        "id": "soccer_live_3",
+        "sport": "soccer",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_arsenal",
+            "name": "Arsenal FC",
+            "initials": "ARS",
+            "score": {
+                "goals": 1,
+                "half": "1st",
+                "minute": "40'"
+            }
+        },
+        "awayTeam": {
+            "id": "team_chelsea",
+            "name": "Chelsea FC",
+            "initials": "CHE",
+            "score": {
+                "goals": 0,
+                "half": "1st",
+                "minute": "40'"
+            }
+        },
+        "venue": {
+            "name": "Emirates Stadium",
+            "city": "London",
+            "country": "England"
+        },
+        "startTime": "2025-12-25T15:00:00Z",
+        "tournament": "Premier League"
+    }
+]

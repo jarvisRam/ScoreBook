@@ -1,0 +1,68 @@
+[
+    {
+        "id": "cricket_live_1",
+        "sport": "cricket",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_ind",
+            "name": "India",
+            "initials": "IND",
+            "score": {
+                "runs": 285,
+                "wickets": 6,
+                "overs": "48.3"
+            }
+        },
+        "awayTeam": {
+            "id": "team_aus",
+            "name": "Australia",
+            "initials": "AUS",
+            "score": {
+                "runs": 198,
+                "wickets": 4,
+                "overs": "35.0"
+            }
+        },
+        "venue": {
+            "name": "Melbourne Cricket Ground",
+            "city": "Melbourne",
+            "country": "Australia"
+        },
+        "startTime": "2025-12-25T05:00:00Z",
+        "tournament": "ICC World Cup 2025",
+        "format": "ODI"
+    },
+    {
+        "id": "cricket_live_2",
+        "sport": "cricket",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_eng",
+            "name": "England",
+            "initials": "ENG",
+            "score": {
+                "runs": 156,
+                "wickets": 8,
+                "overs": "18.4"
+            }
+        },
+        "awayTeam": {
+            "id": "team_pak",
+            "name": "Pakistan",
+            "initials": "PAK",
+            "score": {
+                "runs": 165,
+                "wickets": 5,
+                "overs": "20.0"
+            }
+        },
+        "venue": {
+            "name": "Lord's Cricket Ground",
+            "city": "London",
+            "country": "England"
+        },
+        "startTime": "2025-12-25T14:00:00Z",
+        "tournament": "T20 Series 2025",
+        "format": "T20"
+    }
+]

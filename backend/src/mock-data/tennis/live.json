@@ -1,0 +1,82 @@
+[
+    {
+        "id": "tennis_live_1",
+        "sport": "tennis",
+        "status": "live",
+        "homeTeam": {
+            "id": "player_djokovic",
+            "name": "Novak Djokovic",
+            "initials": "ND",
+            "score": {
+                "sets": [
+                    6,
+                    4,
+                    3
+                ],
+                "currentSet": 3,
+                "serving": true
+            }
+        },
+        "awayTeam": {
+            "id": "player_alcaraz",
+            "name": "Carlos Alcaraz",
+            "initials": "CA",
+            "score": {
+                "sets": [
+                    4,
+                    6,
+                    2
+                ],
+                "currentSet": 3,
+                "serving": false
+            }
+        },
+        "venue": {
+            "name": "Rod Laver Arena",
+            "city": "Melbourne",
+            "country": "Australia"
+        },
+        "startTime": "2025-12-25T09:00:00Z",
+        "tournament": "Australian Open",
+        "round": "Quarterfinal"
+    },
+    {
+        "id": "tennis_live_2",
+        "sport": "tennis",
+        "status": "live",
+        "homeTeam": {
+            "id": "player_swiatek",
+            "name": "Iga Swiatek",
+            "initials": "IS",
+            "score": {
+                "sets": [
+                    6,
+                    2
+                ],
+                "currentSet": 2,
+                "serving": false
+            }
+        },
+        "awayTeam": {
+            "id": "player_sabalenka",
+            "name": "Aryna Sabalenka",
+            "initials": "AS",
+            "score": {
+                "sets": [
+                    3,
+                    4
+                ],
+                "currentSet": 2,
+                "serving": true
+            }
+        },
+        "venue": {
+            "name": "Court Philippe-Chatrier",
+            "city": "Paris",
+            "country": "France"
+        },
+        "startTime": "2025-12-25T13:00:00Z",
+        "tournament": "French Open",
+        "round": "Semifinal"
+    }
+]
