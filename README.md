@@ -319,6 +319,77 @@ The pipeline includes E2E test infrastructure (currently commented out). To enab
 2. Uncomment E2E job sections in `.github/workflows/ci.yml`
 3. Add test scripts to `mobile/package.json`
 
+## Documentation
+
+The project includes comprehensive documentation built with Docusaurus.
+
+### Viewing Documentation Locally
+
+```bash
+# Navigate to docs website directory
+cd docs/website
+
+# Install dependencies (first time only)
+npm install
+
+# Start development server
+npm start
+```
+
+The documentation will be available at `http://localhost:3000` (or `http://localhost:3002` if port 3000 is in use).
+
+### Building Documentation
+
+To build the static documentation site:
+
+```bash
+cd docs/website
+
+# Build static site
+npm run build
+
+# Preview the build locally
+npm run serve
+```
+
+The built site will be in `docs/website/build/` directory.
+
+### Deploying Documentation
+
+The documentation is configured for deployment to Vercel:
+
+**Vercel Settings:**
+- Framework Preset: Docusaurus (V2+)
+- Root Directory: `docs/website`
+- Build Command: `npm run build`
+- Output Directory: `build`
+
+**Alternative Deployment Options:**
+- GitHub Pages
+- Netlify
+- Any static hosting service
+
+### Documentation Structure
+
+```
+docs/website/docs/
+├── intro.md                    # Introduction
+├── getting-started/            # Setup guides
+│   ├── installation.md
+│   ├── quick-start.md
+│   └── project-structure.md
+├── architecture/               # System design
+│   └── system-architecture.md
+├── api/                        # API documentation
+│   ├── overview.md
+│   └── matches-by-sport.md
+├── frontend/                   # Frontend docs
+│   ├── screens/
+│   └── components/
+└── testing/                    # Testing guides
+    └── overview.md
+```
+
 ## Building for Production
 
 
