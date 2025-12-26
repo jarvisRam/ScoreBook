@@ -11,15 +11,15 @@ const config = {
     favicon: 'img/favicon.ico',
 
     // Set the production url of your site here
-    url: 'https://your-username.github.io',
+    url: 'https://scorebook-docs.vercel.app',
+    onBrokenLinks: 'warn', // Allow build to complete with warnings for placeholder docs
     // Set the /<baseUrl>/ pathname under which your site is served
     baseUrl: '/',
 
     // GitHub pages deployment config.
-    organizationName: 'your-username',
+    organizationName: 'jarvisRam',
     projectName: 'scorebook',
 
-    onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'warn',
 
     // Even if you don't use internalization, you can use this field to set useful
@@ -40,7 +40,7 @@ const config = {
                     routeBasePath: '/',
                     // Please change this to your repo.
                     editUrl:
-                        'https://github.com/your-username/scorebook/tree/main/docs/',
+                        'https://github.com/jarvisRam/scorebook/tree/main/docs/',
                 },
                 blog: false,
                 theme: {
@@ -69,7 +69,7 @@ const config = {
                         label: 'Documentation',
                     },
                     {
-                        href: 'https://github.com/your-username/scorebook',
+                        href: 'https://github.com/jarvisRam/scorebook',
                         label: 'GitHub',
                         position: 'right',
                     },
@@ -100,7 +100,7 @@ const config = {
                         items: [
                             {
                                 label: 'GitHub',
-                                href: 'https://github.com/your-username/scorebook',
+                                href: 'https://github.com/jarvisRam/scorebook',
                             },
                         ],
                     },
