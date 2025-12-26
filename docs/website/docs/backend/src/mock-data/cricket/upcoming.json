@@ -1,0 +1,71 @@
+[
+    {
+        "id": "cricket_upcoming_1",
+        "sport": "cricket",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_sa",
+            "name": "South Africa",
+            "initials": "SA"
+        },
+        "awayTeam": {
+            "id": "team_nz",
+            "name": "New Zealand",
+            "initials": "NZ"
+        },
+        "venue": {
+            "name": "The Wanderers Stadium",
+            "city": "Johannesburg",
+            "country": "South Africa"
+        },
+        "startTime": "2025-12-26T08:00:00Z",
+        "tournament": "Test Series 2025",
+        "format": "Test"
+    },
+    {
+        "id": "cricket_upcoming_2",
+        "sport": "cricket",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_wi",
+            "name": "West Indies",
+            "initials": "WI"
+        },
+        "awayTeam": {
+            "id": "team_ban",
+            "name": "Bangladesh",
+            "initials": "BAN"
+        },
+        "venue": {
+            "name": "Kensington Oval",
+            "city": "Bridgetown",
+            "country": "Barbados"
+        },
+        "startTime": "2025-12-26T18:00:00Z",
+        "tournament": "ODI Series 2025",
+        "format": "ODI"
+    },
+    {
+        "id": "cricket_upcoming_3",
+        "sport": "cricket",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_sri",
+            "name": "Sri Lanka",
+            "initials": "SL"
+        },
+        "awayTeam": {
+            "id": "team_afg",
+            "name": "Afghanistan",
+            "initials": "AFG"
+        },
+        "venue": {
+            "name": "R. Premadasa Stadium",
+            "city": "Colombo",
+            "country": "Sri Lanka"
+        },
+        "startTime": "2025-12-27T10:30:00Z",
+        "tournament": "T20 World Cup Qualifier",
+        "format": "T20"
+    }
+]

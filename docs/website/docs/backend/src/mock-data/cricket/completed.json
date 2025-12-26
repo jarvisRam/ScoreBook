@@ -1,0 +1,68 @@
+[
+    {
+        "id": "cricket_completed_1",
+        "sport": "cricket",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_ind",
+            "name": "India",
+            "initials": "IND",
+            "score": {
+                "runs": 312,
+                "wickets": 8,
+                "overs": "50.0"
+            }
+        },
+        "awayTeam": {
+            "id": "team_eng",
+            "name": "England",
+            "initials": "ENG",
+            "score": {
+                "runs": 298,
+                "wickets": 10,
+                "overs": "48.5"
+            }
+        },
+        "venue": {
+            "name": "Eden Gardens",
+            "city": "Kolkata",
+            "country": "India"
+        },
+        "startTime": "2025-12-24T08:00:00Z",
+        "tournament": "ODI Series 2025",
+        "format": "ODI"
+    },
+    {
+        "id": "cricket_completed_2",
+        "sport": "cricket",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_aus",
+            "name": "Australia",
+            "initials": "AUS",
+            "score": {
+                "runs": 189,
+                "wickets": 6,
+                "overs": "20.0"
+            }
+        },
+        "awayTeam": {
+            "id": "team_pak",
+            "name": "Pakistan",
+            "initials": "PAK",
+            "score": {
+                "runs": 175,
+                "wickets": 9,
+                "overs": "20.0"
+            }
+        },
+        "venue": {
+            "name": "Sydney Cricket Ground",
+            "city": "Sydney",
+            "country": "Australia"
+        },
+        "startTime": "2025-12-24T10:00:00Z",
+        "tournament": "T20 Series 2025",
+        "format": "T20"
+    }
+]

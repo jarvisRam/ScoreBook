@@ -1,0 +1,64 @@
+[
+    {
+        "id": "football_completed_1",
+        "sport": "football",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_lions",
+            "name": "Detroit Lions",
+            "initials": "DET",
+            "score": {
+                "points": 34,
+                "quarter": "Final"
+            }
+        },
+        "awayTeam": {
+            "id": "team_vikings",
+            "name": "Minnesota Vikings",
+            "initials": "MIN",
+            "score": {
+                "points": 28,
+                "quarter": "Final"
+            }
+        },
+        "venue": {
+            "name": "Ford Field",
+            "city": "Detroit",
+            "state": "Michigan",
+            "country": "USA"
+        },
+        "startTime": "2025-12-24T17:00:00Z",
+        "tournament": "NFL Regular Season"
+    },
+    {
+        "id": "football_completed_2",
+        "sport": "football",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_steelers",
+            "name": "Pittsburgh Steelers",
+            "initials": "PIT",
+            "score": {
+                "points": 20,
+                "quarter": "Final"
+            }
+        },
+        "awayTeam": {
+            "id": "team_browns",
+            "name": "Cleveland Browns",
+            "initials": "CLE",
+            "score": {
+                "points": 17,
+                "quarter": "Final"
+            }
+        },
+        "venue": {
+            "name": "Acrisure Stadium",
+            "city": "Pittsburgh",
+            "state": "Pennsylvania",
+            "country": "USA"
+        },
+        "startTime": "2025-12-24T13:00:00Z",
+        "tournament": "NFL Regular Season"
+    }
+]

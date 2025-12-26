@@ -1,0 +1,76 @@
+[
+    {
+        "id": "badminton_live_1",
+        "sport": "badminton",
+        "status": "live",
+        "homeTeam": {
+            "id": "player_axelsen",
+            "name": "Viktor Axelsen",
+            "initials": "VA",
+            "score": {
+                "sets": [
+                    21,
+                    18
+                ],
+                "currentSet": 2
+            }
+        },
+        "awayTeam": {
+            "id": "player_antonsen",
+            "name": "Anders Antonsen",
+            "initials": "AA",
+            "score": {
+                "sets": [
+                    19,
+                    15
+                ],
+                "currentSet": 2
+            }
+        },
+        "venue": {
+            "name": "Istora Gelora Bung Karno",
+            "city": "Jakarta",
+            "country": "Indonesia"
+        },
+        "startTime": "2025-12-25T07:00:00Z",
+        "tournament": "Indonesia Open",
+        "round": "Final"
+    },
+    {
+        "id": "badminton_live_2",
+        "sport": "badminton",
+        "status": "live",
+        "homeTeam": {
+            "id": "player_yamaguchi",
+            "name": "Akane Yamaguchi",
+            "initials": "AY",
+            "score": {
+                "sets": [
+                    21,
+                    10
+                ],
+                "currentSet": 2
+            }
+        },
+        "awayTeam": {
+            "id": "player_tai",
+            "name": "Tai Tzu-ying",
+            "initials": "TT",
+            "score": {
+                "sets": [
+                    15,
+                    8
+                ],
+                "currentSet": 2
+            }
+        },
+        "venue": {
+            "name": "Birmingham Arena",
+            "city": "Birmingham",
+            "country": "England"
+        },
+        "startTime": "2025-12-25T11:00:00Z",
+        "tournament": "All England Open",
+        "round": "Semifinal"
+    }
+]

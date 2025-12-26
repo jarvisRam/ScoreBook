@@ -1,0 +1,67 @@
+[
+    {
+        "id": "hockey_live_1",
+        "sport": "hockey",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_bruins",
+            "name": "Boston Bruins",
+            "initials": "BOS",
+            "score": {
+                "goals": 3,
+                "period": "2nd",
+                "timeLeft": "12:30"
+            }
+        },
+        "awayTeam": {
+            "id": "team_rangers",
+            "name": "New York Rangers",
+            "initials": "NYR",
+            "score": {
+                "goals": 2,
+                "period": "2nd",
+                "timeLeft": "12:30"
+            }
+        },
+        "venue": {
+            "name": "TD Garden",
+            "city": "Boston",
+            "state": "Massachusetts",
+            "country": "USA"
+        },
+        "startTime": "2025-12-25T19:00:00Z",
+        "tournament": "NHL Regular Season"
+    },
+    {
+        "id": "hockey_live_2",
+        "sport": "hockey",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_maple_leafs",
+            "name": "Toronto Maple Leafs",
+            "initials": "TOR",
+            "score": {
+                "goals": 4,
+                "period": "3rd",
+                "timeLeft": "5:45"
+            }
+        },
+        "awayTeam": {
+            "id": "team_canadiens",
+            "name": "Montreal Canadiens",
+            "initials": "MTL",
+            "score": {
+                "goals": 4,
+                "period": "3rd",
+                "timeLeft": "5:45"
+            }
+        },
+        "venue": {
+            "name": "Scotiabank Arena",
+            "city": "Toronto",
+            "country": "Canada"
+        },
+        "startTime": "2025-12-25T19:00:00Z",
+        "tournament": "NHL Regular Season"
+    }
+]
