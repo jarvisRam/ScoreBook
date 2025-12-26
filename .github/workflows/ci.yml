@@ -143,8 +143,6 @@ jobs:
     name: Build iOS (EAS)
     runs-on: ubuntu-latest
     needs: lint-and-test
-    # Only run if EXPO_TOKEN is configured
-    if: ${{ secrets.EXPO_TOKEN != '' }}
 
     steps:
       - name: Checkout code
