@@ -1,5 +1,8 @@
 import { Sport, MatchStatus } from './sport.types';
 
+// Re-export for convenience
+export type { Sport, MatchStatus };
+
 export interface Team {
     id: string;
     name: string;

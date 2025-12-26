@@ -95,17 +95,17 @@ export const SportScreen: React.FC<SportScreenProps> = ({ sport }) => {
                 <Tab.Screen
                     name="Live"
                     children={() => <MatchList sport={sport} status="live" />}
-                    options={{ tabBarTestID: `statusTab_${sport}_live` }}
+                    options={{}}
                 />
                 <Tab.Screen
                     name="Upcoming"
                     children={() => <MatchList sport={sport} status="upcoming" />}
-                    options={{ tabBarTestID: `statusTab_${sport}_upcoming` }}
+                    options={{}}
                 />
                 <Tab.Screen
                     name="Completed"
                     children={() => <MatchList sport={sport} status="completed" />}
-                    options={{ tabBarTestID: `statusTab_${sport}_completed` }}
+                    options={{}}
                 />
             </Tab.Navigator>
         </View>

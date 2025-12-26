@@ -43,7 +43,6 @@ export const SportTabNavigator: React.FC = () => {
                                     </Text>
                                 </View>
                             ),
-                            tabBarTestID: `sportTab_${sport.id}`,
                         }}
                     >
                         {() => <SportScreen sport={sport.id} />}
