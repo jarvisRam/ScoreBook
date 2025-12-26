@@ -81,13 +81,13 @@ jobs:
 
       - name: Build web bundle
         working-directory: ./mobile
-        run: npx expo export:web
+        run: npx expo export --platform web
 
       - name: Upload web build artifact
         uses: actions/upload-artifact@v4
         with:
           name: web-build
-          path: mobile/web-build/
+          path: mobile/dist/
           retention-days: 7
 
   # ============================================
