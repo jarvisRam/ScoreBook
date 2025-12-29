@@ -1,16 +1,16 @@
 import { Request, Response, Router } from 'express';
-import { mockDataService } from '../services/mockDataService';
+import { dataService } from '../services/dataService';
 
 const router = Router();
 
 // GET /api/sports - Get list of supported sports
 router.get('/', (req: Request, res: Response) => {
     try {
-        const sports = mockDataService.getSports();
+        const sports = dataService.getSports();
         res.json({
             data: sports,
             timestamp: Date.now(),
-            mode: 'mock',
+            mode: dataService.getMode(),
         });
     } catch (error) {
         res.status(500).json({

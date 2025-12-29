@@ -1,16 +1,16 @@
 import { Request, Response, Router } from 'express';
-import { mockDataService } from '../services/mockDataService';
+import { dataService } from '../services/dataService';
 
 const router = Router();
 
 // GET /api/matches/live - Get all live matches
-router.get('/live', (req: Request, res: Response) => {
+router.get('/live', async (req: Request, res: Response) => {
     try {
-        const matches = mockDataService.getLiveMatches();
+        const matches = await dataService.getLiveMatches();
         res.json({
             data: matches,
             timestamp: Date.now(),
-            mode: 'mock',
+            mode: dataService.getMode(),
         });
     } catch (error) {
         res.status(500).json({
@@ -23,7 +23,7 @@ router.get('/live', (req: Request, res: Response) => {
 });
 
 // GET /api/matches/:sport - Get matches for a specific sport
-router.get('/:sport', (req: Request, res: Response) => {
+router.get('/:sport', async (req: Request, res: Response) => {
     try {
         const { sport } = req.params;
         const { status } = req.query;
@@ -38,12 +38,12 @@ router.get('/:sport', (req: Request, res: Response) => {
             });
         }
 
-        const matches = mockDataService.getMatchesBySport(sport, status as string);
+        const matches = await dataService.getMatchesBySport(sport as any, status as any);
 
         res.json({
             data: matches,
             timestamp: Date.now(),
-            mode: 'mock',
+            mode: dataService.getMode(),
         });
     } catch (error) {
         res.status(500).json({

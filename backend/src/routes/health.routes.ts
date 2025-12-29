@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import { dataService } from '../services/dataService';
 
 const router = Router();
 
@@ -6,7 +7,7 @@ const router = Router();
 router.get('/', (req: Request, res: Response) => {
     res.json({
         status: 'ok',
-        mode: 'mock',
+        mode: dataService.getMode(),
         timestamp: Date.now(),
     });
 });
