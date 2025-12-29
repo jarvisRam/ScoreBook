@@ -1,13 +1,13 @@
 import { Request, Response, Router } from 'express';
-import { mockDataService } from '../services/mockDataService';
+import { dataService } from '../services/dataService';
 
 const router = Router();
 
 // GET /api/match/:id - Get match details
-router.get('/:id', (req: Request, res: Response) => {
+router.get('/:id', async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const match = mockDataService.getMatchById(id);
+        const match = await dataService.getMatchById(id);
 
         if (!match) {
             return res.status(404).json({
@@ -21,7 +21,7 @@ router.get('/:id', (req: Request, res: Response) => {
         res.json({
             data: match,
             timestamp: Date.now(),
-            mode: 'mock',
+            mode: dataService.getMode(),
         });
     } catch (error) {
         res.status(500).json({

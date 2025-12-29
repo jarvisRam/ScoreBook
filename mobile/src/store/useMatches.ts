@@ -16,7 +16,9 @@ export const useMatches = (sport: Sport, status: MatchStatus) => {
         queryFn: () => matchService.getMatchesBySport(sport, status),
         refetchInterval,
         refetchOnWindowFocus: true,
+        refetchOnMount: 'always', // Always refetch when component mounts
         retry: 2,
+        staleTime: 0, // Consider data stale immediately to ensure fresh fetches
     });
 };
 
