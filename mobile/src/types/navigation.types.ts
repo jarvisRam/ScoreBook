@@ -4,6 +4,7 @@ import { Sport } from './sport.types';
 export type RootStackParamList = {
     Home: undefined;
     MatchDetail: { matchId: string };
+    DeveloperSettings: undefined;
 };
 
 export type SportTabParamList = {

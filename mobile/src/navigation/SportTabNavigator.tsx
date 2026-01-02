@@ -1,17 +1,30 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { theme } from '../theme/theme';
 import { SportScreen } from '../screens/SportScreen';
 import { SPORTS } from '../constants/sports';
+import { RootStackParamList } from '../types/navigation.types';
 
 const Tab = createMaterialTopTabNavigator();
 
 export const SportTabNavigator: React.FC = () => {
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.logo} testID="app_logo">ScoreBook</Text>
+                {__DEV__ && (
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('DeveloperSettings')}
+                        style={styles.devButton}
+                    >
+                        <Text style={{ fontSize: 20 }}>⚙️</Text>
+                    </TouchableOpacity>
+                )}
             </View>
             <Tab.Navigator
                 screenOptions={{
@@ -64,6 +77,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: theme.spacing.lg,
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.border,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    devButton: {
+        padding: 4,
     },
     logo: {
         fontSize: 24,
