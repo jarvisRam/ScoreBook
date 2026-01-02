@@ -3,17 +3,30 @@ import { Platform } from 'react-native';
 // API Configuration
 // Android emulator needs 10.0.2.2 to access host machine
 // iOS simulator and web can use localhost
-const getApiBaseUrl = () => {
-    if (__DEV__) {
-        if (Platform.OS === 'android') {
-            return 'http://10.0.2.2:3000/api';
-        }
-        return 'http://localhost:3000/api';
-    }
-    return 'https://scorebook-api.your-domain.com/api';
+export const ENV_KEYS = {
+    ENVIRONMENT: 'scorebook_env',
 };
 
-export const API_BASE_URL = getApiBaseUrl();
+export const ENV_URLS = {
+    local: {
+        android: 'http://10.0.2.2:3000/api',
+        ios: 'http://localhost:3000/api',
+    },
+    prod: 'https://scorebook-api.onrender.com/api',
+};
+
+// Default initial URL (can be used before storage loads)
+const getInitialUrl = () => {
+    if (__DEV__) {
+        if (Platform.OS === 'android') {
+            return ENV_URLS.local.android;
+        }
+        return ENV_URLS.local.ios;
+    }
+    return ENV_URLS.prod;
+};
+
+export const API_BASE_URL = getInitialUrl();
 
 
 // Polling Configuration

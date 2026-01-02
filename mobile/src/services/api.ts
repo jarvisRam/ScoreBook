@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../constants/config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
+import { API_BASE_URL, ENV_KEYS, ENV_URLS } from '../constants/config';
 
 export const api = axios.create({
     baseURL: API_BASE_URL,
@@ -11,8 +13,24 @@ export const api = axios.create({
 
 // Request interceptor
 api.interceptors.request.use(
-    (config) => {
-        // Add any auth tokens here if needed
+    async (config) => {
+        // Dynamic URL switching for Debug builds
+        if (__DEV__) {
+            try {
+                const env = await AsyncStorage.getItem(ENV_KEYS.ENVIRONMENT);
+                if (env === 'prod') {
+                    config.baseURL = ENV_URLS.prod;
+                } else {
+                    // Default to local if not set or set to 'local'
+                    config.baseURL = Platform.OS === 'android'
+                        ? ENV_URLS.local.android
+                        : ENV_URLS.local.ios;
+                }
+            } catch (error) {
+                // Fallback to default
+            }
+        }
+
         return config;
     },
     (error) => {

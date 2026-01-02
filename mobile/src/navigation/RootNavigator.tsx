@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation.types';
 import { SportTabNavigator } from './SportTabNavigator';
 import { theme } from '../theme/theme';
+import { DeveloperSettingsScreen } from '../screens/DeveloperSettingsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -54,6 +55,19 @@ export const RootNavigator: React.FC = () => {
                     component={SportTabNavigator}
                     options={{ title: 'ScoreBook' }}
                 />
+
+                {__DEV__ && (
+                    <Stack.Screen
+                        name="DeveloperSettings"
+                        component={DeveloperSettingsScreen}
+                        options={{
+                            headerShown: true,
+                            title: 'Dev Settings',
+                            headerStyle: { backgroundColor: theme.colors.surface },
+                            headerTintColor: theme.colors.text,
+                        }}
+                    />
+                )}
             </Stack.Navigator>
         </NavigationContainer>
     );
