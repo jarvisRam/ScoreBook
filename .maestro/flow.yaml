@@ -1,0 +1,4 @@
+appId: com.anonymous.mobile
+---
+- launchApp
+- assertVisible: "Cricket"

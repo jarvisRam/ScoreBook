@@ -69,6 +69,7 @@ const sidebars = {
             collapsed: false,
             items: [
                 'testing/overview',
+                'testing/strategy',
             ],
         },
     ],
