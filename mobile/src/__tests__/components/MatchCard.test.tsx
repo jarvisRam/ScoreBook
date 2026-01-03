@@ -8,11 +8,13 @@ const mockMatch: Match = {
     sport: 'cricket',
     tournament: 'IPL',
     homeTeam: {
+        id: '1',
         name: 'CSK',
         initials: 'CSK',
         score: { runs: 180, wickets: 4, overs: '20.0' }
     },
     awayTeam: {
+        id: '2',
         name: 'MI',
         initials: 'MI',
         score: { runs: 170, wickets: 6, overs: '20.0' }
