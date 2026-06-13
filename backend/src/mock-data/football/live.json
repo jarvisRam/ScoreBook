@@ -4,98 +4,203 @@
         "sport": "football",
         "status": "live",
         "homeTeam": {
-            "id": "team_cowboys",
-            "name": "Dallas Cowboys",
-            "initials": "DAL",
-            "score": {
-                "points": 24,
-                "quarter": "3rd",
-                "timeRemaining": "8:45"
-            }
-        },
-        "awayTeam": {
-            "id": "team_patriots",
-            "name": "New England Patriots",
-            "initials": "NE",
+            "id": "team_kc",
+            "name": "Kansas City Chiefs",
+            "initials": "KC",
             "score": {
                 "points": 21,
                 "quarter": "3rd",
-                "timeRemaining": "8:45"
+                "timeRemaining": "8:42"
+            }
+        },
+        "awayTeam": {
+            "id": "team_buf",
+            "name": "Buffalo Bills",
+            "initials": "BUF",
+            "score": {
+                "points": 17,
+                "quarter": "3rd",
+                "timeRemaining": "8:42"
             }
         },
         "venue": {
-            "name": "AT&T Stadium",
-            "city": "Arlington",
-            "state": "Texas",
-            "country": "USA"
+            "name": "GEHA Field at Arrowhead Stadium",
+            "city": "Kansas City",
+            "country": "USA",
+            "state": "Missouri"
         },
-        "startTime": "2025-12-25T18:00:00Z",
-        "tournament": "NFL Regular Season"
+        "startTime": "2026-06-13T20:20:00Z",
+        "tournament": "NFL Regular Season - Week 14",
+        "format": "NFL"
     },
     {
         "id": "football_live_2",
         "sport": "football",
         "status": "live",
         "homeTeam": {
-            "id": "team_49ers",
-            "name": "San Francisco 49ers",
-            "initials": "SF",
-            "score": {
-                "points": 14,
-                "quarter": "2nd",
-                "timeRemaining": "2:15"
-            }
-        },
-        "awayTeam": {
-            "id": "team_packers",
-            "name": "Green Bay Packers",
-            "initials": "GB",
+            "id": "team_dal",
+            "name": "Dallas Cowboys",
+            "initials": "DAL",
             "score": {
                 "points": 10,
                 "quarter": "2nd",
-                "timeRemaining": "2:15"
+                "timeRemaining": "3:15"
+            }
+        },
+        "awayTeam": {
+            "id": "team_phi",
+            "name": "Philadelphia Eagles",
+            "initials": "PHI",
+            "score": {
+                "points": 14,
+                "quarter": "2nd",
+                "timeRemaining": "3:15"
             }
         },
         "venue": {
-            "name": "Levi's Stadium",
-            "city": "Santa Clara",
-            "state": "California",
-            "country": "USA"
+            "name": "AT&T Stadium",
+            "city": "Arlington",
+            "country": "USA",
+            "state": "Texas"
         },
-        "startTime": "2025-12-25T20:00:00Z",
-        "tournament": "NFL Regular Season"
+        "startTime": "2026-06-13T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 14",
+        "format": "NFL"
     },
     {
         "id": "football_live_3",
         "sport": "football",
         "status": "live",
         "homeTeam": {
-            "id": "team_chiefs",
-            "name": "Kansas City Chiefs",
-            "initials": "KC",
+            "id": "team_sf",
+            "name": "San Francisco 49ers",
+            "initials": "SF",
             "score": {
-                "points": 31,
+                "points": 24,
                 "quarter": "4th",
-                "timeRemaining": "5:20"
+                "timeRemaining": "11:30"
             }
         },
         "awayTeam": {
-            "id": "team_raiders",
-            "name": "Las Vegas Raiders",
-            "initials": "LV",
+            "id": "team_sea",
+            "name": "Seattle Seahawks",
+            "initials": "SEA",
             "score": {
-                "points": 27,
+                "points": 20,
                 "quarter": "4th",
-                "timeRemaining": "5:20"
+                "timeRemaining": "11:30"
             }
         },
         "venue": {
-            "name": "Arrowhead Stadium",
-            "city": "Kansas City",
-            "state": "Missouri",
-            "country": "USA"
+            "name": "Levi's Stadium",
+            "city": "Santa Clara",
+            "country": "USA",
+            "state": "California"
         },
-        "startTime": "2025-12-25T16:30:00Z",
-        "tournament": "NFL Regular Season"
+        "startTime": "2026-06-13T20:25:00Z",
+        "tournament": "NFL Regular Season - Week 14",
+        "format": "NFL"
+    },
+    {
+        "id": "football_live_4",
+        "sport": "football",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_gb",
+            "name": "Green Bay Packers",
+            "initials": "GB",
+            "score": {
+                "points": 7,
+                "quarter": "1st",
+                "timeRemaining": "4:55"
+            }
+        },
+        "awayTeam": {
+            "id": "team_chi",
+            "name": "Chicago Bears",
+            "initials": "CHI",
+            "score": {
+                "points": 3,
+                "quarter": "1st",
+                "timeRemaining": "4:55"
+            }
+        },
+        "venue": {
+            "name": "Lambeau Field",
+            "city": "Green Bay",
+            "country": "USA",
+            "state": "Wisconsin"
+        },
+        "startTime": "2026-06-13T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 14",
+        "format": "NFL"
+    },
+    {
+        "id": "football_live_5",
+        "sport": "football",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_bal",
+            "name": "Baltimore Ravens",
+            "initials": "BAL",
+            "score": {
+                "points": 28,
+                "quarter": "3rd",
+                "timeRemaining": "1:22"
+            }
+        },
+        "awayTeam": {
+            "id": "team_cin",
+            "name": "Cincinnati Bengals",
+            "initials": "CIN",
+            "score": {
+                "points": 21,
+                "quarter": "3rd",
+                "timeRemaining": "1:22"
+            }
+        },
+        "venue": {
+            "name": "M&T Bank Stadium",
+            "city": "Baltimore",
+            "country": "USA",
+            "state": "Maryland"
+        },
+        "startTime": "2026-06-13T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 14",
+        "format": "NFL"
+    },
+    {
+        "id": "football_live_6",
+        "sport": "football",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_mia",
+            "name": "Miami Dolphins",
+            "initials": "MIA",
+            "score": {
+                "points": 14,
+                "quarter": "HT",
+                "timeRemaining": "0:00"
+            }
+        },
+        "awayTeam": {
+            "id": "team_nyj",
+            "name": "New York Jets",
+            "initials": "NYJ",
+            "score": {
+                "points": 10,
+                "quarter": "HT",
+                "timeRemaining": "0:00"
+            }
+        },
+        "venue": {
+            "name": "Hard Rock Stadium",
+            "city": "Miami Gardens",
+            "country": "USA",
+            "state": "Florida"
+        },
+        "startTime": "2026-06-13T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 14",
+        "format": "NFL"
     }
 ]

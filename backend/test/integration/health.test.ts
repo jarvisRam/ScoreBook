@@ -1,10 +1,13 @@
 import request from 'supertest';
 import app from '../../src/index';
 
-describe('Health Check API', () => {
-    it('should return 200 OK', async () => {
+describe('Health Check Integration', () => {
+    it('should return 200 and healthy status', async () => {
         const res = await request(app).get('/api/health');
-        expect(res.status).toBe(200);
-        expect(res.body).toHaveProperty('status', 'ok');
+
+        expect(res.body).toEqual(expect.objectContaining({
+            status: 'ok',
+            timestamp: expect.any(Number),
+        }));
     });
 });

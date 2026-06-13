@@ -1,0 +1,37 @@
+appId: com.anonymous.mobile
+---
+- tapOn: "Hockey"
+- waitForAnimationToEnd
+
+# LIVE
+- assertVisible:
+    id: "matchList_hockey_live"
+- assertVisible: "Toronto Maple Leafs"
+- assertVisible: "Boston Bruins"
+- assertVisible: "NHL Stanley Cup Playoffs"
+- assertVisible: "New York Rangers"
+- assertVisible: "Carolina Hurricanes"
+- assertVisible:
+    id: "matchCard_hockey_live_0"
+- assertVisible:
+    id: "matchCard_hockey_live_1"
+
+# UPCOMING
+- tapOn: "UPCOMING"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "matchList_hockey_upcoming"
+- assertVisible: "Montreal Canadiens"
+- assertVisible: "Ottawa Senators"
+- assertVisible:
+    id: "matchCard_hockey_upcoming_0"
+
+# COMPLETED
+- tapOn: "COMPLETED"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "matchList_hockey_completed"
+- assertVisible: "Boston Bruins"
+- assertVisible: "Toronto Maple Leafs"
+- assertVisible:
+    id: "matchCard_hockey_completed_0"

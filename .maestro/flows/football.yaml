@@ -1,0 +1,37 @@
+appId: com.anonymous.mobile
+---
+- tapOn: "American Football"
+- waitForAnimationToEnd
+
+# LIVE
+- assertVisible:
+    id: "matchList_football_live"
+- assertVisible: "Kansas City Chiefs"
+- assertVisible: "Buffalo Bills"
+- assertVisible: "NFL Regular Season - Week 14"
+- assertVisible: "Dallas Cowboys"
+- assertVisible: "Philadelphia Eagles"
+- assertVisible:
+    id: "matchCard_football_live_0"
+- assertVisible:
+    id: "matchCard_football_live_1"
+
+# UPCOMING
+- tapOn: "UPCOMING"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "matchList_football_upcoming"
+- assertVisible: "Detroit Lions"
+- assertVisible: "Minnesota Vikings"
+- assertVisible:
+    id: "matchCard_football_upcoming_0"
+
+# COMPLETED
+- tapOn: "COMPLETED"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "matchList_football_completed"
+- assertVisible: "Philadelphia Eagles"
+- assertVisible: "Washington Commanders"
+- assertVisible:
+    id: "matchCard_football_completed_0"

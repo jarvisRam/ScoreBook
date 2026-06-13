@@ -19,10 +19,10 @@ The ScoreBook app follows a multi-layered testing approach:
 
 | Layer | Target Coverage | Current Status |
 |-------|----------------|----------------|
-| Backend API | 90%+ | 🟡 Not implemented |
+| Backend API | 90%+ | 🟢 Tooling Ready |
 | Frontend Components | 80%+ | 🟡 Not implemented |
 | Business Logic | 95%+ | 🟡 Not implemented |
-| E2E Critical Paths | 100% | 🟡 Not implemented |
+| E2E Critical Paths | 100% | 🟢 Tooling Ready |
 
 ## Tech Stack
 
@@ -37,8 +37,12 @@ The ScoreBook app follows a multi-layered testing approach:
 
 - **Test Runner:** Jest
 - **Component Testing:** React Native Testing Library
-- **E2E Testing:** Detox
 - **Mocking:** jest.mock(), MSW (Mock Service Worker)
+
+### E2E Testing
+
+- **Mobile:** Maestro
+- **Web:** Playwright
 
 ## Test Structure
 
@@ -47,37 +51,24 @@ ScoreBook/
 ├── backend/
 │   ├── src/
 │   │   └── __tests__/
-│   │       ├── routes/
-│   │       │   ├── health.test.ts
-│   │       │   ├── sports.test.ts
-│   │       │   ├── matches.test.ts
-│   │       │   └── match.test.ts
-│   │       └── services/
-│   │           └── mockDataService.test.ts
-│   └── jest.config.js
+│   │       └── ...
+│   └── test/
+│       └── integration/
+│           └── health.test.ts
 │
-└── mobile/
-    ├── src/
-    │   └── __tests__/
-    │       ├── components/
-    │       │   ├── MatchCard.test.tsx
-    │       │   ├── TeamDisplay.test.tsx
-    │       │   ├── ScoreDisplay.test.tsx
-    │       │   └── ...
-    │       ├── screens/
-    │       │   └── SportScreen.test.tsx
-    │       ├── services/
-    │       │   ├── api.test.ts
-    │       │   └── matchService.test.ts
-    │       └── hooks/
-    │           └── useMatches.test.ts
-    ├── e2e/
-    │   ├── config.json
-    │   └── tests/
-    │       ├── match-list.e2e.ts
-    │       ├── navigation.e2e.ts
-    │       └── live-updates.e2e.ts
-    └── jest.config.js
+├── mobile/
+│   ├── src/
+│   │   └── __tests__/
+│   │       └── ...
+│   └── app.json
+│
+├── .maestro/
+│   └── flow.yaml
+│
+├── tests/
+│   └── web-smoke.spec.ts
+│
+└── playwright.config.ts
 ```
 
 ## Running Tests
@@ -121,17 +112,13 @@ npm test -- MatchCard.test.tsx
 ### E2E Tests
 
 ```bash
-cd mobile
+# Mobile (Maestro)
+# Ensure Android Emulator or iOS Simulator is running
+npm run test:e2e:mobile
 
-# Build app for testing (iOS)
-detox build --configuration ios.sim.debug
-
-# Run E2E tests (iOS)
-detox test --configuration ios.sim.debug
-
-# Build and run (Android)
-detox build --configuration android.emu.debug
-detox test --configuration android.emu.debug
+# Web (Playwright)
+# Ensure Web Development Server is running (npm run web)
+npm run test:e2e:web
 ```
 
 ## TestID Convention
@@ -244,40 +231,13 @@ export const mockCricketMatch: Match = {
 
 ### GitHub Actions Workflow
 
+- **Backend**: Runs `npm test` on push.
+- **Mobile E2E**: Runs Maestro tests on Android Emulator (`ubuntu-latest`) for Pull Requests.
+
 ```yaml
-name: Tests
-
-on: [push, pull_request]
-
-jobs:
-  backend-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - run: cd backend && npm ci
-      - run: cd backend && npm test
-
-  frontend-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - run: cd mobile && npm ci
-      - run: cd mobile && npm test
-
-  e2e-tests:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: cd mobile && npm ci
-      - run: cd mobile && detox build -c ios.sim.release
-      - run: cd mobile && detox test -c ios.sim.release
+# .github/workflows/maestro.yml
+name: Mobile E2E (Maestro)
+# ... checks out code, installs Maestro, builds APK, runs flow.yaml
 ```
 
 ## Test Utilities

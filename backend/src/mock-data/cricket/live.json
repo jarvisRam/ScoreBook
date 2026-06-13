@@ -4,6 +4,39 @@
         "sport": "cricket",
         "status": "live",
         "homeTeam": {
+            "id": "team_csk",
+            "name": "Chennai Super Kings",
+            "initials": "CSK",
+            "score": {
+                "runs": 167,
+                "wickets": 4,
+                "overs": "16.2"
+            }
+        },
+        "awayTeam": {
+            "id": "team_mi",
+            "name": "Mumbai Indians",
+            "initials": "MI",
+            "score": {
+                "runs": 185,
+                "wickets": 6,
+                "overs": "20.0"
+            }
+        },
+        "venue": {
+            "name": "M. A. Chidambaram Stadium",
+            "city": "Chennai",
+            "country": "India"
+        },
+        "startTime": "2026-06-13T14:00:00Z",
+        "tournament": "IPL 2026",
+        "format": "T20"
+    },
+    {
+        "id": "cricket_live_2",
+        "sport": "cricket",
+        "status": "live",
+        "homeTeam": {
             "id": "team_ind",
             "name": "India",
             "initials": "IND",
@@ -28,12 +61,45 @@
             "city": "Melbourne",
             "country": "Australia"
         },
-        "startTime": "2025-12-25T05:00:00Z",
-        "tournament": "ICC World Cup 2025",
+        "startTime": "2026-06-13T05:00:00Z",
+        "tournament": "ICC Champions Trophy 2026",
         "format": "ODI"
     },
     {
-        "id": "cricket_live_2",
+        "id": "cricket_live_3",
+        "sport": "cricket",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_rcb",
+            "name": "Royal Challengers Bengaluru",
+            "initials": "RCB",
+            "score": {
+                "runs": 89,
+                "wickets": 2,
+                "overs": "10.1"
+            }
+        },
+        "awayTeam": {
+            "id": "team_kkr",
+            "name": "Kolkata Knight Riders",
+            "initials": "KKR",
+            "score": {
+                "runs": 204,
+                "wickets": 5,
+                "overs": "20.0"
+            }
+        },
+        "venue": {
+            "name": "M. Chinnaswamy Stadium",
+            "city": "Bengaluru",
+            "country": "India"
+        },
+        "startTime": "2026-06-13T14:00:00Z",
+        "tournament": "IPL 2026",
+        "format": "T20"
+    },
+    {
+        "id": "cricket_live_4",
         "sport": "cricket",
         "status": "live",
         "homeTeam": {
@@ -61,8 +127,74 @@
             "city": "London",
             "country": "England"
         },
-        "startTime": "2025-12-25T14:00:00Z",
-        "tournament": "T20 Series 2025",
+        "startTime": "2026-06-13T10:00:00Z",
+        "tournament": "T20 Series 2026",
         "format": "T20"
+    },
+    {
+        "id": "cricket_live_5",
+        "sport": "cricket",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_dc",
+            "name": "Delhi Capitals",
+            "initials": "DC",
+            "score": {
+                "runs": 42,
+                "wickets": 1,
+                "overs": "5.3"
+            }
+        },
+        "awayTeam": {
+            "id": "team_srh",
+            "name": "Sunrisers Hyderabad",
+            "initials": "SRH",
+            "score": {
+                "runs": 221,
+                "wickets": 3,
+                "overs": "20.0"
+            }
+        },
+        "venue": {
+            "name": "Arun Jaitley Stadium",
+            "city": "New Delhi",
+            "country": "India"
+        },
+        "startTime": "2026-06-13T14:00:00Z",
+        "tournament": "IPL 2026",
+        "format": "T20"
+    },
+    {
+        "id": "cricket_live_6",
+        "sport": "cricket",
+        "status": "live",
+        "homeTeam": {
+            "id": "team_sa",
+            "name": "South Africa",
+            "initials": "SA",
+            "score": {
+                "runs": 312,
+                "wickets": 7,
+                "overs": "82.4"
+            }
+        },
+        "awayTeam": {
+            "id": "team_nz",
+            "name": "New Zealand",
+            "initials": "NZ",
+            "score": {
+                "runs": 405,
+                "wickets": 10,
+                "overs": "98.2"
+            }
+        },
+        "venue": {
+            "name": "Newlands Cricket Ground",
+            "city": "Cape Town",
+            "country": "South Africa"
+        },
+        "startTime": "2026-06-12T09:00:00Z",
+        "tournament": "Border-Gavaskar Trophy 2026",
+        "format": "Test"
     }
 ]

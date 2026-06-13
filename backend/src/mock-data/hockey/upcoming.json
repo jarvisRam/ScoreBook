@@ -4,67 +4,143 @@
         "sport": "hockey",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_oilers",
-            "name": "Edmonton Oilers",
-            "initials": "EDM"
+            "id": "team_mtl",
+            "name": "Montreal Canadiens",
+            "initials": "MTL"
         },
         "awayTeam": {
-            "id": "team_flames",
-            "name": "Calgary Flames",
-            "initials": "CGY"
+            "id": "team_ott",
+            "name": "Ottawa Senators",
+            "initials": "OTT"
         },
         "venue": {
-            "name": "Rogers Place",
-            "city": "Edmonton",
-            "country": "Canada"
+            "name": "Bell Centre",
+            "city": "Montreal",
+            "country": "Canada",
+            "state": "Quebec"
         },
-        "startTime": "2025-12-26T20:00:00Z",
-        "tournament": "NHL Regular Season"
+        "startTime": "2026-06-14T23:00:00Z",
+        "tournament": "NHL Regular Season",
+        "format": "NHL"
     },
     {
         "id": "hockey_upcoming_2",
         "sport": "hockey",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_lightning",
-            "name": "Tampa Bay Lightning",
-            "initials": "TBL"
+            "id": "team_chi",
+            "name": "Chicago Blackhawks",
+            "initials": "CHI"
         },
         "awayTeam": {
-            "id": "team_panthers",
-            "name": "Florida Panthers",
-            "initials": "FLA"
+            "id": "team_det",
+            "name": "Detroit Red Wings",
+            "initials": "DET"
         },
         "venue": {
-            "name": "Amalie Arena",
-            "city": "Tampa",
-            "state": "Florida",
-            "country": "USA"
+            "name": "United Center",
+            "city": "Chicago",
+            "country": "USA",
+            "state": "Illinois"
         },
-        "startTime": "2025-12-26T22:00:00Z",
-        "tournament": "NHL Regular Season"
+        "startTime": "2026-06-15T00:30:00Z",
+        "tournament": "NHL Regular Season",
+        "format": "NHL"
     },
     {
         "id": "hockey_upcoming_3",
         "sport": "hockey",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_avalanche",
-            "name": "Colorado Avalanche",
-            "initials": "COL"
+            "id": "team_pit",
+            "name": "Pittsburgh Penguins",
+            "initials": "PIT"
         },
         "awayTeam": {
-            "id": "team_stars",
-            "name": "Dallas Stars",
-            "initials": "DAL"
+            "id": "team_wsh",
+            "name": "Washington Capitals",
+            "initials": "WSH"
         },
         "venue": {
-            "name": "Ball Arena",
-            "city": "Denver",
-            "state": "Colorado",
-            "country": "USA"
+            "name": "PPG Paints Arena",
+            "city": "Pittsburgh",
+            "country": "USA",
+            "state": "Pennsylvania"
         },
-        "startTime": "2025-12-27T01:00:00Z",
-        "tournament": "NHL Regular Season"
+        "startTime": "2026-06-16T23:00:00Z",
+        "tournament": "NHL Regular Season",
+        "format": "NHL"
+    },
+    {
+        "id": "hockey_upcoming_4",
+        "sport": "hockey",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_van",
+            "name": "Vancouver Canucks",
+            "initials": "VAN"
+        },
+        "awayTeam": {
+            "id": "team_edm",
+            "name": "Edmonton Oilers",
+            "initials": "EDM"
+        },
+        "venue": {
+            "name": "Rogers Arena",
+            "city": "Vancouver",
+            "country": "Canada",
+            "state": "British Columbia"
+        },
+        "startTime": "2026-06-17T02:00:00Z",
+        "tournament": "NHL Stanley Cup Playoffs",
+        "format": "NHL"
+    },
+    {
+        "id": "hockey_upcoming_5",
+        "sport": "hockey",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_njd",
+            "name": "New Jersey Devils",
+            "initials": "NJD"
+        },
+        "awayTeam": {
+            "id": "team_nyr",
+            "name": "New York Rangers",
+            "initials": "NYR"
+        },
+        "venue": {
+            "name": "Prudential Center",
+            "city": "Newark",
+            "country": "USA",
+            "state": "New Jersey"
+        },
+        "startTime": "2026-06-18T23:00:00Z",
+        "tournament": "NHL Regular Season",
+        "format": "NHL"
+    },
+    {
+        "id": "hockey_upcoming_6",
+        "sport": "hockey",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_min",
+            "name": "Minnesota Wild",
+            "initials": "MIN"
+        },
+        "awayTeam": {
+            "id": "team_wpg",
+            "name": "Winnipeg Jets",
+            "initials": "WPG"
+        },
+        "venue": {
+            "name": "Xcel Energy Center",
+            "city": "Saint Paul",
+            "country": "USA",
+            "state": "Minnesota"
+        },
+        "startTime": "2026-06-19T00:00:00Z",
+        "tournament": "NHL Regular Season",
+        "format": "NHL"
     }
 ]
