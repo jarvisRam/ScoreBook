@@ -55,5 +55,19 @@ cd backend
 npm run test:live
 ```
 
+## 3. Cache Isolation in Tests
+
+`DataService` maintains a TTL cache when running in real-API mode. To prevent stale cached data from leaking between test cases, call `clearCache()` in `afterEach`:
+
+```typescript
+import { dataService } from '../../src/services/dataService';
+
+afterEach(() => {
+    dataService.clearCache();
+});
+```
+
+> **Note:** In mock mode (`USE_MOCK_DATA=true`) the cache is bypassed entirely, so `clearCache()` is a no-op. It's still safe to call it unconditionally.
+
 ## CI/CD Integration
 Our GitHub Actions workflow (`.github/workflows/ci.yml`) automatically runs the **Mocked Integration Tests** (`npm test`) on every Pull Request to `main` or `develop`. This ensures no broken code is merged.
