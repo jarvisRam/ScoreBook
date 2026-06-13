@@ -4,45 +4,45 @@
         "sport": "cricket",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_sa",
-            "name": "South Africa",
-            "initials": "SA"
+            "id": "team_gt",
+            "name": "Gujarat Titans",
+            "initials": "GT"
         },
         "awayTeam": {
-            "id": "team_nz",
-            "name": "New Zealand",
-            "initials": "NZ"
+            "id": "team_lsg",
+            "name": "Lucknow Super Giants",
+            "initials": "LSG"
         },
         "venue": {
-            "name": "The Wanderers Stadium",
-            "city": "Johannesburg",
-            "country": "South Africa"
+            "name": "Narendra Modi Stadium",
+            "city": "Ahmedabad",
+            "country": "India"
         },
-        "startTime": "2025-12-26T08:00:00Z",
-        "tournament": "Test Series 2025",
-        "format": "Test"
+        "startTime": "2026-06-14T14:00:00Z",
+        "tournament": "IPL 2026",
+        "format": "T20"
     },
     {
         "id": "cricket_upcoming_2",
         "sport": "cricket",
         "status": "upcoming",
         "homeTeam": {
+            "id": "team_aus",
+            "name": "Australia",
+            "initials": "AUS"
+        },
+        "awayTeam": {
             "id": "team_wi",
             "name": "West Indies",
             "initials": "WI"
         },
-        "awayTeam": {
-            "id": "team_ban",
-            "name": "Bangladesh",
-            "initials": "BAN"
-        },
         "venue": {
-            "name": "Kensington Oval",
-            "city": "Bridgetown",
-            "country": "Barbados"
+            "name": "Sydney Cricket Ground",
+            "city": "Sydney",
+            "country": "Australia"
         },
-        "startTime": "2025-12-26T18:00:00Z",
-        "tournament": "ODI Series 2025",
+        "startTime": "2026-06-15T04:00:00Z",
+        "tournament": "ICC Champions Trophy 2026",
         "format": "ODI"
     },
     {
@@ -50,22 +50,91 @@
         "sport": "cricket",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_sri",
+            "id": "team_rr",
+            "name": "Rajasthan Royals",
+            "initials": "RR"
+        },
+        "awayTeam": {
+            "id": "team_pbks",
+            "name": "Punjab Kings",
+            "initials": "PBKS"
+        },
+        "venue": {
+            "name": "Sawai Mansingh Stadium",
+            "city": "Jaipur",
+            "country": "India"
+        },
+        "startTime": "2026-06-16T14:00:00Z",
+        "tournament": "IPL 2026",
+        "format": "T20"
+    },
+    {
+        "id": "cricket_upcoming_4",
+        "sport": "cricket",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_sl",
             "name": "Sri Lanka",
             "initials": "SL"
         },
         "awayTeam": {
-            "id": "team_afg",
-            "name": "Afghanistan",
-            "initials": "AFG"
+            "id": "team_ban",
+            "name": "Bangladesh",
+            "initials": "BAN"
         },
         "venue": {
             "name": "R. Premadasa Stadium",
             "city": "Colombo",
             "country": "Sri Lanka"
         },
-        "startTime": "2025-12-27T10:30:00Z",
-        "tournament": "T20 World Cup Qualifier",
+        "startTime": "2026-06-17T09:30:00Z",
+        "tournament": "Asia Cup 2026",
+        "format": "ODI"
+    },
+    {
+        "id": "cricket_upcoming_5",
+        "sport": "cricket",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_mi",
+            "name": "Mumbai Indians",
+            "initials": "MI"
+        },
+        "awayTeam": {
+            "id": "team_rcb",
+            "name": "Royal Challengers Bengaluru",
+            "initials": "RCB"
+        },
+        "venue": {
+            "name": "Wankhede Stadium",
+            "city": "Mumbai",
+            "country": "India"
+        },
+        "startTime": "2026-06-18T14:00:00Z",
+        "tournament": "IPL 2026",
         "format": "T20"
+    },
+    {
+        "id": "cricket_upcoming_6",
+        "sport": "cricket",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_ind",
+            "name": "India",
+            "initials": "IND"
+        },
+        "awayTeam": {
+            "id": "team_eng",
+            "name": "England",
+            "initials": "ENG"
+        },
+        "venue": {
+            "name": "Eden Gardens",
+            "city": "Kolkata",
+            "country": "India"
+        },
+        "startTime": "2026-06-19T09:00:00Z",
+        "tournament": "ICC Champions Trophy 2026",
+        "format": "ODI"
     }
 ]

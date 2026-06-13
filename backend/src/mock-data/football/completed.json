@@ -4,61 +4,203 @@
         "sport": "football",
         "status": "completed",
         "homeTeam": {
-            "id": "team_lions",
-            "name": "Detroit Lions",
-            "initials": "DET",
+            "id": "team_phi",
+            "name": "Philadelphia Eagles",
+            "initials": "PHI",
             "score": {
                 "points": 34,
-                "quarter": "Final"
+                "quarter": "Final",
+                "timeRemaining": "0:00"
             }
         },
         "awayTeam": {
-            "id": "team_vikings",
-            "name": "Minnesota Vikings",
-            "initials": "MIN",
+            "id": "team_was",
+            "name": "Washington Commanders",
+            "initials": "WAS",
             "score": {
-                "points": 28,
-                "quarter": "Final"
+                "points": 20,
+                "quarter": "Final",
+                "timeRemaining": "0:00"
             }
         },
         "venue": {
-            "name": "Ford Field",
-            "city": "Detroit",
-            "state": "Michigan",
-            "country": "USA"
+            "name": "Lincoln Financial Field",
+            "city": "Philadelphia",
+            "country": "USA",
+            "state": "Pennsylvania"
         },
-        "startTime": "2025-12-24T17:00:00Z",
-        "tournament": "NFL Regular Season"
+        "startTime": "2026-06-12T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 13",
+        "format": "NFL"
     },
     {
         "id": "football_completed_2",
         "sport": "football",
         "status": "completed",
         "homeTeam": {
-            "id": "team_steelers",
-            "name": "Pittsburgh Steelers",
-            "initials": "PIT",
+            "id": "team_buf",
+            "name": "Buffalo Bills",
+            "initials": "BUF",
             "score": {
-                "points": 20,
-                "quarter": "Final"
+                "points": 31,
+                "quarter": "Final",
+                "timeRemaining": "0:00"
             }
         },
         "awayTeam": {
-            "id": "team_browns",
-            "name": "Cleveland Browns",
-            "initials": "CLE",
+            "id": "team_mia",
+            "name": "Miami Dolphins",
+            "initials": "MIA",
             "score": {
-                "points": 17,
-                "quarter": "Final"
+                "points": 28,
+                "quarter": "Final OT",
+                "timeRemaining": "0:00"
             }
         },
         "venue": {
-            "name": "Acrisure Stadium",
-            "city": "Pittsburgh",
-            "state": "Pennsylvania",
-            "country": "USA"
+            "name": "Highmark Stadium",
+            "city": "Orchard Park",
+            "country": "USA",
+            "state": "New York"
         },
-        "startTime": "2025-12-24T13:00:00Z",
-        "tournament": "NFL Regular Season"
+        "startTime": "2026-06-11T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 13",
+        "format": "NFL"
+    },
+    {
+        "id": "football_completed_3",
+        "sport": "football",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_sf",
+            "name": "San Francisco 49ers",
+            "initials": "SF",
+            "score": {
+                "points": 27,
+                "quarter": "Final",
+                "timeRemaining": "0:00"
+            }
+        },
+        "awayTeam": {
+            "id": "team_dal",
+            "name": "Dallas Cowboys",
+            "initials": "DAL",
+            "score": {
+                "points": 24,
+                "quarter": "Final",
+                "timeRemaining": "0:00"
+            }
+        },
+        "venue": {
+            "name": "Levi's Stadium",
+            "city": "Santa Clara",
+            "country": "USA",
+            "state": "California"
+        },
+        "startTime": "2026-06-11T20:25:00Z",
+        "tournament": "NFL Regular Season - Week 13",
+        "format": "NFL"
+    },
+    {
+        "id": "football_completed_4",
+        "sport": "football",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_kc",
+            "name": "Kansas City Chiefs",
+            "initials": "KC",
+            "score": {
+                "points": 17,
+                "quarter": "Final",
+                "timeRemaining": "0:00"
+            }
+        },
+        "awayTeam": {
+            "id": "team_den",
+            "name": "Denver Broncos",
+            "initials": "DEN",
+            "score": {
+                "points": 14,
+                "quarter": "Final",
+                "timeRemaining": "0:00"
+            }
+        },
+        "venue": {
+            "name": "GEHA Field at Arrowhead Stadium",
+            "city": "Kansas City",
+            "country": "USA",
+            "state": "Missouri"
+        },
+        "startTime": "2026-06-10T00:20:00Z",
+        "tournament": "NFL Thursday Night Football - Week 13",
+        "format": "NFL"
+    },
+    {
+        "id": "football_completed_5",
+        "sport": "football",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_gb",
+            "name": "Green Bay Packers",
+            "initials": "GB",
+            "score": {
+                "points": 35,
+                "quarter": "Final",
+                "timeRemaining": "0:00"
+            }
+        },
+        "awayTeam": {
+            "id": "team_det",
+            "name": "Detroit Lions",
+            "initials": "DET",
+            "score": {
+                "points": 38,
+                "quarter": "Final",
+                "timeRemaining": "0:00"
+            }
+        },
+        "venue": {
+            "name": "Lambeau Field",
+            "city": "Green Bay",
+            "country": "USA",
+            "state": "Wisconsin"
+        },
+        "startTime": "2026-06-10T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 13",
+        "format": "NFL"
+    },
+    {
+        "id": "football_completed_6",
+        "sport": "football",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_hou",
+            "name": "Houston Texans",
+            "initials": "HOU",
+            "score": {
+                "points": 23,
+                "quarter": "Final",
+                "timeRemaining": "0:00"
+            }
+        },
+        "awayTeam": {
+            "id": "team_jax",
+            "name": "Jacksonville Jaguars",
+            "initials": "JAX",
+            "score": {
+                "points": 16,
+                "quarter": "Final",
+                "timeRemaining": "0:00"
+            }
+        },
+        "venue": {
+            "name": "NRG Stadium",
+            "city": "Houston",
+            "country": "USA",
+            "state": "Texas"
+        },
+        "startTime": "2026-06-10T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 13",
+        "format": "NFL"
     }
 ]

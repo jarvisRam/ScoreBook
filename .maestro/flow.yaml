@@ -1,4 +1,16 @@
 appId: com.anonymous.mobile
 ---
+# Smoke test: verify app launches and all sport tabs are reachable
 - launchApp
+- assertVisible: "ScoreBook"
 - assertVisible: "Cricket"
+- assertVisible: "American Football"
+- assertVisible: "Hockey"
+
+# Run per-sport flows
+- runFlow: flows/cricket.yaml
+- runFlow: flows/football.yaml
+- runFlow: flows/hockey.yaml
+- runFlow: flows/soccer.yaml
+- runFlow: flows/tennis.yaml
+- runFlow: flows/badminton.yaml

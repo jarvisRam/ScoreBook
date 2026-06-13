@@ -1,10 +1,12 @@
 import request from 'supertest';
 import app from '../../src/index';
+import { dataService } from '../../src/services/dataService';
 import { setupRapidApiMock, clearMocks, mockHosts } from '../utils';
 
 describe('Matches API Integration', () => {
     afterEach(() => {
         clearMocks();
+        dataService.clearCache();
     });
 
     // ==================== CRICKET TESTS ====================

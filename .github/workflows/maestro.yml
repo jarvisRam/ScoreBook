@@ -5,6 +5,7 @@ on:
     branches: [main, develop]
     paths:
       - 'mobile/**'
+      - 'backend/**'
       - '.maestro/**'
       - '.github/workflows/maestro.yml'
 
@@ -34,9 +35,27 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install dependencies
+      - name: Install mobile dependencies
         working-directory: ./mobile
         run: npm ci
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Start mock backend
+        working-directory: ./backend
+        run: |
+          USE_MOCK_DATA=true npx ts-node src/index.ts &
+          # Wait for backend to be ready
+          for i in $(seq 1 15); do
+            if curl -sf http://localhost:3000/api/health | grep -q '"mode":"mock"'; then
+              echo "Backend ready in mock mode"
+              break
+            fi
+            echo "Waiting for backend... ($i/15)"
+            sleep 2
+          done
 
       - name: Install Maestro CLI
         run: |
@@ -63,6 +82,6 @@ jobs:
           script: |
             # Install the Debug APK
             adb install ./mobile/android/app/build/outputs/apk/debug/app-debug.apk
-            
-            # Run Maestro Flow
+
+            # Run all Maestro flows
             maestro test .maestro/flow.yaml

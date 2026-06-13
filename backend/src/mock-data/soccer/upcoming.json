@@ -4,44 +4,44 @@
         "sport": "soccer",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_bayern",
-            "name": "Bayern Munich",
-            "initials": "BAY"
+            "id": "team_man_utd",
+            "name": "Manchester United",
+            "initials": "MUN"
         },
         "awayTeam": {
-            "id": "team_dortmund",
-            "name": "Borussia Dortmund",
-            "initials": "DOR"
+            "id": "team_tottenham",
+            "name": "Tottenham Hotspur",
+            "initials": "TOT"
         },
         "venue": {
-            "name": "Allianz Arena",
-            "city": "Munich",
-            "country": "Germany"
+            "name": "Old Trafford",
+            "city": "Manchester",
+            "country": "England"
         },
-        "startTime": "2025-12-26T17:30:00Z",
-        "tournament": "Bundesliga"
+        "startTime": "2026-06-14T15:00:00Z",
+        "tournament": "Premier League"
     },
     {
         "id": "soccer_upcoming_2",
         "sport": "soccer",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_psg",
-            "name": "Paris Saint-Germain",
-            "initials": "PSG"
+            "id": "team_atletico",
+            "name": "Atletico Madrid",
+            "initials": "ATM"
         },
         "awayTeam": {
-            "id": "team_marseille",
-            "name": "Olympique de Marseille",
-            "initials": "OM"
+            "id": "team_sevilla",
+            "name": "Sevilla FC",
+            "initials": "SEV"
         },
         "venue": {
-            "name": "Parc des Princes",
-            "city": "Paris",
-            "country": "France"
+            "name": "Civitas Metropolitano",
+            "city": "Madrid",
+            "country": "Spain"
         },
-        "startTime": "2025-12-26T20:00:00Z",
-        "tournament": "Ligue 1"
+        "startTime": "2026-06-15T19:00:00Z",
+        "tournament": "La Liga"
     },
     {
         "id": "soccer_upcoming_3",
@@ -53,16 +53,83 @@
             "initials": "JUV"
         },
         "awayTeam": {
-            "id": "team_milan",
-            "name": "AC Milan",
-            "initials": "ACM"
+            "id": "team_napoli",
+            "name": "SSC Napoli",
+            "initials": "NAP"
         },
         "venue": {
             "name": "Allianz Stadium",
             "city": "Turin",
             "country": "Italy"
         },
-        "startTime": "2025-12-27T19:45:00Z",
+        "startTime": "2026-06-16T19:45:00Z",
         "tournament": "Serie A"
+    },
+    {
+        "id": "soccer_upcoming_4",
+        "sport": "soccer",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_newcastle",
+            "name": "Newcastle United",
+            "initials": "NEW"
+        },
+        "awayTeam": {
+            "id": "team_aston_villa",
+            "name": "Aston Villa",
+            "initials": "AVL"
+        },
+        "venue": {
+            "name": "St James' Park",
+            "city": "Newcastle",
+            "country": "England"
+        },
+        "startTime": "2026-06-17T15:00:00Z",
+        "tournament": "Premier League"
+    },
+    {
+        "id": "soccer_upcoming_5",
+        "sport": "soccer",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_real_madrid",
+            "name": "Real Madrid",
+            "initials": "RMA"
+        },
+        "awayTeam": {
+            "id": "team_bayern",
+            "name": "Bayern Munich",
+            "initials": "BAY"
+        },
+        "venue": {
+            "name": "Santiago Bernabeu",
+            "city": "Madrid",
+            "country": "Spain"
+        },
+        "startTime": "2026-06-18T20:00:00Z",
+        "tournament": "UEFA Champions League",
+        "format": "Semi-Final Leg 1"
+    },
+    {
+        "id": "soccer_upcoming_6",
+        "sport": "soccer",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_leipzig",
+            "name": "RB Leipzig",
+            "initials": "RBL"
+        },
+        "awayTeam": {
+            "id": "team_leverkusen",
+            "name": "Bayer Leverkusen",
+            "initials": "B04"
+        },
+        "venue": {
+            "name": "Red Bull Arena",
+            "city": "Leipzig",
+            "country": "Germany"
+        },
+        "startTime": "2026-06-19T17:30:00Z",
+        "tournament": "Bundesliga"
     }
 ]

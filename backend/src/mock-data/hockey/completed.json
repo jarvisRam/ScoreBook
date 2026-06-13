@@ -4,61 +4,203 @@
         "sport": "hockey",
         "status": "completed",
         "homeTeam": {
-            "id": "team_capitals",
-            "name": "Washington Capitals",
-            "initials": "WSH",
+            "id": "team_bos",
+            "name": "Boston Bruins",
+            "initials": "BOS",
             "score": {
-                "goals": 5,
-                "period": "Final"
+                "goals": 4,
+                "period": "Final",
+                "timeLeft": "0:00"
             }
         },
         "awayTeam": {
-            "id": "team_penguins",
-            "name": "Pittsburgh Penguins",
-            "initials": "PIT",
+            "id": "team_tor",
+            "name": "Toronto Maple Leafs",
+            "initials": "TOR",
             "score": {
                 "goals": 3,
-                "period": "Final"
+                "period": "Final OT",
+                "timeLeft": "0:00"
             }
         },
         "venue": {
-            "name": "Capital One Arena",
-            "city": "Washington",
-            "state": "DC",
-            "country": "USA"
+            "name": "TD Garden",
+            "city": "Boston",
+            "country": "USA",
+            "state": "Massachusetts"
         },
-        "startTime": "2025-12-24T19:00:00Z",
-        "tournament": "NHL Regular Season"
+        "startTime": "2026-06-12T23:00:00Z",
+        "tournament": "NHL Stanley Cup Playoffs",
+        "format": "NHL"
     },
     {
         "id": "hockey_completed_2",
         "sport": "hockey",
         "status": "completed",
         "homeTeam": {
-            "id": "team_blackhawks",
-            "name": "Chicago Blackhawks",
-            "initials": "CHI",
+            "id": "team_col",
+            "name": "Colorado Avalanche",
+            "initials": "COL",
             "score": {
-                "goals": 2,
-                "period": "Final"
+                "goals": 6,
+                "period": "Final",
+                "timeLeft": "0:00"
             }
         },
         "awayTeam": {
-            "id": "team_red_wings",
-            "name": "Detroit Red Wings",
-            "initials": "DET",
+            "id": "team_dal",
+            "name": "Dallas Stars",
+            "initials": "DAL",
             "score": {
-                "goals": 4,
-                "period": "Final"
+                "goals": 2,
+                "period": "Final",
+                "timeLeft": "0:00"
             }
         },
         "venue": {
-            "name": "United Center",
-            "city": "Chicago",
-            "state": "Illinois",
-            "country": "USA"
+            "name": "Ball Arena",
+            "city": "Denver",
+            "country": "USA",
+            "state": "Colorado"
         },
-        "startTime": "2025-12-24T20:00:00Z",
-        "tournament": "NHL Regular Season"
+        "startTime": "2026-06-11T01:00:00Z",
+        "tournament": "NHL Regular Season",
+        "format": "NHL"
+    },
+    {
+        "id": "hockey_completed_3",
+        "sport": "hockey",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_car",
+            "name": "Carolina Hurricanes",
+            "initials": "CAR",
+            "score": {
+                "goals": 3,
+                "period": "Final",
+                "timeLeft": "0:00"
+            }
+        },
+        "awayTeam": {
+            "id": "team_fla",
+            "name": "Florida Panthers",
+            "initials": "FLA",
+            "score": {
+                "goals": 5,
+                "period": "Final",
+                "timeLeft": "0:00"
+            }
+        },
+        "venue": {
+            "name": "PNC Arena",
+            "city": "Raleigh",
+            "country": "USA",
+            "state": "North Carolina"
+        },
+        "startTime": "2026-06-11T23:00:00Z",
+        "tournament": "NHL Stanley Cup Playoffs",
+        "format": "NHL"
+    },
+    {
+        "id": "hockey_completed_4",
+        "sport": "hockey",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_vgk",
+            "name": "Vegas Golden Knights",
+            "initials": "VGK",
+            "score": {
+                "goals": 2,
+                "period": "Final",
+                "timeLeft": "0:00"
+            }
+        },
+        "awayTeam": {
+            "id": "team_edm",
+            "name": "Edmonton Oilers",
+            "initials": "EDM",
+            "score": {
+                "goals": 3,
+                "period": "Final",
+                "timeLeft": "0:00"
+            }
+        },
+        "venue": {
+            "name": "T-Mobile Arena",
+            "city": "Las Vegas",
+            "country": "USA",
+            "state": "Nevada"
+        },
+        "startTime": "2026-06-10T02:00:00Z",
+        "tournament": "NHL Regular Season",
+        "format": "NHL"
+    },
+    {
+        "id": "hockey_completed_5",
+        "sport": "hockey",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_wsh",
+            "name": "Washington Capitals",
+            "initials": "WSH",
+            "score": {
+                "goals": 1,
+                "period": "Final",
+                "timeLeft": "0:00"
+            }
+        },
+        "awayTeam": {
+            "id": "team_njd",
+            "name": "New Jersey Devils",
+            "initials": "NJD",
+            "score": {
+                "goals": 4,
+                "period": "Final",
+                "timeLeft": "0:00"
+            }
+        },
+        "venue": {
+            "name": "Capital One Arena",
+            "city": "Washington",
+            "country": "USA",
+            "state": "D.C."
+        },
+        "startTime": "2026-06-10T23:00:00Z",
+        "tournament": "NHL Regular Season",
+        "format": "NHL"
+    },
+    {
+        "id": "hockey_completed_6",
+        "sport": "hockey",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_nyr",
+            "name": "New York Rangers",
+            "initials": "NYR",
+            "score": {
+                "goals": 3,
+                "period": "Final",
+                "timeLeft": "0:00"
+            }
+        },
+        "awayTeam": {
+            "id": "team_pit",
+            "name": "Pittsburgh Penguins",
+            "initials": "PIT",
+            "score": {
+                "goals": 2,
+                "period": "Final",
+                "timeLeft": "0:00"
+            }
+        },
+        "venue": {
+            "name": "Madison Square Garden",
+            "city": "New York",
+            "country": "USA",
+            "state": "New York"
+        },
+        "startTime": "2026-06-10T23:30:00Z",
+        "tournament": "NHL Regular Season",
+        "format": "NHL"
     }
 ]

@@ -3,63 +3,67 @@ import { mockDataService } from './mockDataService';
 import { realDataService } from './realDataService';
 import { Match, MatchStatus, Sport } from '../types/api.types';
 
-/**
- * DataService - Unified service that switches between mock and real data
- * based on USE_MOCK_DATA environment variable
- */
+interface CacheEntry {
+    data: Match[];
+    expiry: number;
+}
+
 class DataService {
-    /**
-     * Get matches by sport and optional status filter
-     */
+    private cache = new Map<string, CacheEntry>();
+
+    private getFromCacheOrFetch(cacheKey: string, fetcher: () => Promise<Match[]>): Promise<Match[]> {
+        const cached = this.cache.get(cacheKey);
+        const now = Date.now();
+
+        if (cached && cached.expiry > now) {
+            console.log(`🔄 [CACHE HIT] ${cacheKey} (expires in ${Math.round((cached.expiry - now) / 1000)}s)`);
+            return Promise.resolve(cached.data);
+        }
+
+        console.log(`📡 [CACHE MISS] ${cacheKey}`);
+        return fetcher().then(data => {
+            this.cache.set(cacheKey, { data, expiry: now + config.cacheTTL * 1000 });
+            return data;
+        });
+    }
+
     async getMatchesBySport(sport: Sport, status?: MatchStatus): Promise<Match[]> {
         if (config.useMockData) {
-            console.log(`📦 [MOCK MODE] Fetching ${sport} matches (status: ${status || 'all'})`);
             return mockDataService.getMatchesBySport(sport, status);
-        } else {
-            console.log(`🌐 [REAL MODE] Fetching ${sport} matches from API (status: ${status || 'all'})`);
-            return await realDataService.getMatchesBySport(sport, status);
         }
+
+        return this.getFromCacheOrFetch(`${sport}:${status || 'all'}`, () =>
+            realDataService.getMatchesBySport(sport, status)
+        );
     }
 
-    /**
-     * Get all live matches across all sports
-     */
     async getLiveMatches(): Promise<Match[]> {
         if (config.useMockData) {
-            console.log('📦 [MOCK MODE] Fetching all live matches');
             return mockDataService.getLiveMatches();
-        } else {
-            console.log('🌐 [REAL MODE] Fetching all live matches from APIs');
-            return await realDataService.getLiveMatches();
         }
+
+        return this.getFromCacheOrFetch('all:live', () =>
+            realDataService.getLiveMatches()
+        );
     }
 
-    /**
-     * Get match by ID
-     */
     async getMatchById(matchId: string): Promise<Match | null> {
         if (config.useMockData) {
-            console.log(`📦 [MOCK MODE] Fetching match: ${matchId}`);
             return mockDataService.getMatchById(matchId);
-        } else {
-            console.log(`🌐 [REAL MODE] Fetching match from API: ${matchId}`);
-            return await realDataService.getMatchById(matchId);
         }
+        return realDataService.getMatchById(matchId);
     }
 
-    /**
-     * Get list of supported sports
-     */
     getSports() {
-        // Sports list is the same for both mock and real modes
         return mockDataService.getSports();
     }
 
-    /**
-     * Get current mode (mock or real)
-     */
     getMode(): 'mock' | 'real' {
         return config.useMockData ? 'mock' : 'real';
+    }
+
+    clearCache(): void {
+        this.cache.clear();
     }
 }
 

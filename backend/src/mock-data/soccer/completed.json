@@ -4,29 +4,31 @@
         "sport": "soccer",
         "status": "completed",
         "homeTeam": {
-            "id": "team_man_utd",
-            "name": "Manchester United",
-            "initials": "MUN",
+            "id": "team_man_city",
+            "name": "Manchester City",
+            "initials": "MCI",
             "score": {
                 "goals": 3,
-                "half": "Final"
+                "half": "FT",
+                "minute": "90'"
             }
         },
         "awayTeam": {
-            "id": "team_spurs",
-            "name": "Tottenham Hotspur",
-            "initials": "TOT",
+            "id": "team_newcastle",
+            "name": "Newcastle United",
+            "initials": "NEW",
             "score": {
-                "goals": 2,
-                "half": "Final"
+                "goals": 1,
+                "half": "FT",
+                "minute": "90'"
             }
         },
         "venue": {
-            "name": "Old Trafford",
+            "name": "Etihad Stadium",
             "city": "Manchester",
             "country": "England"
         },
-        "startTime": "2025-12-24T15:00:00Z",
+        "startTime": "2026-06-12T15:00:00Z",
         "tournament": "Premier League"
     },
     {
@@ -34,29 +36,160 @@
         "sport": "soccer",
         "status": "completed",
         "homeTeam": {
-            "id": "team_inter",
-            "name": "Inter Milan",
-            "initials": "INT",
+            "id": "team_real_madrid",
+            "name": "Real Madrid",
+            "initials": "RMA",
             "score": {
-                "goals": 1,
-                "half": "Final"
+                "goals": 2,
+                "half": "FT",
+                "minute": "90'"
             }
         },
         "awayTeam": {
+            "id": "team_atletico",
+            "name": "Atletico Madrid",
+            "initials": "ATM",
+            "score": {
+                "goals": 1,
+                "half": "FT",
+                "minute": "90'"
+            }
+        },
+        "venue": {
+            "name": "Santiago Bernabeu",
+            "city": "Madrid",
+            "country": "Spain"
+        },
+        "startTime": "2026-06-11T19:00:00Z",
+        "tournament": "La Liga"
+    },
+    {
+        "id": "soccer_completed_3",
+        "sport": "soccer",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_chelsea",
+            "name": "Chelsea FC",
+            "initials": "CHE",
+            "score": {
+                "goals": 0,
+                "half": "FT",
+                "minute": "90'"
+            }
+        },
+        "awayTeam": {
+            "id": "team_liverpool",
+            "name": "Liverpool FC",
+            "initials": "LIV",
+            "score": {
+                "goals": 2,
+                "half": "FT",
+                "minute": "90'"
+            }
+        },
+        "venue": {
+            "name": "Stamford Bridge",
+            "city": "London",
+            "country": "England"
+        },
+        "startTime": "2026-06-11T17:30:00Z",
+        "tournament": "Premier League"
+    },
+    {
+        "id": "soccer_completed_4",
+        "sport": "soccer",
+        "status": "completed",
+        "homeTeam": {
             "id": "team_napoli",
             "name": "SSC Napoli",
             "initials": "NAP",
             "score": {
+                "goals": 4,
+                "half": "FT",
+                "minute": "90'"
+            }
+        },
+        "awayTeam": {
+            "id": "team_roma",
+            "name": "AS Roma",
+            "initials": "ROM",
+            "score": {
                 "goals": 1,
-                "half": "Final"
+                "half": "FT",
+                "minute": "90'"
             }
         },
         "venue": {
-            "name": "San Siro",
-            "city": "Milan",
+            "name": "Stadio Diego Armando Maradona",
+            "city": "Naples",
             "country": "Italy"
         },
-        "startTime": "2025-12-24T19:00:00Z",
+        "startTime": "2026-06-10T19:45:00Z",
         "tournament": "Serie A"
+    },
+    {
+        "id": "soccer_completed_5",
+        "sport": "soccer",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_dortmund",
+            "name": "Borussia Dortmund",
+            "initials": "BVB",
+            "score": {
+                "goals": 2,
+                "half": "FT",
+                "minute": "90'"
+            }
+        },
+        "awayTeam": {
+            "id": "team_psg",
+            "name": "Paris Saint-Germain",
+            "initials": "PSG",
+            "score": {
+                "goals": 3,
+                "half": "FT",
+                "minute": "90'"
+            }
+        },
+        "venue": {
+            "name": "Signal Iduna Park",
+            "city": "Dortmund",
+            "country": "Germany"
+        },
+        "startTime": "2026-06-10T20:00:00Z",
+        "tournament": "UEFA Champions League",
+        "format": "Quarter-Final"
+    },
+    {
+        "id": "soccer_completed_6",
+        "sport": "soccer",
+        "status": "completed",
+        "homeTeam": {
+            "id": "team_tottenham",
+            "name": "Tottenham Hotspur",
+            "initials": "TOT",
+            "score": {
+                "goals": 1,
+                "half": "FT",
+                "minute": "90'"
+            }
+        },
+        "awayTeam": {
+            "id": "team_arsenal",
+            "name": "Arsenal FC",
+            "initials": "ARS",
+            "score": {
+                "goals": 1,
+                "half": "FT",
+                "minute": "90'"
+            }
+        },
+        "venue": {
+            "name": "Tottenham Hotspur Stadium",
+            "city": "London",
+            "country": "England"
+        },
+        "startTime": "2026-06-10T15:00:00Z",
+        "tournament": "Premier League"
     }
 ]

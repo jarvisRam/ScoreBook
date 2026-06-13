@@ -4,91 +4,143 @@
         "sport": "football",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_eagles",
-            "name": "Philadelphia Eagles",
-            "initials": "PHI"
+            "id": "team_det",
+            "name": "Detroit Lions",
+            "initials": "DET"
         },
         "awayTeam": {
-            "id": "team_giants",
-            "name": "New York Giants",
-            "initials": "NYG"
+            "id": "team_min",
+            "name": "Minnesota Vikings",
+            "initials": "MIN"
         },
         "venue": {
-            "name": "Lincoln Financial Field",
-            "city": "Philadelphia",
-            "state": "Pennsylvania",
-            "country": "USA"
+            "name": "Ford Field",
+            "city": "Detroit",
+            "country": "USA",
+            "state": "Michigan"
         },
-        "startTime": "2025-12-26T18:00:00Z",
-        "tournament": "NFL Regular Season"
+        "startTime": "2026-06-14T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 14",
+        "format": "NFL"
     },
     {
         "id": "football_upcoming_2",
         "sport": "football",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_bengals",
-            "name": "Cincinnati Bengals",
-            "initials": "CIN"
+            "id": "team_den",
+            "name": "Denver Broncos",
+            "initials": "DEN"
         },
         "awayTeam": {
-            "id": "team_ravens",
-            "name": "Baltimore Ravens",
-            "initials": "BAL"
+            "id": "team_lv",
+            "name": "Las Vegas Raiders",
+            "initials": "LV"
         },
         "venue": {
-            "name": "Paul Brown Stadium",
-            "city": "Cincinnati",
-            "state": "Ohio",
-            "country": "USA"
+            "name": "Empower Field at Mile High",
+            "city": "Denver",
+            "country": "USA",
+            "state": "Colorado"
         },
-        "startTime": "2025-12-26T21:00:00Z",
-        "tournament": "NFL Regular Season"
+        "startTime": "2026-06-14T20:05:00Z",
+        "tournament": "NFL Regular Season - Week 14",
+        "format": "NFL"
     },
     {
         "id": "football_upcoming_3",
         "sport": "football",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_bills",
-            "name": "Buffalo Bills",
-            "initials": "BUF"
+            "id": "team_tb",
+            "name": "Tampa Bay Buccaneers",
+            "initials": "TB"
         },
         "awayTeam": {
-            "id": "team_dolphins",
-            "name": "Miami Dolphins",
-            "initials": "MIA"
+            "id": "team_no",
+            "name": "New Orleans Saints",
+            "initials": "NO"
         },
         "venue": {
-            "name": "Highmark Stadium",
-            "city": "Buffalo",
-            "state": "New York",
-            "country": "USA"
+            "name": "Raymond James Stadium",
+            "city": "Tampa",
+            "country": "USA",
+            "state": "Florida"
         },
-        "startTime": "2025-12-27T13:00:00Z",
-        "tournament": "NFL Regular Season"
+        "startTime": "2026-06-15T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 15",
+        "format": "NFL"
     },
     {
         "id": "football_upcoming_4",
         "sport": "football",
         "status": "upcoming",
         "homeTeam": {
-            "id": "team_rams",
+            "id": "team_lar",
             "name": "Los Angeles Rams",
             "initials": "LAR"
         },
         "awayTeam": {
-            "id": "team_seahawks",
-            "name": "Seattle Seahawks",
-            "initials": "SEA"
+            "id": "team_ari",
+            "name": "Arizona Cardinals",
+            "initials": "ARI"
         },
         "venue": {
             "name": "SoFi Stadium",
-            "city": "Los Angeles",
-            "state": "California",
-            "country": "USA"
+            "city": "Inglewood",
+            "country": "USA",
+            "state": "California"
         },
-        "startTime": "2025-12-27T20:20:00Z",
-        "tournament": "NFL Regular Season"
+        "startTime": "2026-06-15T20:25:00Z",
+        "tournament": "NFL Regular Season - Week 15",
+        "format": "NFL"
+    },
+    {
+        "id": "football_upcoming_5",
+        "sport": "football",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_pit",
+            "name": "Pittsburgh Steelers",
+            "initials": "PIT"
+        },
+        "awayTeam": {
+            "id": "team_cle",
+            "name": "Cleveland Browns",
+            "initials": "CLE"
+        },
+        "venue": {
+            "name": "Acrisure Stadium",
+            "city": "Pittsburgh",
+            "country": "USA",
+            "state": "Pennsylvania"
+        },
+        "startTime": "2026-06-16T00:20:00Z",
+        "tournament": "NFL Monday Night Football - Week 15",
+        "format": "NFL"
+    },
+    {
+        "id": "football_upcoming_6",
+        "sport": "football",
+        "status": "upcoming",
+        "homeTeam": {
+            "id": "team_ne",
+            "name": "New England Patriots",
+            "initials": "NE"
+        },
+        "awayTeam": {
+            "id": "team_nyg",
+            "name": "New York Giants",
+            "initials": "NYG"
+        },
+        "venue": {
+            "name": "Gillette Stadium",
+            "city": "Foxborough",
+            "country": "USA",
+            "state": "Massachusetts"
+        },
+        "startTime": "2026-06-17T17:00:00Z",
+        "tournament": "NFL Regular Season - Week 15",
+        "format": "NFL"
     }
 ]

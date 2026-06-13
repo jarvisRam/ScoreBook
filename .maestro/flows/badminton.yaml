@@ -1,0 +1,43 @@
+appId: com.anonymous.mobile
+---
+- scrollUntilVisible:
+    element:
+      text: "Badminton"
+    direction: LEFT
+    timeout: 5000
+- tapOn: "Badminton"
+- waitForAnimationToEnd
+
+# LIVE
+- assertVisible:
+    id: "matchList_badminton_live"
+- assertVisible: "Viktor Axelsen"
+- assertVisible: "Kento Momota"
+- assertVisible: "Indonesia Open"
+- assertVisible: "An Se-young"
+- assertVisible: "Akane Yamaguchi"
+- assertVisible:
+    id: "matchCard_badminton_live_0"
+- assertVisible:
+    id: "matchCard_badminton_live_1"
+
+# UPCOMING
+- tapOn: "UPCOMING"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "matchList_badminton_upcoming"
+- assertVisible: "Lee Zii Jia"
+- assertVisible: "Indonesia Open"
+- assertVisible:
+    id: "matchCard_badminton_upcoming_0"
+
+# COMPLETED
+- tapOn: "COMPLETED"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "matchList_badminton_completed"
+- assertVisible: "Viktor Axelsen"
+- assertVisible: "Kunlavut Vitidsarn"
+- assertVisible: "Indonesia Open"
+- assertVisible:
+    id: "matchCard_badminton_completed_0"

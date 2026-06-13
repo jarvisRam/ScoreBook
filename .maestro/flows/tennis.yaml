@@ -1,0 +1,42 @@
+appId: com.anonymous.mobile
+---
+- scrollUntilVisible:
+    element:
+      text: "Tennis"
+    direction: LEFT
+    timeout: 5000
+- tapOn: "Tennis"
+- waitForAnimationToEnd
+
+# LIVE
+- assertVisible:
+    id: "matchList_tennis_live"
+- assertVisible: "Novak Djokovic"
+- assertVisible: "Carlos Alcaraz"
+- assertVisible: "French Open"
+- assertVisible: "Jannik Sinner"
+- assertVisible: "Daniil Medvedev"
+- assertVisible:
+    id: "matchCard_tennis_live_0"
+- assertVisible:
+    id: "matchCard_tennis_live_1"
+
+# UPCOMING
+- tapOn: "UPCOMING"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "matchList_tennis_upcoming"
+- assertVisible: "Carlos Alcaraz"
+- assertVisible: "Jannik Sinner"
+- assertVisible:
+    id: "matchCard_tennis_upcoming_0"
+
+# COMPLETED
+- tapOn: "COMPLETED"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "matchList_tennis_completed"
+- assertVisible: "Novak Djokovic"
+- assertVisible: "Taylor Fritz"
+- assertVisible:
+    id: "matchCard_tennis_completed_0"
