@@ -56,12 +56,15 @@ Overview of the ScoreBook application architecture and design decisions.
 │                  │                              │
 │  ┌───────────────▼──────────────────────────┐  │
 │  │         Service Layer                    │  │
-│  │  MockDataService → Validation            │  │
+│  │  DataService (TTL Cache, 60s)           │  │
+│  │  ├── MockDataService (mock mode)        │  │
+│  │  └── RealDataService (RapidAPI)         │  │
 │  └───────────────┬──────────────────────────┘  │
 │                  │                              │
 │  ┌───────────────▼──────────────────────────┐  │
 │  │         Data Layer                       │  │
 │  │  JSON Files (6 Sports × 3 Statuses)     │  │
+│  │  OR RapidAPI (cricket, soccer, etc.)    │  │
 │  └──────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────┘
 ```
@@ -228,13 +231,13 @@ HTTP Response
 3. Route handler:
    - Validates sport parameter
    - Validates status parameter
-   - Calls MockDataService.getMatches(sport, status)
+   - Calls DataService.getMatchesBySport(sport, status)
 
-4. MockDataService:
-   - Checks in-memory cache
-   - If not cached, reads from JSON file
-   - Filters by status if provided
-   - Caches result
+4. DataService:
+   - In mock mode: delegates to MockDataService (no cache, reads JSON directly)
+   - In real mode: checks TTL cache (key: `sport:status`, TTL: 60s)
+     - Cache hit → returns cached data immediately
+     - Cache miss → fetches from RealDataService (RapidAPI), stores result in cache
 
 5. Route handler formats response:
    { success: true, data: [...matches] }
@@ -326,7 +329,22 @@ const MatchList = ({ data, isLoading }) => {
 
 ## Performance Optimizations
 
-### 1. React Query Caching
+### 1. Backend TTL Cache (DataService)
+
+When running in real-API mode, `DataService` keeps a `Map<string, CacheEntry>` in memory to avoid redundant RapidAPI calls:
+
+- **Key:** `sport:status` (e.g. `cricket:live`, `soccer:upcoming`, `all:live`)
+- **TTL:** 60 seconds (configurable via `CACHE_TTL` env var)
+- **Mock mode:** cache is bypassed entirely — reads JSON files on every request
+- **Cache invalidation:** `dataService.clearCache()` wipes all entries (called in test `afterEach`)
+
+```typescript
+// env: CACHE_TTL=60  (default)
+// Cache hit log:  🔄 [CACHE HIT] cricket:live (expires in 42s)
+// Cache miss log: 📡 [CACHE MISS] cricket:live
+```
+
+### 2. React Query Caching
 
 ```typescript
 {
@@ -335,13 +353,13 @@ const MatchList = ({ data, isLoading }) => {
 }
 ```
 
-### 2. Component Memoization
+### 3. Component Memoization
 
 ```typescript
 export const MatchCard = React.memo(MatchCardComponent);
 ```
 
-### 3. FlatList Optimization
+### 4. FlatList Optimization
 
 ```typescript
 <FlatList
@@ -358,7 +376,7 @@ export const MatchCard = React.memo(MatchCardComponent);
 />
 ```
 
-### 4. Image Optimization
+### 5. Image Optimization
 
 ```typescript
 // Use lowercase initials instead of images
