@@ -4,12 +4,12 @@ import { SportConfig } from './sport.types';
 export interface ApiResponse<T> {
     data: T;
     timestamp: number;
-    mode: 'mock' | 'real';
+    mode: 'mock' | 'real' | 'simulation';
 }
 
 export interface HealthResponse {
     status: 'ok' | 'error';
-    mode: 'mock' | 'real';
+    mode: 'mock' | 'real' | 'simulation';
     timestamp: number;
 }
 

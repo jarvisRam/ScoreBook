@@ -38,7 +38,7 @@ export interface Match {
 export interface ApiResponse<T> {
     data: T;
     timestamp: number;
-    mode: 'mock' | 'real';
+    mode: 'mock' | 'real' | 'simulation';
 }
 
 // Error response
