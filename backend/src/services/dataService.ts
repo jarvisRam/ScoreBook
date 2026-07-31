@@ -1,6 +1,7 @@
-import { config } from '../config';
+import { config, DataMode } from '../config';
 import { mockDataService } from './mockDataService';
 import { realDataService } from './realDataService';
+import { simulationService } from './simulationService';
 import { Match, MatchStatus, Sport } from '../types/api.types';
 
 interface CacheEntry {
@@ -28,8 +29,14 @@ class DataService {
     }
 
     async getMatchesBySport(sport: Sport, status?: MatchStatus): Promise<Match[]> {
-        if (config.useMockData) {
+        if (config.dataMode === 'mock') {
             return mockDataService.getMatchesBySport(sport, status);
+        }
+
+        if (config.dataMode === 'simulation') {
+            return this.getFromCacheOrFetch(`sim:${sport}:${status || 'all'}`, () =>
+                simulationService.getMatchesBySport(sport, status)
+            );
         }
 
         return this.getFromCacheOrFetch(`${sport}:${status || 'all'}`, () =>
@@ -38,8 +45,14 @@ class DataService {
     }
 
     async getLiveMatches(): Promise<Match[]> {
-        if (config.useMockData) {
+        if (config.dataMode === 'mock') {
             return mockDataService.getLiveMatches();
+        }
+
+        if (config.dataMode === 'simulation') {
+            return this.getFromCacheOrFetch('sim:all:live', () =>
+                simulationService.getLiveMatches()
+            );
         }
 
         return this.getFromCacheOrFetch('all:live', () =>
@@ -48,18 +61,30 @@ class DataService {
     }
 
     async getMatchById(matchId: string): Promise<Match | null> {
-        if (config.useMockData) {
+        if (config.dataMode === 'mock') {
             return mockDataService.getMatchById(matchId);
         }
+
+        if (config.dataMode === 'simulation') {
+            return simulationService.getMatchById(matchId);
+        }
+
         return realDataService.getMatchById(matchId);
+    }
+
+    async regenerateMatches(): Promise<void> {
+        if (config.dataMode === 'simulation') {
+            await simulationService.regenerateMatches();
+            this.clearCache();
+        }
     }
 
     getSports() {
         return mockDataService.getSports();
     }
 
-    getMode(): 'mock' | 'real' {
-        return config.useMockData ? 'mock' : 'real';
+    getMode(): DataMode {
+        return config.dataMode;
     }
 
     clearCache(): void {

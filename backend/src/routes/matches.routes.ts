@@ -22,6 +22,37 @@ router.get('/live', async (req: Request, res: Response) => {
     }
 });
 
+// GET/POST /api/matches/regenerate - Regenerate simulation matches
+// GET is used by Vercel Cron Jobs, POST for manual triggers
+// Must be defined before /:sport to avoid being caught by the param route
+const handleRegenerate = async (req: Request, res: Response) => {
+    const cronSecret = process.env.CRON_SECRET;
+    if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
+        return res.status(401).json({
+            error: { message: 'Unauthorized', code: 'UNAUTHORIZED' },
+        });
+    }
+
+    try {
+        await dataService.regenerateMatches();
+        res.json({
+            message: 'Matches regenerated successfully',
+            timestamp: Date.now(),
+            mode: dataService.getMode(),
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: {
+                message: 'Failed to regenerate matches',
+                code: 'INTERNAL_ERROR',
+            },
+        });
+    }
+};
+
+router.get('/regenerate', handleRegenerate);
+router.post('/regenerate', handleRegenerate);
+
 // GET /api/matches/:sport - Get matches for a specific sport
 router.get('/:sport', async (req: Request, res: Response) => {
     try {

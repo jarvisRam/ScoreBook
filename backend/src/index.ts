@@ -46,13 +46,14 @@ app.get('/', (req, res) => {
     res.json({
         message: 'ScoreBook API',
         version: '1.0.0',
-        mode: config.useMockData ? 'mock' : 'real',
+        mode: config.dataMode,
         endpoints: {
             health: '/api/health',
             sports: '/api/sports',
             liveMatches: '/api/matches/live',
             sportMatches: '/api/matches/:sport?status=live|upcoming|completed',
             matchDetail: '/api/match/:id',
+            regenerate: 'POST /api/matches/regenerate',
         },
     });
 });
@@ -72,11 +73,17 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {
         console.log(`🚀 ScoreBook API server running on http://localhost:${PORT}`);
-        console.log(`📊 Mode: ${config.useMockData ? '📦 MOCK DATA' : '🌐 REAL API'}`);
+        const modeLabels = { mock: '📦 MOCK DATA', real: '🌐 REAL API', simulation: '🎮 SIMULATION' };
+        console.log(`📊 Mode: ${modeLabels[config.dataMode] || config.dataMode}`);
 
-        if (!config.useMockData && !config.rapidApiKey) {
+        if (config.dataMode === 'real' && !config.rapidApiKey) {
             console.warn('⚠️  WARNING: Real API mode enabled but RAPIDAPI_KEY not configured!');
             console.warn('⚠️  Please set RAPIDAPI_KEY in your .env file');
+        }
+
+        if (config.dataMode === 'simulation' && !config.databaseUrl) {
+            console.warn('⚠️  WARNING: Simulation mode enabled but DATABASE_URL not configured!');
+            console.warn('⚠️  Please provision Neon Postgres and set DATABASE_URL');
         }
 
         console.log(`📍 Endpoints available at http://localhost:${PORT}/api`);
