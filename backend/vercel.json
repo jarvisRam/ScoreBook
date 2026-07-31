@@ -15,7 +15,7 @@
     "crons": [
         {
             "path": "/api/matches/regenerate",
-            "schedule": "0 */12 * * *"
+            "schedule": "0 0 * * *"
         }
     ]
 }

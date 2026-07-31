@@ -12,7 +12,7 @@ export const ENV_URLS = {
         android: 'http://10.0.2.2:3000/api',
         ios: 'http://localhost:3000/api',
     },
-    prod: 'https://scorebook-api.onrender.com/api',
+    prod: 'https://scorebook-backend-virid.vercel.app/api',
 };
 
 // Default initial URL (can be used before storage loads)
