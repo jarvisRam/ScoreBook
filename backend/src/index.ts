@@ -69,8 +69,8 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
     });
 });
 
-// Start server if not in test mode
-if (process.env.NODE_ENV !== 'test') {
+// Start server only for local execution (not on Vercel or in tests)
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
     app.listen(PORT, () => {
         console.log(`🚀 ScoreBook API server running on http://localhost:${PORT}`);
         const modeLabels = { mock: '📦 MOCK DATA', real: '🌐 REAL API', simulation: '🎮 SIMULATION' };

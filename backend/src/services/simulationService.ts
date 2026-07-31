@@ -28,7 +28,7 @@ async function queryMatchesBySportAndStatus(sport: Sport, status: MatchStatus | 
             JOIN tournaments t ON m.tournament_id = t.id
             WHERE m.sport = ${sport}
                 AND m.start_time <= ${now}::timestamptz
-                AND m.start_time + (m.duration_minutes || ' minutes')::interval > ${now}::timestamptz
+                AND m.start_time + (m.duration_minutes * INTERVAL '1 minute') > ${now}::timestamptz
         `;
     }
 
@@ -61,7 +61,7 @@ async function queryMatchesBySportAndStatus(sport: Sport, status: MatchStatus | 
             JOIN venues v ON m.venue_id = v.id
             JOIN tournaments t ON m.tournament_id = t.id
             WHERE m.sport = ${sport}
-                AND m.start_time + (m.duration_minutes || ' minutes')::interval <= ${now}::timestamptz
+                AND m.start_time + (m.duration_minutes * INTERVAL '1 minute') <= ${now}::timestamptz
         `;
     }
 
@@ -96,7 +96,7 @@ async function queryLiveMatches(): Promise<Rows> {
         JOIN venues v ON m.venue_id = v.id
         JOIN tournaments t ON m.tournament_id = t.id
         WHERE m.start_time <= ${now}::timestamptz
-            AND m.start_time + (m.duration_minutes || ' minutes')::interval > ${now}::timestamptz
+            AND m.start_time + (m.duration_minutes * INTERVAL '1 minute') > ${now}::timestamptz
         ORDER BY m.start_time
     `;
 }
@@ -117,6 +117,9 @@ async function queryMatchById(matchId: string): Promise<Rows> {
         WHERE m.id = ${matchId}
     `;
 }
+
+// In-memory lock to prevent concurrent regenerations
+let regenerating: Promise<void> | null = null;
 
 class SimulationService {
     async getMatchesBySport(sport: Sport, status?: MatchStatus): Promise<Match[]> {
@@ -149,7 +152,13 @@ class SimulationService {
     }
 
     async regenerateMatches(): Promise<void> {
-        await seedDatabase();
+        // Prevent concurrent regenerations
+        if (regenerating) {
+            await regenerating;
+            return;
+        }
+        regenerating = seedDatabase().finally(() => { regenerating = null; });
+        await regenerating;
     }
 }
 

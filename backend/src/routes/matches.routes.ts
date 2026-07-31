@@ -27,6 +27,15 @@ router.get('/live', async (req: Request, res: Response) => {
 // Must be defined before /:sport to avoid being caught by the param route
 const handleRegenerate = async (req: Request, res: Response) => {
     const cronSecret = process.env.CRON_SECRET;
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL;
+
+    // In production, always require CRON_SECRET
+    if (isProduction && !cronSecret) {
+        return res.status(403).json({
+            error: { message: 'CRON_SECRET not configured', code: 'FORBIDDEN' },
+        });
+    }
+
     if (cronSecret && req.headers.authorization !== `Bearer ${cronSecret}`) {
         return res.status(401).json({
             error: { message: 'Unauthorized', code: 'UNAUTHORIZED' },
