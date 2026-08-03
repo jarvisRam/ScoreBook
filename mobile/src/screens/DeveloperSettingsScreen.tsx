@@ -48,7 +48,7 @@ export const DeveloperSettingsScreen = () => {
                         </View>
                         <View style={styles.radioContent}>
                             <Text style={styles.radioLabel}>Production</Text>
-                            <Text style={styles.radioSub}>Connects to Render (Live Data)</Text>
+                            <Text style={styles.radioSub}>Connects to Production backend</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
