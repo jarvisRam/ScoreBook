@@ -1,6 +1,6 @@
 # Environment Switching
 
-ScoreBook Mobile App includes a developer-only feature that allows seamless switching between **Local Development** (mock data) and **Production** (live Render API). This feature is essential for testing and verifying changes without deploying to the backend.
+ScoreBook Mobile App includes a developer-only feature that allows seamless switching between **Local Development** (mock data) and **Production** (live Vercel API). This feature is essential for testing and verifying changes without deploying to the backend.
 
 :::tip
 This feature is guarded by `__DEV__` checks. It will **not** appear in production release builds.
@@ -24,8 +24,8 @@ Tap the gear icon to open the **Developer Settings** screen.
 *   **Local Development**: 
     *   Points to `http://localhost:3000/api` (iOS/Web)
     *   Points to `http://10.0.2.2:3000/api` (Android Emulator)
-*   **Production**: 
-    *   Points to `https://scorebook-api.onrender.com/api`
+*   **Production**:
+    *   Points to `https://scorebook-backend-virid.vercel.app/api`
 
 ### Switching
 
