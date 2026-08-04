@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { theme } from '../theme/theme';
 import { Match } from '../types/match.types';
 import { getSportConfig } from '../constants/sports';
@@ -40,7 +41,13 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, onPress, testID }) 
             {/* Header with tournament and live indicator */}
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
-                    <Text style={styles.sportIcon}>{sportConfig?.icon}</Text>
+                    {sportConfig?.icon && (
+                        <MaterialCommunityIcons
+                            name={sportConfig.icon as any}
+                            size={20}
+                            color={theme.colors.textSecondary}
+                        />
+                    )}
                     <Text style={styles.tournament} numberOfLines={1} testID={`${containerTestID}_tournament`}>
                         {match.tournament || sportConfig?.name}
                     </Text>
@@ -133,9 +140,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: theme.spacing.sm,
         flex: 1,
-    },
-    sportIcon: {
-        fontSize: 20,
     },
     tournament: {
         fontSize: 14, fontWeight: 'normal' as any, lineHeight: 20,

@@ -3,6 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { theme } from '../theme/theme';
 import { SportScreen } from '../screens/SportScreen';
 import { SPORTS } from '../constants/sports';
@@ -45,7 +46,11 @@ export const SportTabNavigator: React.FC = () => {
                         options={{
                             tabBarLabel: ({ focused }) => (
                                 <View style={styles.tabContent}>
-                                    <Text style={styles.sportIcon}>{sport.icon}</Text>
+                                    <MaterialCommunityIcons
+                                        name={sport.icon as any}
+                                        size={18}
+                                        color={focused ? theme.colors.text : theme.colors.textSecondary}
+                                    />
                                     <Text
                                         style={[
                                             styles.sportName,
@@ -113,9 +118,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: theme.spacing.xs,
-    },
-    sportIcon: {
-        fontSize: 16,
     },
     sportName: {
         fontSize: 14,

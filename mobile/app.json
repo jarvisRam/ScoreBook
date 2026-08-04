@@ -33,6 +33,10 @@
         "projectId": "cc896d32-aa3e-4800-bdf3-3461194b42ad"
       }
     },
-    "owner": "jarvisram"
+    "owner": "jarvisram",
+    "plugins": [
+      "expo-font",
+      "expo-asset"
+    ]
   }
 }
