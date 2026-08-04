@@ -8,6 +8,7 @@ import { theme } from '../theme/theme';
 import { SportScreen } from '../screens/SportScreen';
 import { SPORTS } from '../constants/sports';
 import { RootStackParamList } from '../types/navigation.types';
+import { Footer } from '../components/Footer';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -67,6 +68,7 @@ export const SportTabNavigator: React.FC = () => {
                     </Tab.Screen>
                 ))}
             </Tab.Navigator>
+            <Footer />
         </SafeAreaView>
     );
 };
