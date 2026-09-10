@@ -9,7 +9,8 @@
     "web": "expo start --web",
     "lint": "eslint . --ext .ts,.tsx --max-warnings 0 || echo 'Linting skipped - ESLint not configured'",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:contract": "jest -c jest.contract.config.js"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -36,6 +37,8 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
+    "@pact-foundation/pact": "^17.1.4",
+    "@pact-foundation/pact-cli": "^18.1.1",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.1.0",

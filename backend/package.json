@@ -12,7 +12,8 @@
     "test": "jest integration",
     "test:live": "jest live",
     "test:all": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:contract": "jest contract"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +34,8 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@pact-foundation/pact": "^17.1.4",
+    "@pact-foundation/pact-cli": "^18.1.1",
     "@types/jest": "^30.0.0",
     "@types/supertest": "^6.0.3",
     "jest": "^30.2.0",
