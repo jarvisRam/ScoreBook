@@ -8,10 +8,11 @@ const router = Router();
 // GET /api/health - Health check endpoint
 router.get('/', async (req: Request, res: Response) => {
     const health: Record<string, any> = {
-        status: 'ok',
-        mode: dataService.getMode(),
-        timestamp: Date.now(),
-    };
+    status: 'ok',
+    dataMode: dataService.getMode(),   // ← renamed from `mode`
+    timestamp: Date.now(),
+};
+
 
     if (config.dataMode === 'simulation') {
         try {
