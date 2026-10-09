@@ -13,7 +13,8 @@
     "test:live": "jest live",
     "test:all": "jest",
     "test:coverage": "jest --coverage",
-    "test:contract": "jest contract"
+    "test:contract": "jest contract",
+    "test:contract:local": "ts-node test/contract/verify.local.ts"
   },
   "keywords": [],
   "author": "",
