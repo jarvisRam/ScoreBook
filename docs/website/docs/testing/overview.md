@@ -44,6 +44,10 @@ The ScoreBook app follows a multi-layered testing approach:
 - **Mobile:** Maestro
 - **Web:** Playwright
 
+### Contract Testing
+
+- **Mobile ↔ Backend:** Pact / Pactflow — see [Contract Testing](./contract-testing.md)
+
 ## Test Structure
 
 ```
@@ -282,3 +286,4 @@ export const mockAPI = {
 2. [Component Testing Guide](./component-testing.md)
 3. [E2E Testing Guide](./e2e-testing.md)
 4. [Test Data Factories](./test-data.md)
+5. [Contract Testing](./contract-testing.md)

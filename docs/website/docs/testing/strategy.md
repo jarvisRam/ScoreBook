@@ -60,6 +60,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | **Unit** | **Jest** | Tests business logic, data transformers, and utilities in isolation. |
 | **Integration** | **Supertest + Nock** | Tests the HTTP API surface. Uses `Supertest` to hit endpoints and `Nock` to record/replay RapidAPI responses, ensuring deterministic tests without incurring API costs. |
+| **Contract** | **Pact / Pactflow** | Verifies the backend against what the mobile app actually expects, so a backend change can't silently break an older mobile build still in production. See [Contract Testing](./contract-testing.md). |
 
 ---
 
