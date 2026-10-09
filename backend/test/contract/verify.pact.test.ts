@@ -1,7 +1,13 @@
 import http from 'http';
 import { AddressInfo } from 'net';
 import { Verifier } from '@pact-foundation/pact';
-import app from '../../src/index';
+
+// Force mock-data mode before the app (and its config module) loads — provider
+// verification must be deterministic, so it can't depend on live RapidAPI
+// reachability or whatever matches happen to be live right now.
+process.env.DATA_MODE = 'mock';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const app = require('../../src/index').default;
 
 const BROKER_URL = 'https://fanduel-a13fd6f7.pactflow.io';
 const isCI = !!process.env.CI;

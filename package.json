@@ -11,6 +11,7 @@
     "test:e2e:web": "playwright test",
     "test:mobile": "cd mobile && npm test",
     "test:backend": "cd backend && npm test",
+    "test:contract:local": "cd mobile && npm run test:contract && cd ../backend && npm run test:contract:local",
     "lint": "npm run lint:mobile && npm run lint:backend",
     "lint:mobile": "cd mobile && npm run lint",
     "lint:backend": "cd backend && npm run lint",

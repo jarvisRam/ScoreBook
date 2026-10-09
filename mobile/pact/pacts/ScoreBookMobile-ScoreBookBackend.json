@@ -4,6 +4,45 @@
   },
   "interactions": [
     {
+      "description": "a request for an unsupported sport",
+      "pending": false,
+      "request": {
+        "method": "GET",
+        "path": "/api/matches/rugby"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "error": {
+              "code": "SPORT_NOT_FOUND",
+              "message": "Invalid sport ID"
+            }
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json; charset=utf-8"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.error.message": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 404
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
       "description": "a request for backend health status",
       "pending": false,
       "request": {
@@ -40,6 +79,308 @@
               "matchers": [
                 {
                   "match": "number"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
+      "description": "a request for live cricket matches",
+      "pending": false,
+      "request": {
+        "method": "GET",
+        "path": "/api/matches/cricket",
+        "query": {
+          "status": [
+            "live"
+          ]
+        }
+      },
+      "response": {
+        "body": {
+          "content": {
+            "data": [
+              {
+                "awayTeam": {
+                  "id": "team_mi",
+                  "initials": "MI",
+                  "name": "Mumbai Indians",
+                  "score": {
+                    "overs": "20.0",
+                    "runs": 185,
+                    "wickets": 6
+                  }
+                },
+                "format": "T20",
+                "homeTeam": {
+                  "id": "team_csk",
+                  "initials": "CSK",
+                  "name": "Chennai Super Kings",
+                  "score": {
+                    "overs": "16.2",
+                    "runs": 167,
+                    "wickets": 4
+                  }
+                },
+                "id": "cricket_live_1",
+                "sport": "cricket",
+                "startTime": "2026-06-13T14:00:00Z",
+                "status": "live",
+                "tournament": "IPL 2026",
+                "venue": {
+                  "city": "Chennai",
+                  "country": "India",
+                  "name": "M. A. Chidambaram Stadium"
+                }
+              }
+            ],
+            "mode": "mock",
+            "timestamp": 1737000000000
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json; charset=utf-8"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.data": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$.data[*].awayTeam": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].awayTeam.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].awayTeam.initials": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].awayTeam.name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].awayTeam.score": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].awayTeam.score.overs": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].awayTeam.score.runs": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].awayTeam.score.wickets": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].format": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].homeTeam": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].homeTeam.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].homeTeam.initials": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].homeTeam.name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].homeTeam.score": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].homeTeam.score.overs": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].homeTeam.score.runs": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].homeTeam.score.wickets": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].sport": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].startTime": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].status": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].tournament": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].venue": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].venue.city": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].venue.country": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data[*].venue.name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.mode": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.timestamp": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
                 }
               ]
             }
