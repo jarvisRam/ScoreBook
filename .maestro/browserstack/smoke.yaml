@@ -1,0 +1,65 @@
+appId: com.anonymous.mobile
+---
+# Real-device smoke test run on BrowserStack (see .github/workflows/maestro-browserstack.yml).
+#
+# The release build talks to the hosted backend, whose data is simulated and changes
+# over time, so unlike .maestro/flows this asserts on structure only: no team names,
+# scores or match cards.
+- launchApp
+- extendedWaitUntil:
+    visible: "ScoreBook"
+    timeout: 60000
+- assertVisible: "Cricket"
+- assertVisible: "American Football"
+- assertVisible: "Hockey"
+
+- tapOn: "Cricket"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "sportScreen_cricket"
+- assertVisible: "UPCOMING"
+- tapOn: "UPCOMING"
+- waitForAnimationToEnd
+- tapOn: "COMPLETED"
+- waitForAnimationToEnd
+
+- tapOn: "American Football"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "sportScreen_football"
+
+- tapOn: "Hockey"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "sportScreen_hockey"
+
+# The tab bar scrolls, so the last three sports start off-screen
+- scrollUntilVisible:
+    element:
+      text: "Soccer"
+    direction: LEFT
+    timeout: 5000
+- tapOn: "Soccer"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "sportScreen_soccer"
+
+- scrollUntilVisible:
+    element:
+      text: "Tennis"
+    direction: LEFT
+    timeout: 5000
+- tapOn: "Tennis"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "sportScreen_tennis"
+
+- scrollUntilVisible:
+    element:
+      text: "Badminton"
+    direction: LEFT
+    timeout: 5000
+- tapOn: "Badminton"
+- waitForAnimationToEnd
+- assertVisible:
+    id: "sportScreen_badminton"
