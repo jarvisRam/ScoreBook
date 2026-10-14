@@ -1,289 +1,57 @@
 ---
 sidebar_position: 1
+title: Testing Overview
 ---
 
 # Testing Overview
 
-Comprehensive testing strategy for the ScoreBook application.
+ScoreBook's testing approach rests on one principle: **catch each class of defect at the cheapest layer that can catch it.** A type error should never wait for an emulator to find it, and a broken user journey should never reach an app store review.
+
+This page is the testing philosophy. It defines the layers and the model we use to balance them. For who runs what, when and how fast, see the [Test Strategy](./strategy.md).
 
 ## Testing Philosophy
 
-The ScoreBook app follows a multi-layered testing approach:
-
-1. **Unit Tests** - Test individual functions and components in isolation
-2. **Integration Tests** - Test component interactions and data flow
-3. **E2E Tests** - Test complete user workflows across the app
-4. **API Tests** - Test backend endpoints and data integrity
-
-## Test Coverage Goals
-
-| Layer | Target Coverage | Current Status |
-|-------|----------------|----------------|
-| Backend API | 90%+ | 🟢 Tooling Ready |
-| Frontend Components | 80%+ | 🟡 Not implemented |
-| Business Logic | 95%+ | 🟡 Not implemented |
-| E2E Critical Paths | 100% | 🟢 Tooling Ready |
-
-## Tech Stack
-
-### Backend Testing
-
-- **Test Runner:** Jest
-- **Assertions:** expect (Jest)
-- **HTTP Testing:** supertest
-- **Mocking:** jest.mock()
-
-### Frontend Testing
-
-- **Test Runner:** Jest
-- **Component Testing:** React Native Testing Library
-- **Mocking:** jest.mock(), MSW (Mock Service Worker)
-
-### E2E Testing
-
-- **Mobile:** Maestro
-- **Web:** Playwright
-
-### Contract Testing
-
-- **Mobile ↔ Backend:** Pact / Pactflow — see [Contract Testing](./contract-testing.md)
-
-## Test Structure
-
-```
-ScoreBook/
-├── backend/
-│   ├── src/
-│   │   └── __tests__/
-│   │       └── ...
-│   └── test/
-│       └── integration/
-│           └── health.test.ts
-│
-├── mobile/
-│   ├── src/
-│   │   └── __tests__/
-│   │       └── ...
-│   └── app.json
-│
-├── .maestro/
-│   └── flow.yaml
-│
-├── tests/
-│   └── web-smoke.spec.ts
-│
-└── playwright.config.ts
-```
-
-## Running Tests
-
-### Backend Tests
-
-```bash
-cd backend
-
-# Run all tests
-npm test
-
-# Run with coverage
-npm run test:coverage
-
-# Run in watch mode
-npm run test:watch
-
-# Run specific test file
-npm test -- health.test.ts
-```
-
-### Frontend Tests
-
-```bash
-cd mobile
-
-# Run all tests
-npm test
-
-# Run with coverage
-npm run test:coverage
-
-# Run in watch mode
-npm run test:watch
-
-# Run specific test file
-npm test -- MatchCard.test.tsx
-```
-
-### E2E Tests
-
-```bash
-# Mobile (Maestro)
-# Ensure Android Emulator or iOS Simulator is running
-npm run test:e2e:mobile
-
-# Web (Playwright)
-# Ensure Web Development Server is running (npm run web)
-npm run test:e2e:web
-```
-
-## TestID Convention
-
-All interactive elements have consistent testIDs for E2E automation:
-
-### Format
-
-```
-{componentName}_{context}_{identifier}
-```
-
-### Examples
-
-```typescript
-// Match card
-testID="matchCard_cricket_live_0"
-
-// Team display
-testID="teamDisplay_home_name"
-
-// Score display
-testID="scoreDisplay_cricket_runs"
-
-// Navigation tabs
-testID="sportTab_cricket"
-testID="statusTab_cricket_live"
-
-// Buttons
-testID="button_retry"
-testID="button_refresh"
-```
-
-## Critical Test Scenarios
-
-### Backend API
-
-✅ **Must Test:**
-1. Health check returns 200
-2. Sports list returns all 6 sports
-3. Matches endpoint filters by sport correctly
-4. Matches endpoint filters by status correctly
-5. Invalid sport returns 400 error
-6. Invalid status returns 400 error
-7. Mock data loads correctly on server start
-
-### Frontend Components
-
-✅ **Must Test:**
-1. MatchCard renders all team information
-2. LiveIndicator shows for live matches only
-3. ScoreDisplay renders correct format per sport
-4. TeamDisplay shows home/away badges correctly
-5. Loading state shows while fetching data
-6. Error state shows retry button
-7. Empty state shows appropriate message
-
-### Frontend Integration
-
-✅ **Must Test:**
-1. SportScreen loads matches on mount
-2. Status tab switching loads correct data
-3. Pull-to-refresh reloads match list
-4. Live matches auto-poll every 30 seconds
-5. Navigation between sports works
-6. Error retry refetches data
-
-### E2E Critical Paths
-
-✅ **Must Test:**
-1. App launches and shows cricket matches
-2. User can navigate to all 6 sports
-3. User can switch between Live/Upcoming/Completed
-4. Pull-to-refresh updates match list
-5. Live matches update automatically
-6. Error states allow retry
-7. Empty states show when no matches
-
-## Test Data
-
-### Mock Match Data
-
-```typescript
-export const mockCricketMatch: Match = {
-  id: 'cricket-test-1',
-  sport: 'cricket',
-  tournament: 'Test Tournament',
-  homeTeam: {
-    name: 'India',
-    initials: 'IND',
-    score: { runs: 285, wickets: 6, overs: '48.3' }
-  },
-  awayTeam: {
-    name: 'Australia',
-    initials: 'AUS',
-    score: { runs: 198, wickets: 4, overs: '35.2' }
-  },
-  venue: {
-    name: 'Test Ground',
-    city: 'Test City',
-    country: 'Test Country'
-  },
-  status: 'live',
-  startTime: '2024-01-01T10:00:00Z',
-  format: 'ODI'
-};
-```
-
-## Continuous Integration
-
-### GitHub Actions Workflow
-
-- **Backend**: Runs `npm test` on push.
-- **Mobile E2E**: Runs Maestro tests on Android Emulator (`ubuntu-latest`) for Pull Requests.
-
-```yaml
-# .github/workflows/maestro.yml
-name: Mobile E2E (Maestro)
-# ... checks out code, installs Maestro, builds APK, runs flow.yaml
-```
-
-## Test Utilities
-
-### Custom Render Function
-
-```typescript
-// test-utils.tsx
-import { render } from '@testing-library/react-native';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-export const renderWithProviders = (component: React.ReactElement) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-    },
-  });
-
-  return render(
-    <QueryClientProvider client={queryClient}>
-      {component}
-    </QueryClientProvider>
-  );
-};
-```
-
-### Mock API Responses
-
-```typescript
-// __mocks__/api.ts
-export const mockAPI = {
-  getMatches: jest.fn(),
-  getMatchDetail: jest.fn(),
-  getSports: jest.fn(),
-  health: jest.fn(),
-};
-```
-
-## Next Steps
-
-1. [Backend Testing Guide](./backend-testing.md)
-2. [Component Testing Guide](./component-testing.md)
-3. [E2E Testing Guide](./e2e-testing.md)
-4. [Test Data Factories](./test-data.md)
-5. [Contract Testing](./contract-testing.md)
+### The layers
+
+| # | Layer | What it is |
+|---|-------|------------|
+| 1 | **Static checks** | Analysis of the code without running it. **Lint & type checks** prove the code compiles and follows our rules. **SonarCloud** measures quality: coverage, security vulnerabilities and maintainability. **Gitar** gives an AI review of every pull request diff. |
+| 2 | **Unit** | A single function, hook or component tested in isolation, with every dependency mocked. Runs in milliseconds and pins down logic and edge cases. |
+| 3 | **Mocked acceptance (FE)** | The real app (mobile build on an emulator, web build in a browser) driven through user journeys the way a user would, against a mock backend. Proves the UI, navigation and state hang together without depending on live data. |
+| 4 | **Mocked acceptance (BE)** | The real HTTP API exercised end-to-end in-process, with the third-party sports providers stubbed. Proves routing, validation, data transformation and error handling. |
+| 5 | **Contract** | Checks that two sides of a boundary agree on its shape: the mobile app ↔ our backend (consumer-driven, with Pact), and our backend ↔ third-party providers (schema checks). Catches integration breaks without running both sides together. |
+| 6 | **Integrated E2E** | The full stack with nothing mocked: the app against the deployed backend and live providers. The final proof that the system works as a whole in a production-like environment. |
+
+### The test pyramid
+
+We follow the **test pyramid** model: a broad base of fast, cheap, isolated checks, and progressively fewer tests as they become slower, costlier and more realistic.
+
+<div className="test-pyramid" role="img" aria-label="Test pyramid: static checks at the base, then unit, mocked acceptance, contract, and integrated E2E at the top">
+  <div className="test-pyramid__tier test-pyramid__tier--e2e">Integrated E2E<small>a handful of critical journeys</small></div>
+  <div className="test-pyramid__tier test-pyramid__tier--contract">Contract<small>every consumed endpoint and provider</small></div>
+  <div className="test-pyramid__tier test-pyramid__tier--acceptance">Mocked acceptance (FE &amp; BE)<small>key user journeys and API behaviours</small></div>
+  <div className="test-pyramid__tier test-pyramid__tier--unit">Unit<small>the bulk of our tests</small></div>
+  <div className="test-pyramid__tier test-pyramid__tier--static">Static checks<small>lint · types · SonarCloud · Gitar, on every change</small></div>
+</div>
+<div className="test-pyramid__axis">
+  <span>⬇ Base: more tests · faster · cheaper · more isolated</span>
+  <span>Top: fewer tests · slower · higher confidence · more brittle ⬆</span>
+</div>
+
+The pyramid leads to four rules:
+
+- **Push tests down.** Write each test at the lowest layer that can prove the behaviour. If a unit test can prove it, it doesn't belong in E2E.
+- **E2E covers only the critical journeys.** The top of the pyramid proves the system is wired together. It doesn't try to cover every edge case.
+- **Fix a bug at its lowest layer.** A defect found by E2E or in production gets a regression test at the lowest layer that can reproduce it.
+- **Avoid the ice-cream cone.** A suite that leans on slow, flaky UI tests with a thin base of unit tests is slow to run and slow to diagnose. If the top grows faster than the base, rebalance.
+
+## Where to go next
+
+- [Test Strategy](./strategy.md): every layer's trigger, owner, tooling and runtime target
+- [Static Analysis](./static-analysis.md): lint, type checks, SonarCloud and Gitar
+- [Component Testing](./component-testing.md): frontend unit and component tests
+- [Backend Testing](./backend-testing.md): backend unit and mocked acceptance tests
+- [Contract Testing](./contract-testing.md): mobile ↔ backend and third-party contracts
+- [E2E Testing](./e2e-testing.md): Maestro and Playwright, mocked and integrated
+- [Test Data](./test-data.md): fixtures, mock data and data modes
+- [Running Tests](./running-tests.md): commands, folder layout and "what do I run?"

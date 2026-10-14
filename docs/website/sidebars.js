@@ -70,7 +70,13 @@ const sidebars = {
             items: [
                 'testing/overview',
                 'testing/strategy',
+                'testing/static-analysis',
+                'testing/component-testing',
+                'testing/backend-testing',
                 'testing/contract-testing',
+                'testing/e2e-testing',
+                'testing/test-data',
+                'testing/running-tests',
             ],
         },
     ],

@@ -1,20 +1,22 @@
 ---
-sidebar_position: 1
+sidebar_position: 5
 title: Backend Testing
 ---
 
 # Backend Testing Guide
 
-ScoreBook's backend testing strategy relies on a dual-layer approach to ensure API reliability without consuming excessive RapidAPI quota. We use **Jest**, **Supertest**, and **Nock** to achieve this.
+This page covers the backend's **unit** and **mocked acceptance (BE)** layers, plus the live smoke tests that form part of **integrated E2E**. The goal is API reliability without spending RapidAPI quota on every run. We use **Jest**, **Supertest** and **Nock**.
+
+Tests live under `backend/test/` (`integration/`, `live/`, `contract/`, `third-party/`), with shared helpers in `test/utils.ts` and fixtures in `test/fixtures/`.
 
 ## Strategy Overview
 
 | Layer | Command | Frameworks | Purpose | Runs On |
 |-------|---------|------------|---------|---------|
-| **Integration (Mocked)** | `npm test` | Jest, Nock | Validates logic using mocked responses. Zero cost. | **CI (GitHub Actions)**, Local Dev |
-| **Live Smoke (Real)** | `npm run test:live` | Jest, Supertest | Validates connectivity to real RapidAPI endpoints. Consumes quota. | Manual / Scheduled |
+| **Mocked acceptance** | `npm test` | Jest, Supertest, Nock | Validates logic using mocked responses. Zero cost. | **CI (GitHub Actions)**, Local Dev |
+| **Live smoke (integrated E2E)** | `npm run test:live` | Jest, Supertest | Validates connectivity to real RapidAPI endpoints. Consumes quota. | Manual / Scheduled |
 
-## 1. Mocked Integration Tests
+## 1. Mocked Acceptance Tests (Supertest + Nock)
 These are the default tests. They simulate external API responses to verify that the backend handles data transformation and errors correctly.
 
 ### Key Features
@@ -70,4 +72,25 @@ afterEach(() => {
 > **Note:** In mock mode (`USE_MOCK_DATA=true`) the cache is bypassed entirely, so `clearCache()` is a no-op. It's still safe to call it unconditionally.
 
 ## CI/CD Integration
-Our GitHub Actions workflow (`.github/workflows/ci.yml`) automatically runs the **Mocked Integration Tests** (`npm test`) on every Pull Request to `main` or `develop`. This ensures no broken code is merged.
+Our GitHub Actions workflow (`.github/workflows/ci.yml`) automatically runs the **Mocked Acceptance Tests** (`npm test`) on every Pull Request to `main` or `develop`. This ensures no broken code is merged.
+
+## Must-test scenarios
+
+1. Health check returns 200
+2. Sports list returns all 6 sports
+3. Matches endpoint filters by sport correctly
+4. Matches endpoint filters by status correctly
+5. Invalid sport returns 400 error
+6. Invalid status returns 400 error
+7. Mock data loads correctly on server start
+8. Upstream provider errors (500, 429, 403) degrade gracefully instead of crashing
+
+## Unit tests
+
+Pure logic, such as data transformers in `realDataService.ts`, the simulation engine and utilities, should be tested directly with Jest and no HTTP layer. There are none yet: every backend test today goes through Supertest. New transformation logic should come with unit tests, which keeps the acceptance suite focused on API behaviour.
+
+## Related
+
+- [Test Strategy](./strategy.md)
+- [Contract Testing](./contract-testing.md): mobile ↔ backend and third-party contracts
+- [Test Data](./test-data.md): fixtures and data modes

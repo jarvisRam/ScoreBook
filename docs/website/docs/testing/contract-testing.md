@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 6
 title: Contract Testing
 ---
 
@@ -16,7 +16,7 @@ Mobile and backend live in the same repo, but they are **not** deployed on the s
 
 That asymmetry is exactly the failure mode contract testing exists for: a backend change can break an old mobile build that's still out there, long after the backend's own tests went green. Pact catches that *before* the backend deploys, by checking the backend against what mobile actually expects — not just what the backend thinks it returns.
 
-This currently covers `GET /api/health` and `GET /api/matches/:sport`. It does **not** cover the backend's integrations with third-party sports APIs (Cricbuzz, API-Football, etc.) — we don't own those providers, so there's no provider to run Pact verification against. That boundary needs a different technique (schema / bi-directional contract testing against recorded responses) and isn't built yet.
+This currently covers `GET /api/health` and `GET /api/matches/:sport`. It does **not** cover the backend's integrations with third-party sports APIs (Cricbuzz, API-Football, etc.) — we don't own those providers, so there's no provider to run Pact verification against. That boundary uses a different technique, schema checks against recorded responses, described in [Third-party provider contracts](#third-party-provider-contracts) below.
 
 ## Where things live
 
@@ -96,8 +96,20 @@ sequenceDiagram
 
 **Adding a new endpoint mobile will consume** — add a new consumer interaction to an existing spec file (or a new one under `mobile/pact/consumer/`) alongside the happy path; consider a negative case too (ScoreBook's existing specs cover the sport-not-found 404, for example) — error shapes drift just as often as success shapes.
 
+## Third-party provider contracts
+
+We can't run Pact against providers we don't own, so the backend ↔ provider boundary is protected by a [Zod](https://zod.dev) schema that describes what the provider actually returns. Three checks hang off it. Cricbuzz (cricket) is covered today:
+
+| Check | Path / command | When it runs | What it proves |
+|---|---|---|---|
+| Provider self-verification | `backend/test/third-party/provider.test.ts` | Every PR (`npm run test:thirdparty` in `ci.yml`) | The schema in `src/contracts/providers/cricbuzz.schema.ts` matches a real captured response (`test/third-party/fixtures/cricbuzz-recent.real.json`) |
+| Consumer fixture verification | `backend/test/third-party/consumer.test.ts` | Every PR (same job) | The hand-typed mock our acceptance tests rely on (`test/fixtures/cricbuzzMock.ts`) matches the real provider shape, not a fictional payload |
+| Drift check | `npm run check:cricket-drift` (`.github/workflows/thirdparty-contract-drift.yml`) | Daily at 06:00 UTC, plus manual dispatch | A *fresh* live response still matches the schema, which catches upstream changes before they reach `realDataService.ts` in production |
+
+To refresh what "real" means after an intentional upstream change, re-capture the fixture with `npm run capture:cricket-fixture` and update the schema to match.
+
 ## Known limitations
 
 - No `stateHandlers` are defined on the provider side yet. Every current interaction works against the static mock fixtures with no setup needed; a future interaction that needs specific backend state (e.g. "a match that's already completed") would need one.
 - The local check only reflects the pact file on disk. It won't catch a new consumer expectation a teammate published to `main` that you haven't pulled yet — only CI's broker-backed selectors do.
-- This only covers mobile ↔ backend. The backend's third-party sports API integrations (`backend/src/services/realDataService.ts`) have no contract coverage at all yet.
+- Third-party coverage is Cricbuzz only. The other providers used by `backend/src/services/realDataService.ts` (API-Football, etc.) have no schema or drift checks yet.
