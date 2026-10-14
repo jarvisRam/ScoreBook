@@ -36,7 +36,6 @@ Matrix key: ✅ strong fit · ⚠️ partial / with caveats · ❌ not supported
 | Criteria | **Reuse Maestro + Playwright flows** | Separate E2E suite / tool |
 | :--- | :--- | :--- |
 | One set of journeys to maintain | ✅ | ❌ duplicated journeys |
-| Skills and debugging artifacts already familiar | ✅ | ❌ |
 | Handles changing live data | ⚠️ assert on testIDs and structure, not on fixture values | ⚠️ same problem |
 
 ### Why reuse the acceptance flows

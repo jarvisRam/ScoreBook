@@ -45,7 +45,6 @@ Matrix key: ✅ strong fit · ⚠️ partial / with caveats · ❌ not supported
 | Parallel runs in CI without a paid service | ✅ workers and sharding | ⚠️ parallelization via Cypress Cloud | ⚠️ needs a Grid |
 | Network interception per test | ✅ `page.route` | ✅ `cy.intercept` | ❌ |
 | Debugging failed CI runs | ✅ trace viewer | ✅ time-travel UI | ⚠️ |
-| Already in the repo | ✅ `playwright.config.ts` | ❌ | ❌ |
 
 ### Why Playwright
 

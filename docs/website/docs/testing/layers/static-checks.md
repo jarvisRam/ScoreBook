@@ -31,7 +31,6 @@ Matrix key: ✅ strong fit · ⚠️ partial / with caveats · ❌ not supported
 | React Native / Expo rule sets | ✅ `eslint-config-expo`, `react-hooks`, `react-native` plugins | ⚠️ partial ports of core React rules | ⚠️ partial ports of core React rules |
 | Speed | ⚠️ slowest of the three, still < 1 min at our size | ✅ very fast (Rust) | ✅ very fast (Rust) |
 | Editor and CI integration | ✅ universal | ✅ good | ✅ good |
-| Already in the repo | ✅ `lint` scripts in both packages | ❌ | ❌ |
 
 ### Why ESLint + tsc
 
