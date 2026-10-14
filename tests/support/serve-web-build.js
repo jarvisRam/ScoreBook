@@ -2,13 +2,14 @@
 // mocked Playwright suite. Falls back to index.html for unknown paths, like a
 // single-page-app host (Vercel) would.
 //
-//   node tests/support/serve-web-build.js [dir] [port]
+//   node tests/support/serve-web-build.js [port]
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const root = path.resolve(process.argv[2] || path.join(__dirname, '../../mobile/dist'));
-const port = Number(process.argv[3] || process.env.PORT || 8081);
+// The directory is fixed rather than a CLI argument, so no external input decides what gets read
+const root = path.resolve(__dirname, '../../mobile/dist');
+const port = Number(process.argv[2] || process.env.PORT || 8081);
 
 const TYPES = {
     '.html': 'text/html; charset=utf-8',

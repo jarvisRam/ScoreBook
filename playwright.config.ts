@@ -39,7 +39,7 @@ export default defineConfig({
     webServer:
         target === 'mocked'
             ? {
-                  command: `node tests/support/serve-web-build.js mobile/dist ${MOCKED_PORT}`,
+                  command: `node tests/support/serve-web-build.js ${MOCKED_PORT}`,
                   url: MOCKED_URL,
                   reuseExistingServer: !isCI,
                   timeout: 30_000,
