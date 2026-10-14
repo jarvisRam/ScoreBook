@@ -1,0 +1,61 @@
+name: Web E2E (Mocked)
+
+# PR gate. Builds the web app from this branch and drives it with Playwright while
+# every /api request is answered from committed fixtures, so the run is deterministic,
+# free, and never touches the deployed backend. The unmocked equivalent runs on a
+# schedule against the hosted site (see web-e2e-live.yml).
+#
+# No path filter on purpose: this is a required check, and a path-filtered workflow that
+# is skipped leaves the check "pending" forever.
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: web-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web-e2e-mocked:
+    name: Playwright against the branch build (mocked API)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            mobile/package-lock.json
+
+      - name: Install root dependencies (Playwright)
+        run: npm ci --ignore-scripts
+
+      - name: Install mobile dependencies
+        working-directory: ./mobile
+        run: npm ci
+
+      - name: Build web bundle from this branch
+        run: npm run build:web
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      # Desktop and mobile viewports share one browser engine. WebKit runs in the nightly suite.
+      - name: Run mocked web E2E tests
+        run: npx playwright test --project=chromium --project="Mobile Chrome"
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-mocked
+          path: playwright-report/
+          retention-days: 7
