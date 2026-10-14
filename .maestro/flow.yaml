@@ -2,7 +2,10 @@ appId: com.anonymous.mobile
 ---
 # Smoke test: verify app launches and all sport tabs are reachable
 - launchApp
-- assertVisible: "ScoreBook"
+# First load pulls the JS bundle from Metro, which can be slow on a CI runner
+- extendedWaitUntil:
+    visible: "ScoreBook"
+    timeout: 60000
 - assertVisible: "Cricket"
 - assertVisible: "American Football"
 - assertVisible: "Hockey"

@@ -78,6 +78,33 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+      # The debug APK does not embed the JS bundle; at launch it requests it from
+      # Metro on :8081. Without Metro the app shows "Unable to load script" and
+      # the first Maestro assertion fails. Started after the Gradle build so the
+      # two don't compete for memory.
+      - name: Start Metro bundler
+        working-directory: ./mobile
+        run: |
+          CI=1 npx expo start --offline --port 8081 > "$RUNNER_TEMP/metro.log" 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:8081/status | grep -q "packager-status:running"; then
+              echo "Metro ready"
+              break
+            fi
+            if [ "$i" = 60 ]; then
+              echo "Metro did not become ready"
+              cat "$RUNNER_TEMP/metro.log"
+              exit 1
+            fi
+            echo "Waiting for Metro... ($i/60)"
+            sleep 2
+          done
+
+          # Warm Metro's transform cache so the app's first load on the emulator
+          # isn't a cold bundle (which can outlast Maestro's default wait)
+          curl -sf --max-time 300 -o /dev/null "http://localhost:8081/index.bundle?platform=android&dev=true&minify=false&lazy=true&transform.engine=hermes&transform.bytecode=1&unstable_transformProfile=hermes-stable"
+          echo "Bundle warmed"
+
       - name: Run Maestro Tests on Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -88,8 +115,15 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
+            # Let the app reach Metro on the host
+            adb reverse tcp:8081 tcp:8081
+
             # Install the Debug APK
             adb install ./mobile/android/app/build/outputs/apk/debug/app-debug.apk
 
             # Run all Maestro flows
             maestro test .maestro/flow.yaml
+
+      - name: Show Metro log
+        if: always()
+        run: cat "$RUNNER_TEMP/metro.log" || true
