@@ -70,7 +70,27 @@ const sidebars = {
             items: [
                 'testing/overview',
                 'testing/strategy',
-                'testing/contract-testing',
+                {
+                    type: 'category',
+                    label: 'Testing Layers',
+                    link: {
+                        type: 'generated-index',
+                        title: 'Testing Layers',
+                        description:
+                            'One page per layer of the test pyramid, from static checks to integrated E2E. Each covers what the layer does, how to run it, and the decision matrix behind its tool choice.',
+                        slug: '/testing/layers',
+                    },
+                    items: [
+                        'testing/layers/static-checks',
+                        'testing/layers/unit-testing',
+                        'testing/layers/frontend-acceptance',
+                        'testing/layers/backend-acceptance',
+                        'testing/layers/contract-testing',
+                        'testing/layers/integrated-e2e',
+                    ],
+                },
+                'testing/test-data',
+                'testing/running-tests',
             ],
         },
     ],

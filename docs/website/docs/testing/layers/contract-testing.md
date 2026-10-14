@@ -1,6 +1,7 @@
 ---
-sidebar_position: 2
+sidebar_position: 5
 title: Contract Testing
+description: Consumer-driven contracts between mobile and backend with Pact / Pactflow, plus schema checks against third-party providers.
 ---
 
 # Contract Testing
@@ -16,7 +17,40 @@ Mobile and backend live in the same repo, but they are **not** deployed on the s
 
 That asymmetry is exactly the failure mode contract testing exists for: a backend change can break an old mobile build that's still out there, long after the backend's own tests went green. Pact catches that *before* the backend deploys, by checking the backend against what mobile actually expects — not just what the backend thinks it returns.
 
-This currently covers `GET /api/health` and `GET /api/matches/:sport`. It does **not** cover the backend's integrations with third-party sports APIs (Cricbuzz, API-Football, etc.) — we don't own those providers, so there's no provider to run Pact verification against. That boundary needs a different technique (schema / bi-directional contract testing against recorded responses) and isn't built yet.
+This currently covers `GET /api/health` and `GET /api/matches/:sport`. It does **not** cover the backend's integrations with third-party sports APIs (Cricbuzz, API-Football, etc.) — we don't own those providers, so there's no provider to run Pact verification against. That boundary uses a different technique, schema checks against recorded responses, described in [Third-party provider contracts](#third-party-provider-contracts) below.
+
+## Decision matrix: mobile ↔ backend
+
+Matrix key: ✅ strong fit · ⚠️ partial / with caveats · ❌ not supported. The chosen tool is in **bold**.
+
+| Criteria | **Pact + Pactflow** | OpenAPI spec + schema testing (e.g. Schemathesis, Dredd) | Shared TypeScript types only |
+| :--- | :--- | :--- | :--- |
+| Checks what the consumer *actually uses*, not the whole spec | ✅ consumer-driven | ❌ provider-driven | ❌ |
+| Protects old mobile builds still in production | ✅ `deployedOrReleased` selectors + `can-i-deploy` | ⚠️ only if spec versions are tracked by hand | ❌ checked at compile time only |
+| Deployment gate based on real deployment state | ✅ `record-deployment` / `can-i-deploy` | ❌ | ❌ |
+| Catches runtime drift (serialization, null vs missing) | ✅ verifies the running provider | ✅ | ❌ |
+| JS / TypeScript support on both sides | ✅ | ✅ | ✅ |
+| Extra artefact to maintain | ⚠️ consumer specs | ⚠️ OpenAPI spec | ✅ none |
+
+### Why Pact + Pactflow
+
+- **The risk is version skew, and Pact is built for it.** Mobile builds live in production for weeks after a backend deploy. Pactflow tracks which consumer versions are actually deployed and `can-i-deploy` refuses a backend that would break any of them. Neither a spec nor shared types can see what's deployed.
+- **Consumer-driven means minimal and precise.** The contract only contains the fields mobile reads, so the backend stays free to change everything else without false alarms.
+
+## Decision matrix: backend ↔ third-party providers
+
+| Criteria | **Zod schema + captured fixture + drift check** | Pact | Live API tests only |
+| :--- | :--- | :--- | :--- |
+| Works without the provider's cooperation | ✅ | ❌ the provider must run verification | ✅ |
+| Keeps our Nock stubs honest | ✅ the fixture is validated against the schema | ❌ | ❌ |
+| Detects upstream drift early | ✅ daily drift job | ❌ | ⚠️ only when an assertion happens to break |
+| Pinpoints the changed field | ✅ Zod error paths | n/a | ❌ |
+| Quota cost | ✅ one call per day | n/a | ⚠️ every run |
+
+### Why Zod schemas
+
+- **We don't own the providers**, so consumer-driven verification is impossible. A schema derived from a real captured response is the closest thing to a contract we can enforce on our side.
+- **One schema guards both ends.** It validates the hand-typed Nock payloads on every PR and a fresh live response every day, so mocks and reality can't drift apart unnoticed.
 
 ## Where things live
 
@@ -96,8 +130,20 @@ sequenceDiagram
 
 **Adding a new endpoint mobile will consume** — add a new consumer interaction to an existing spec file (or a new one under `mobile/pact/consumer/`) alongside the happy path; consider a negative case too (ScoreBook's existing specs cover the sport-not-found 404, for example) — error shapes drift just as often as success shapes.
 
+## Third-party provider contracts
+
+We can't run Pact against providers we don't own, so the backend ↔ provider boundary is protected by a [Zod](https://zod.dev) schema that describes what the provider actually returns. Three checks hang off it. Cricbuzz (cricket) is covered today:
+
+| Check | Path / command | When it runs | What it proves |
+|---|---|---|---|
+| Provider self-verification | `backend/test/third-party/provider.test.ts` | Every PR (`npm run test:thirdparty` in `ci.yml`) | The schema in `src/contracts/providers/cricbuzz.schema.ts` matches a real captured response (`test/third-party/fixtures/cricbuzz-recent.real.json`) |
+| Consumer fixture verification | `backend/test/third-party/consumer.test.ts` | Every PR (same job) | The hand-typed mock our acceptance tests rely on (`test/fixtures/cricbuzzMock.ts`) matches the real provider shape, not a fictional payload |
+| Drift check | `npm run check:cricket-drift` (`.github/workflows/thirdparty-contract-drift.yml`) | Daily at 06:00 UTC, plus manual dispatch | A *fresh* live response still matches the schema, which catches upstream changes before they reach `realDataService.ts` in production |
+
+To refresh what "real" means after an intentional upstream change, re-capture the fixture with `npm run capture:cricket-fixture` and update the schema to match.
+
 ## Known limitations
 
 - No `stateHandlers` are defined on the provider side yet. Every current interaction works against the static mock fixtures with no setup needed; a future interaction that needs specific backend state (e.g. "a match that's already completed") would need one.
 - The local check only reflects the pact file on disk. It won't catch a new consumer expectation a teammate published to `main` that you haven't pulled yet — only CI's broker-backed selectors do.
-- This only covers mobile ↔ backend. The backend's third-party sports API integrations (`backend/src/services/realDataService.ts`) have no contract coverage at all yet.
+- Third-party coverage is Cricbuzz only. The other providers used by `backend/src/services/realDataService.ts` (API-Football, etc.) have no schema or drift checks yet.
