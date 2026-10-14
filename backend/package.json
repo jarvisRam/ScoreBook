@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "build": "tsc",
     "lint": "eslint . --ext .ts --max-warnings 0 || echo 'Linting skipped - ESLint not configured'",
-    "test": "jest integration",
+    "test": "DATA_MODE=real jest integration",
     "test:live": "jest live",
     "test:all": "jest",
     "test:coverage": "jest --coverage",
