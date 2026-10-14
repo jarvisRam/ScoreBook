@@ -1,0 +1,46 @@
+name: Live API Tests (Hosted)
+
+# Unmocked API tests, run against the deployed backend on a schedule.
+# These hit real RapidAPI endpoints (consuming quota), so they are
+# deliberately kept out of the PR pipeline (see ci.yml for the mocked tests).
+
+on:
+  schedule:
+    # Every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      api_base_url:
+        description: 'Base URL of the hosted backend (defaults to the API_BASE_URL repo variable)'
+        required: false
+
+concurrency:
+  group: live-api-tests
+  cancel-in-progress: false
+
+jobs:
+  live-api:
+    name: Live API tests against hosted backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      API_BASE_URL: ${{ inputs.api_base_url || vars.API_BASE_URL || 'https://scorebook-backend-virid.vercel.app' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend deps
+        working-directory: ./backend
+        run: npm ci --ignore-scripts
+
+      - name: Check hosted backend is reachable
+        run: curl --fail --silent --show-error --retry 3 --retry-delay 5 "$API_BASE_URL/api/health"
+
+      - name: Run live API tests
+        working-directory: ./backend
+        run: npm run test:live
