@@ -159,8 +159,8 @@ jobs:
             sleep 20
           done
 
-          # Shows the capabilities BrowserStack applied (network logs, accessibility, ...)
-          echo "$RESULT" | jq '.input_capabilities'
+          # Full response (capabilities applied, per-session details) for debugging
+          echo "$RESULT" | jq .
           echo "$RESULT" | jq '{status, devices: [.devices[]? | {device, sessions: [.sessions[]? | {id, status}]}]}'
 
           # Every session on every device must have passed (build status is "passed" on
