@@ -134,10 +134,11 @@ jobs:
 
           echo "$RESULT" | jq '{status, devices: [.devices[]? | {device, sessions: [.sessions[]? | {id, status}]}]}'
 
-          # Every session on every device must have passed
+          # Every session on every device must have passed (build status is "passed" on
+          # success, and "failed", "timeout" or "error" otherwise)
           NOT_PASSED=$(echo "$RESULT" | jq '[.devices[]?.sessions[]? | select(.status != "passed")] | length')
           SESSIONS=$(echo "$RESULT" | jq '[.devices[]?.sessions[]?] | length')
-          if [ "$STATUS" != "done" ] || [ "$SESSIONS" -eq 0 ] || [ "$NOT_PASSED" -ne 0 ]; then
+          if [ "$STATUS" = "running" ] || [ "$STATUS" = "queued" ] || [ "$SESSIONS" -eq 0 ] || [ "$NOT_PASSED" -ne 0 ]; then
             echo "::error::BrowserStack build $BUILD_ID did not pass (status: $STATUS, sessions: $SESSIONS, not passed: $NOT_PASSED)"
             exit 1
           fi
