@@ -16,7 +16,7 @@ async function main() {
 
     const outPath = path.resolve(
         __dirname,
-        '../test/contract-thirdparty/fixtures/cricbuzz-recent.real.json',
+        '../test/third-party/fixtures/cricbuzz-recent.real.json',
     );
     fs.writeFileSync(outPath, JSON.stringify(response.data, null, 2));
     console.log(`Saved real Cricbuzz response to ${outPath}`);
