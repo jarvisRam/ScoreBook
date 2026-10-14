@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../../src/index';
 import { dataService } from '../../src/services/dataService';
 import { setupRapidApiMock, clearMocks, mockHosts } from '../utils';
+import { cricketMockData } from '../fixtures/cricbuzzMock';
 
 describe('Matches API Integration', () => {
     afterEach(() => {
@@ -11,33 +12,6 @@ describe('Matches API Integration', () => {
 
     // ==================== CRICKET TESTS ====================
     describe('GET /api/matches/cricket', () => {
-        const cricketMockData = {
-            typeMatches: [{
-                seriesMatches: [{
-                    seriesAdWrapper: {
-                        matches: [{
-                            matchInfo: {
-                                matchId: 12345,
-                                seriesName: 'Test Series',
-                                matchDesc: 'T20',
-                                matchFormat: 'T20',
-                                startDate: Date.now().toString(),
-                                state: 'In Progress',
-                                team1: { teamId: 1, teamName: 'India', teamSName: 'IND' },
-                                team2: { teamId: 2, teamName: 'Australia', teamSName: 'AUS' },
-                                venueInfo: { ground: 'MCG', city: 'Melbourne' },
-                                currBatTeamId: 1
-                            },
-                            matchScore: {
-                                team1Score: { inngs1: { runs: 150, wickets: 2, overs: 15.2 } },
-                                team2Score: null
-                            }
-                        }]
-                    }
-                }]
-            }]
-        };
-
         it('should return cricket matches', async () => {
             setupRapidApiMock(mockHosts.cricket, '/matches/v1/recent', cricketMockData);
 

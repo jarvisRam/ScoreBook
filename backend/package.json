@@ -14,7 +14,10 @@
     "test:all": "jest",
     "test:coverage": "jest --coverage",
     "test:contract": "jest contract",
-    "test:contract:local": "ts-node test/contract/verify.local.ts"
+    "test:contract:local": "ts-node test/contract/verify.local.ts",
+    "test:thirdparty": "jest third-party",
+    "capture:cricket-fixture": "ts-node scripts/capture-cricket-fixture.ts",
+    "check:cricket-drift": "ts-node scripts/check-cricket-drift.ts"
   },
   "keywords": [],
   "author": "",
@@ -32,7 +35,8 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@pact-foundation/pact": "^17.1.4",
