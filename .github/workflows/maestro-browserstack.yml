@@ -12,10 +12,14 @@ on:
     # Nightly, 03:30 UTC
     - cron: '30 3 * * *'
   workflow_dispatch:
+  # TEMPORARY: verify the pipeline on the PR before it exists on main. Remove before merge.
+  pull_request:
+    paths:
+      - '.github/workflows/maestro-browserstack.yml'
 
 env:
   # Devices to run on, as a JSON array of "<device name>-<OS version>" (BrowserStack naming)
-  BS_DEVICES: '["Google Pixel 7-13.0"]'
+  BS_DEVICES: '["Google Pixel 7-13.0","Samsung Galaxy S23-13.0"]'
 
 concurrency:
   group: maestro-browserstack
@@ -107,7 +111,13 @@ jobs:
             --arg tag "$GITHUB_RUN_ID" \
             --argjson devices "$BS_DEVICES" \
             '{app: $app, testSuite: $suite, devices: $devices, project: "ScoreBook",
-              buildTag: $tag, deviceLogs: "true", networkLogs: "true"}')
+              buildTag: $tag, deviceLogs: "true", networkLogs: "true",
+              testObservability: false,
+              accessibility: true,
+              accessibilityOptions: {
+                wcagVersion: "wcag22aa",
+                includeIssueType: {bestPractice: false, needsReview: false}
+              }}')
           RESPONSE=$(curl --fail-with-body -sS -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
             -X POST "$BS_API/android/build" -H "Content-Type: application/json" -d "$BODY")
           BUILD_ID=$(echo "$RESPONSE" | jq -er '.build_id')
