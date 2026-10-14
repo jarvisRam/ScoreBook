@@ -56,6 +56,10 @@ jobs:
         working-directory: ./backend
         run: npm test
 
+      - name: Run backend third-party contract tests
+        working-directory: ./backend
+        run: npm run test:thirdparty
+
   # ============================================
   # PHASE 2: Build - Web
   # ============================================
