@@ -40,17 +40,17 @@ jobs:
 
       - name: Install mobile dependencies
         working-directory: ./mobile
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Build web bundle from this branch
         run: npm run build:web
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npm run test:e2e:web:install
 
       # Desktop and mobile viewports share one browser engine. WebKit runs in the nightly suite.
       - name: Run mocked web E2E tests
-        run: npx playwright test --project=chromium --project="Mobile Chrome"
+        run: npm run test:e2e:web -- --project=chromium --project="Mobile Chrome"
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}

@@ -24,24 +24,34 @@ const TYPES = {
     '.woff2': 'font/woff2',
 };
 
-if (!fs.existsSync(path.join(root, 'index.html'))) {
-    console.error(`No index.html in ${root}. Build first: cd mobile && npx expo export --platform web`);
+const indexFile = path.join(root, 'index.html');
+if (!fs.existsSync(indexFile)) {
+    console.error(`No index.html in ${root}. Build first: npm run build:web`);
     process.exit(1);
 }
 
-http.createServer((req, res) => {
-    const urlPath = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
-    let file = path.join(root, urlPath);
+// Index the build once at startup and serve only from this map. A request path is only ever
+// used as a lookup key, never joined onto a filesystem path, so there is nothing to traverse.
+function indexFiles(dir, urlPrefix = '', files = new Map()) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const urlPath = `${urlPrefix}/${entry.name}`;
+        if (entry.isDirectory()) indexFiles(path.join(dir, entry.name), urlPath, files);
+        else files.set(urlPath, path.join(dir, entry.name));
+    }
+    return files;
+}
+const files = indexFiles(root);
 
-    // Block path traversal out of the build directory
-    if (!file.startsWith(root)) {
-        res.writeHead(403).end();
+http.createServer((req, res) => {
+    let urlPath;
+    try {
+        urlPath = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+    } catch {
+        res.writeHead(400).end();
         return;
     }
-    if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) {
-        file = path.join(root, 'index.html');
-    }
 
+    const file = files.get(urlPath) ?? indexFile;
     res.writeHead(200, {
         'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream',
     });
