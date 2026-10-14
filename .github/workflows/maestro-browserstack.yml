@@ -12,10 +12,6 @@ on:
     # Nightly, 03:30 UTC
     - cron: '30 3 * * *'
   workflow_dispatch:
-  # TEMPORARY: verify the pipeline on the PR before it exists on main. Remove before merge.
-  pull_request:
-    paths:
-      - '.github/workflows/maestro-browserstack.yml'
 
 env:
   # Devices to run on, as a JSON array of "<device name>-<OS version>" (BrowserStack naming)
