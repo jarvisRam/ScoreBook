@@ -1,0 +1,143 @@
+name: Mobile E2E (BrowserStack Android)
+
+# Builds the Android app from main, uploads it to BrowserStack App Automate and runs the
+# Maestro flows in .maestro/browserstack on a real device. Scheduled rather than run on
+# PRs: real-device minutes are limited and the build takes a while. The per-PR emulator
+# run is maestro.yml. iOS is not covered yet (needs an EAS/Xcode build).
+#
+# Repo secrets: BROWSERSTACK_USERNAME, BROWSERSTACK_ACCESS_KEY
+
+on:
+  schedule:
+    # Nightly, 03:30 UTC
+    - cron: '30 3 * * *'
+  workflow_dispatch:
+  # TEMPORARY: verify the pipeline on the PR before it exists on main. Remove before merge.
+  pull_request:
+    paths:
+      - '.github/workflows/maestro-browserstack.yml'
+
+env:
+  # Devices to run on, as a JSON array of "<device name>-<OS version>" (BrowserStack naming)
+  BS_DEVICES: '["Google Pixel 7-13.0"]'
+
+concurrency:
+  group: maestro-browserstack
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  maestro-browserstack-android:
+    name: Android real-device smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      BS_API: https://api-cloud.browserstack.com/app-automate/maestro/v2
+
+    steps:
+      - name: Check BrowserStack credentials
+        run: |
+          if [ -z "$BROWSERSTACK_USERNAME" ] || [ -z "$BROWSERSTACK_ACCESS_KEY" ]; then
+            echo "::error::Set the BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY repo secrets"
+            exit 1
+          fi
+
+      # Scheduled runs use the default branch; manual runs use the branch picked in the UI
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Install mobile dependencies
+        working-directory: ./mobile
+        run: npm ci
+
+      - name: Prebuild Android (Expo)
+        working-directory: ./mobile
+        run: npx expo prebuild --platform android
+
+      # Release, unlike the debug APK in maestro.yml, embeds the JS bundle, so no Metro
+      # is needed, and it points at the hosted backend because __DEV__ is false.
+      - name: Build Android APK (Release)
+        working-directory: ./mobile/android
+        run: ./gradlew assembleRelease
+
+      - name: Upload app to BrowserStack
+        id: app
+        run: |
+          APK=./mobile/android/app/build/outputs/apk/release/app-release.apk
+          test -f "$APK"
+          RESPONSE=$(curl --fail-with-body -sS -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
+            -X POST "$BS_API/app" -F "file=@$APK")
+          APP_URL=$(echo "$RESPONSE" | jq -er '.app_url')
+          echo "app_url=$APP_URL" >> "$GITHUB_OUTPUT"
+          echo "Uploaded app: $APP_URL"
+
+      # BrowserStack requires the flows to sit inside a parent folder in the zip
+      - name: Upload Maestro flows to BrowserStack
+        id: suite
+        run: |
+          (cd .maestro && zip -r "$RUNNER_TEMP/flows.zip" browserstack)
+          RESPONSE=$(curl --fail-with-body -sS -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
+            -X POST "$BS_API/test-suite" -F "file=@$RUNNER_TEMP/flows.zip")
+          SUITE_URL=$(echo "$RESPONSE" | jq -er '.test_suite_url')
+          echo "suite_url=$SUITE_URL" >> "$GITHUB_OUTPUT"
+          echo "Uploaded test suite: $SUITE_URL"
+
+      - name: Start BrowserStack build
+        id: build
+        run: |
+          BODY=$(jq -n \
+            --arg app "${{ steps.app.outputs.app_url }}" \
+            --arg suite "${{ steps.suite.outputs.suite_url }}" \
+            --arg tag "$GITHUB_RUN_ID" \
+            --argjson devices "$BS_DEVICES" \
+            '{app: $app, testSuite: $suite, devices: $devices, project: "ScoreBook",
+              buildTag: $tag, deviceLogs: "true", networkLogs: "true"}')
+          RESPONSE=$(curl --fail-with-body -sS -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
+            -X POST "$BS_API/android/build" -H "Content-Type: application/json" -d "$BODY")
+          BUILD_ID=$(echo "$RESPONSE" | jq -er '.build_id')
+          echo "build_id=$BUILD_ID" >> "$GITHUB_OUTPUT"
+          echo "Started build $BUILD_ID"
+          echo "BrowserStack build: https://app-automate.browserstack.com/dashboard/v2/builds/$BUILD_ID" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Wait for results
+        run: |
+          BUILD_ID="${{ steps.build.outputs.build_id }}"
+          for i in $(seq 1 90); do
+            RESULT=$(curl --fail-with-body -sS -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" "$BS_API/builds/$BUILD_ID")
+            STATUS=$(echo "$RESULT" | jq -r '.status')
+            echo "Build status: $STATUS ($i/90)"
+            if [ "$STATUS" != "running" ] && [ "$STATUS" != "queued" ]; then
+              break
+            fi
+            sleep 20
+          done
+
+          echo "$RESULT" | jq '{status, devices: [.devices[]? | {device, sessions: [.sessions[]? | {id, status}]}]}'
+
+          # Every session on every device must have passed
+          NOT_PASSED=$(echo "$RESULT" | jq '[.devices[]?.sessions[]? | select(.status != "passed")] | length')
+          SESSIONS=$(echo "$RESULT" | jq '[.devices[]?.sessions[]?] | length')
+          if [ "$STATUS" != "done" ] || [ "$SESSIONS" -eq 0 ] || [ "$NOT_PASSED" -ne 0 ]; then
+            echo "::error::BrowserStack build $BUILD_ID did not pass (status: $STATUS, sessions: $SESSIONS, not passed: $NOT_PASSED)"
+            exit 1
+          fi
