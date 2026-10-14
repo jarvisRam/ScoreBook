@@ -1,5 +1,5 @@
 ---
-sidebar_position: 9
+sidebar_position: 5
 title: Running Tests
 ---
 
@@ -97,4 +97,4 @@ npm run test:contract:local  # from repo root
 
 ### "I'm changing what mobile expects from the API..."
 
-Update the consumer spec in `mobile/pact/consumer/`, then follow the [contract testing lifecycle](./contract-testing.md#the-lifecycle).
+Update the consumer spec in `mobile/pact/consumer/`, then follow the [contract testing lifecycle](./layers/contract-testing.md#the-lifecycle).

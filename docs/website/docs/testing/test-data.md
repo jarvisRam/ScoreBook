@@ -1,5 +1,5 @@
 ---
-sidebar_position: 8
+sidebar_position: 4
 title: Test Data
 ---
 
@@ -64,6 +64,6 @@ export const mockCricketMatch: Match = {
 
 ## Related
 
-- [Backend Testing](./backend-testing.md)
-- [Contract Testing](./contract-testing.md)
-- [E2E Testing](./e2e-testing.md)
+- [Mocked Acceptance (BE)](./layers/backend-acceptance.md)
+- [Contract Testing](./layers/contract-testing.md)
+- [Mocked Acceptance (FE)](./layers/frontend-acceptance.md)
