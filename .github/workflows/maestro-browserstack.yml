@@ -132,13 +132,7 @@ jobs:
             --arg tag "$GITHUB_RUN_ID" \
             --argjson devices "$BS_DEVICES" \
             '{app: $app, testSuite: $suite, devices: $devices, project: "ScoreBook",
-              buildTag: $tag, deviceLogs: "true", networkLogs: "true",
-              testObservability: false,
-              accessibility: true,
-              accessibilityOptions: {
-                wcagVersion: "wcag22aa",
-                includeIssueType: {bestPractice: false, needsReview: false}
-              }}')
+              buildTag: $tag, deviceLogs: "true", networkLogs: "true"}')
           RESPONSE=$(curl --fail-with-body -sS -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY" \
             -X POST "$BS_API/android/build" -H "Content-Type: application/json" -d "$BODY")
           BUILD_ID=$(echo "$RESPONSE" | jq -er '.build_id')
@@ -159,8 +153,6 @@ jobs:
             sleep 20
           done
 
-          # Full response (capabilities applied, per-session details) for debugging
-          echo "$RESULT" | jq .
           echo "$RESULT" | jq '{status, devices: [.devices[]? | {device, sessions: [.sessions[]? | {id, status}]}]}'
 
           # Every session on every device must have passed (build status is "passed" on
