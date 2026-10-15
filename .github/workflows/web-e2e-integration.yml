@@ -85,13 +85,13 @@ jobs:
       - name: Install backend dependencies
         if: steps.target.outputs.local == 'true'
         working-directory: ./backend
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Start backend from this branch (mock mode)
         if: steps.target.outputs.local == 'true'
         working-directory: ./backend
         run: |
-          DATA_MODE=mock PORT="$BACKEND_PORT" npx ts-node src/index.ts > "$RUNNER_TEMP/backend.log" 2>&1 &
+          DATA_MODE=mock PORT="$BACKEND_PORT" ./node_modules/.bin/ts-node src/index.ts > "$RUNNER_TEMP/backend.log" 2>&1 &
 
       # Fails fast, with a readable error, if the target is down, protected or not a ScoreBook API
       - name: Check backend is healthy
