@@ -43,6 +43,23 @@ Matrix key: ✅ strong fit · ⚠️ partial / with caveats · ❌ not supported
 - **A journey is defined once.** The only difference from [mocked acceptance](./frontend-acceptance.md) is which backend the app points at, so a new screen gets one flow that serves both layers.
 - **It forces resilient assertions.** Live data changes constantly, so integrated runs push flows towards testID and structural checks. That also makes the mocked runs less brittle when fixtures change.
 
+## Candidate API check (before a backend change deploys)
+
+The scheduled suites above only see what is already deployed. To test a backend or provider change **before** it ships, `.github/workflows/web-e2e-integration.yml` builds the web app from the branch with its API URL pointed at the backend under test, then runs the same Playwright specs as the hosted run (`tests/live`).
+
+- **How the URL gets in.** The app reads `EXPO_PUBLIC_API_BASE_URL` at build time (`mobile/src/constants/config.ts`) and falls back to the hosted backend when it's unset.
+- **Which backend.** A manual run takes an `api_base_url` input (for example a Vercel preview deployment of the backend). With the input blank, and on every PR that touches `backend/**`, the workflow starts the backend from the checkout on the runner in **mock mode**, so it needs no secrets, spends no RapidAPI quota and is deterministic.
+- **Proof it hit the right backend.** `tests/live/api-target.spec.ts` fails if any `/api` request leaves the expected origin, so a bad URL can't silently fall back to production and pass.
+- **Run it locally.**
+
+  ```bash
+  cd backend && DATA_MODE=mock npm run dev          # terminal 1
+  EXPO_PUBLIC_API_BASE_URL=http://localhost:3000/api npm run build:web
+  EXPECTED_API_ORIGIN=http://localhost:3000 npm run test:e2e:web:integration -- --project=chromium
+  ```
+
+It's advisory by default. It's path-filtered, and a skipped path-filtered check would leave a required status pending, so remove the `paths` filter before adding it to branch protection.
+
 ## Real devices (release suite)
 
 Emulators miss performance, memory and native-integration issues, so a release gets one pass of the critical journeys on real hardware. The device farm hasn't been chosen yet. The criteria for choosing:

@@ -1,0 +1,162 @@
+name: Web Integration (Candidate API)
+
+# Builds the web app from this branch with its API URL pointed at a backend that is NOT
+# deployed yet, then drives it with Playwright (the same specs as web-e2e-live.yml). Use it to
+# check that a backend or data-provider change still works with the front end before it ships.
+#
+# The candidate backend is either:
+#   - the URL given to a manual run (e.g. a Vercel preview deployment of the backend), or
+#   - blank, in which case the backend from this checkout is started on the runner in mock
+#     mode (no secrets, no provider quota, deterministic). Pull requests always do this.
+#
+# Not path-filter safe as a required check: a skipped path-filtered workflow leaves the check
+# "pending" (see web-e2e.yml). Drop the paths below before making it required.
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'backend/**'
+      - 'mobile/src/services/**'
+      - 'mobile/src/constants/**'
+      - 'tests/**'
+      - 'playwright.config.ts'
+      - '.github/workflows/web-e2e-integration.yml'
+  workflow_dispatch:
+    inputs:
+      api_base_url:
+        description: 'Backend under test, e.g. https://my-backend-git-branch.vercel.app (blank = start this branch backend locally in mock mode)'
+        required: false
+        type: string
+
+concurrency:
+  group: web-e2e-integration-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  web-integration:
+    name: Playwright against the branch build and a candidate API
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      INPUT_API_BASE_URL: ${{ inputs.api_base_url }}
+      BACKEND_PORT: '3000'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            mobile/package-lock.json
+            backend/package-lock.json
+
+      # Inputs reach the shell through env vars, never interpolated into the script
+      - name: Resolve backend under test
+        id: target
+        run: |
+          RAW="${INPUT_API_BASE_URL%/}"
+          if [ -z "$RAW" ]; then
+            ROOT="http://localhost:$BACKEND_PORT"
+            LOCAL=true
+          else
+            if ! echo "$RAW" | grep -Eq '^https?://[^/[:space:]]+(/api)?$'; then
+              echo "::error::api_base_url must look like https://host or https://host/api (got: $RAW)"
+              exit 1
+            fi
+            ROOT="${RAW%/api}"
+            LOCAL=false
+          fi
+          {
+            echo "root=$ROOT"
+            echo "api_url=$ROOT/api"
+            echo "local=$LOCAL"
+          } >> "$GITHUB_OUTPUT"
+          echo "Backend under test: $ROOT (local: $LOCAL)"
+
+      - name: Install backend dependencies
+        if: steps.target.outputs.local == 'true'
+        working-directory: ./backend
+        run: npm ci --ignore-scripts
+
+      - name: Start backend from this branch (mock mode)
+        if: steps.target.outputs.local == 'true'
+        working-directory: ./backend
+        run: |
+          DATA_MODE=mock PORT="$BACKEND_PORT" ./node_modules/.bin/ts-node src/index.ts > "$RUNNER_TEMP/backend.log" 2>&1 &
+
+      # Fails fast, with a readable error, if the target is down, protected or not a ScoreBook API
+      - name: Check backend is healthy
+        env:
+          ROOT: ${{ steps.target.outputs.root }}
+        run: |
+          for i in $(seq 1 30); do
+            if HEALTH=$(curl --fail --silent --show-error --max-time 10 "$ROOT/api/health"); then
+              break
+            fi
+            if [ "$i" = 30 ]; then
+              echo "::error::$ROOT/api/health did not respond with 2xx (protected preview, wrong URL or backend down?)"
+              exit 1
+            fi
+            echo "Waiting for backend... ($i/30)"
+            sleep 2
+          done
+          echo "$HEALTH" | jq -e '.status == "ok"' > /dev/null || {
+            echo "::error::Unexpected health response: $HEALTH"
+            exit 1
+          }
+          MODE=$(echo "$HEALTH" | jq -r '.mode')
+          echo "Backend $ROOT healthy, mode: $MODE"
+          {
+            echo "### Backend under test"
+            echo "- URL: \`$ROOT\`"
+            echo "- Data mode: \`$MODE\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install root dependencies (Playwright)
+        run: npm ci --ignore-scripts
+
+      - name: Install mobile dependencies
+        working-directory: ./mobile
+        run: npm ci --ignore-scripts
+
+      # EXPO_PUBLIC_* is inlined into the bundle here, so this build talks to the candidate API
+      - name: Build web bundle against the backend under test
+        env:
+          EXPO_PUBLIC_API_BASE_URL: ${{ steps.target.outputs.api_url }}
+        run: npm run build:web
+
+      - name: Install Playwright browsers
+        run: npm run test:e2e:web:install
+
+      - name: Run web integration tests
+        env:
+          ROOT: ${{ steps.target.outputs.root }}
+        run: |
+          EXPECTED_API_ORIGIN=$(echo "$ROOT" | sed -E 's|^(https?://[^/]+).*|\1|') \
+            npm run test:e2e:web:integration -- --project=chromium --project="Mobile Chrome"
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-integration
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Upload backend log
+        if: ${{ !cancelled() && steps.target.outputs.local == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-log
+          path: ${{ runner.temp }}/backend.log
+          if-no-files-found: ignore
+          retention-days: 7

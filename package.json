@@ -12,6 +12,7 @@
     "test:e2e:web:install": "playwright install --with-deps chromium",
     "test:e2e:web": "playwright test",
     "test:e2e:web:live": "TEST_TARGET=live playwright test",
+    "test:e2e:web:integration": "TEST_TARGET=integration playwright test",
     "test:mobile": "cd mobile && npm test",
     "test:backend": "cd backend && npm test",
     "test:contract:local": "cd mobile && npm run test:contract && cd ../backend && npm run test:contract:local",

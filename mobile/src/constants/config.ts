@@ -7,12 +7,16 @@ export const ENV_KEYS = {
     ENVIRONMENT: 'scorebook_env',
 };
 
+export const DEFAULT_PROD_API_URL = 'https://scorebook-backend-virid.vercel.app/api';
+
 export const ENV_URLS = {
     local: {
         android: 'http://10.0.2.2:3000/api',
         ios: 'http://localhost:3000/api',
     },
-    prod: 'https://scorebook-backend-virid.vercel.app/api',
+    // EXPO_PUBLIC_API_BASE_URL is inlined at build time, so a web export can target a candidate
+    // backend (see .github/workflows/web-e2e-integration.yml). Unset, it is the hosted backend.
+    prod: process.env.EXPO_PUBLIC_API_BASE_URL || DEFAULT_PROD_API_URL,
 };
 
 // Default initial URL (can be used before storage loads)
