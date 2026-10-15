@@ -104,7 +104,7 @@ cd mobile && npm run web
 npm run test:e2e:web           # = playwright test
 ```
 
-Specs live in `tests/`. Only a placeholder smoke spec exists today (`tests/web-smoke.spec.ts`), and Playwright isn't yet part of any CI workflow. See [current status and gaps](../strategy.md#current-status-and-gaps).
+Specs live in `tests/`. Only a placeholder smoke spec exists today (`tests/web-smoke.spec.ts`), and Playwright isn't yet part of any CI workflow.
 
 ## TestID convention
 
