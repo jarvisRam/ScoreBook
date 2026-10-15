@@ -31,7 +31,7 @@ Layers are grouped into suites by when they run.
 ### 🔵 PR gate (every pull request)
 
 - **Goal**: prove the branch is safe to merge. Fast feedback, under 15 minutes.
-- **Layers**: static checks (compilation & lint, code quality & security analysis, AI code review) · unit (FE and BE) with coverage gate · mocked acceptance (BE) · mocked acceptance (FE) smoke flows on the Android emulator · contract (Pact verify, `can-i-deploy`, third-party schema tests).
+- **Layers**: static checks (compilation & lint, code quality & security analysis, AI code review) · unit (FE and BE) with coverage gate · mocked acceptance (BE) · mocked acceptance (FE) smoke flows on the Android emulator · contract (Pact verify, `can-i-deploy`, third-party schema tests) · for backend changes, the web app built against the candidate backend (advisory, see [Candidate API check](./layers/integrated-e2e.md#candidate-api-check-before-a-backend-change-deploys)).
 - **Trigger**: pull request opened or updated.
 
 ### 🟣 Nightly regression (scheduled)
