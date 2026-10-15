@@ -90,17 +90,141 @@ flowchart LR
 
 Mocked layers always run against committed fixtures, so results are deterministic and free. Only the integrated E2E layer touches live providers and spends RapidAPI quota. See [Test Data](./test-data.md) for the data modes.
 
-## Current status and gaps
+## Integration testing of upstream and downstream systems
 
-This strategy describes the target state. Here is where each layer stands today, based on the workflows in `.github/workflows/`:
+The [candidate API check](./layers/integrated-e2e.md#candidate-api-check-before-a-backend-change-deploys) isn't specific to our backend. It's a method that works for any neighbouring **service** or **cron job**, in either direction, as long as the two sides can be pointed at each other by configuration.
 
-| Layer | Status | Notes |
+```mermaid
+flowchart LR
+    subgraph Up["Upstream (we depend on it)"]
+        Provider["Provider API<br/>(Cricbuzz via RapidAPI)"]
+        Feeder["Feeder service<br/>or cron job"]
+    end
+
+    subgraph Us["Our system"]
+        BE[Backend]
+        FE[Web and mobile app]
+    end
+
+    subgraph Down["Downstream (depends on us)"]
+        Consumer["Consumer service<br/>or cron job"]
+    end
+
+    Provider --> BE
+    Feeder --> BE
+    BE --> FE
+    BE --> Consumer
+```
+
+### The method
+
+One side is the **candidate**: the system whose change is being tested, running somewhere that isn't production yet (a preview deployment, or an instance started on the CI runner). The other side is the **counterpart**, built or started from its own branch and pointed at the candidate. An agreed suite runs through the counterpart, and the result gates the candidate's change before it deploys.
+
+| Whose change | Candidate | Counterpart (built or started from its branch) | Suite | Gate on |
+| :--- | :--- | :--- | :--- | :--- |
+| **Upstream** service or cron job (feeds us) | The upstream's candidate URL | Our backend and web app, with the dependency's base URL set to the candidate | The same Playwright specs we run against the hosted site, plus backend tests for the data path | The upstream's PR, via a workflow that takes the candidate URL |
+| **Downstream** service or cron job (consumes us) | Their candidate, calling our API | Our backend from `main`, in mock mode on the runner (or the stable environment) | The consumer's own journey tests, plus its Pact consumer tests | Their PR, with `can-i-deploy` against our deployed version |
+| **Our backend** (the case built so far) | The backend preview or a mock-mode instance | The web app from the branch | `tests/live` through the `integration` target | Backend PRs (advisory today) |
+
+The suite is owned by **Test**. The team that owns the candidate runs it on their own PR and owns making the candidate testable (see the entry criteria below). For the implementation, see [Candidate API check](./layers/integrated-e2e.md#candidate-api-check-before-a-backend-change-deploys).
+
+### Testing a neighbouring system
+
+This is the sequence QA/QE follow when a service or cron job is added, or a change to one is proposed.
+
+#### 1. Map the seam
+
+Before writing tests, record each integration in a map: its direction, its type (service or cron job), what crosses the boundary (endpoints, fields, schedule, side effects) and which user-visible journeys depend on it. The map is the test basis. Every assertion in the suite should trace back to a row, and every change request is assessed against it.
+
+| Neighbour | Direction | Type | What crosses the boundary | Journeys that depend on it |
+| :--- | :--- | :--- | :--- | :--- |
+| Cricbuzz via RapidAPI | Upstream | Service | Match lists and details, mapped to our `Match` shape | Cricket live, upcoming and completed lists |
+| Match regeneration (`/api/matches/regenerate`) | Internal | Cron job | Rewrites the simulated match data daily | Every sport's lists, in simulation mode |
+| Web and mobile app | Downstream | Service | Reads `GET /api/matches/:sport` and `/api/match/:id` | All sport screens |
+
+#### 2. Choose the depth from the risk of the change
+
+| Change to the neighbour | What to run |
+| :--- | :--- |
+| A field is removed, renamed or changes type | The full candidate check and contract verification. Treat as breaking: it needs a coordinated change or a versioned API. |
+| A field or endpoint is added | Contract verification and a quick candidate run. Add a spec only if a journey will use it. |
+| Behaviour or timing changes (rate limits, caching, cron schedule, latency) | The candidate check, an on-demand cron trigger, and a check of the monitoring suites afterwards. |
+| Authentication or secrets change | The candidate check with the new credentials, in a non-production environment first. |
+| No interface change (internal refactor) | The candidate check as a regression pass. |
+
+#### 3. Decide the scope of the integration test
+
+A neighbouring system is only tested with the integration in place: the counterpart running against the candidate. Our own unit and mocked tests don't count as testing the neighbour, because they never touch it. So scope the integration test from the map in step 1:
+
+- **One or more tests per row of the map.** Each journey that depends on the neighbour gets a test that goes through the real integration.
+- **Happy path first.** The agreed data comes back and the UI renders it.
+- **Add the error responses the candidate documents and its test environment can produce**, such as the 404 for an unknown sport.
+- **Leave out failures you can't trigger on demand**, such as outages and rate limiting. The scheduled live suites and the drift check watch for those once the change is deployed.
+
+#### 4. Add the tests
+
+1. **Start from a row of the map** and decide which journey it protects.
+2. **Put the spec in `tests/live/`.** The same specs run against the hosted site and against a candidate, so a new test is written once. Use the `ScoreBookApp` page object in `tests/support/app.ts` rather than raw selectors.
+3. **Assert on structure, never on values.** Candidate and live data changes between runs, so check the status code, the response envelope, the required fields and that the UI renders what the API returned. Don't assert on scores, names or counts.
+4. **Check for silent failures.** Assert there are no uncaught page errors and no failed requests while the app loads.
+5. **Keep the footprint small.** Prefer one page load per sport with a step per status, because every load spends the candidate's capacity (and RapidAPI quota when it isn't in mock mode).
+6. **Confirm the target guard still covers the new test.** `tests/live/api-target.spec.ts` fails if any request goes to an origin other than the candidate. Without it, a mis-set URL falls back to production and the run passes against the wrong system.
+7. **Run it three ways before merging:** against a local mock-mode backend (`npm run test:e2e:web:integration`), against a candidate you've deliberately broken to confirm it fails, and against the hosted site.
+
+#### 5. Agree entry and exit criteria
+
+The upstream or downstream service belongs to a different team. That team runs the integration check on its own PR, so the criteria are agreed with them up front and written down for each neighbour in the map.
+
+**Entry: what the owning team provides**
+
+- a reachable candidate (a preview URL, or a mock-mode instance that starts on the runner) with a health endpoint
+- a way to point the other side at the candidate by configuration, defaulting to production when unset
+- non-production credentials, such as a test `CRON_SECRET`
+- a short note of what changed, which sets the depth in step 2
+- a PR check that calls the integration workflow with the candidate URL and reports back on the PR
+
+**Exit: what their PR check must show**
+
+- every integration spec passes, including the target guard
+- contract verification passes (`can-i-deploy` says yes)
+- nothing fails that passed on the last green run of `main`
+- any skipped or quarantined spec has a linked issue
+
+#### 6. Run and triage
+
+The candidate's change is the only difference from the last green run, so it's the first suspect. Use the symptom to decide who acts:
+
+| Symptom | Likely cause | Action |
 | :--- | :--- | :--- |
-| Static: compilation & lint | 🟡 Partial | `tsc --noEmit` runs in `ci.yml`. `npm run lint` falls back to `echo 'Linting skipped'` when ESLint isn't configured, so lint doesn't actually gate anything yet. |
-| Static: code quality & security analysis | 🔴 Not set up | No `sonar-project.properties` and no scan job. |
-| Static: AI code review | 🔴 Not set up | The Gitar GitHub app isn't installed on the repo. |
-| Unit | 🟡 Partial | Coverage isn't measured in CI or gated. FE has a single component test (`MatchCard.test.tsx`). BE has no isolated unit tests: everything goes through Supertest. |
-| Mocked acceptance (FE) | 🟡 Partial | Maestro smoke runs on PRs (`maestro.yml`). Playwright has only a placeholder smoke spec and isn't in CI. There's no nightly full suite. |
-| Mocked acceptance (BE) | 🟢 In place | `test/integration/*` runs on every PR in `ci.yml`. |
-| Contract | 🟢 In place | Pact publish, verify, `can-i-deploy` and record-deployment in `contract-tests.yml`. Cricbuzz schema tests run on PRs, with a daily drift check. Other providers aren't covered yet. |
-| Integrated E2E | 🟡 Partial | Live API tests every 6 h (`live-api-tests.yml`). No app-level E2E against the deployed backend, and no real-device runs. |
+| Health check fails | Candidate down, protected by deployment protection, or the wrong URL | Environment problem. The owning team fixes the candidate. |
+| Target guard fails | The counterpart wasn't built against the candidate, or a stale build was reused | Test setup problem. Fix the build configuration and rerun. The candidate is not at fault. |
+| A shape assertion fails (for example `response has a data array`) | The candidate changed the contract | The owning team reworks the change, or agrees a versioned or coordinated change with the consumers. |
+| The API response is fine but the UI is wrong | The counterpart mishandles valid data | Defect in the consumer. Raise it against the front end. |
+| Passes on the PR but fails in a scheduled run | Upstream drift or provider outage | Monitoring problem. Goes to the owner of the monitoring suite, not the owning team's PR. |
+
+A flaky result is a failing result: no retries on the PR gate. Quarantine the spec with a linked issue and fix it within the sprint, as in [Quality gates](#quality-gates).
+
+#### 7. Keep the suite current
+
+Test owns the map and the specs. When a neighbour adds a field, journey or schedule, update the map and the specs in the same PR. Review the map when a new provider is added or a service is retired, and make the check required (by removing the `paths` filter, because a skipped path-filtered check stays pending and blocks the merge) once it has proved stable.
+
+### Cron jobs
+
+A cron job has no URL to call, so the method needs three additions:
+
+- **Trigger it on demand.** Never wait for the schedule. On Vercel a cron job is an HTTP route (ours is `/api/matches/regenerate`), so the test calls it on the candidate directly, with the candidate's own `CRON_SECRET` as a bearer token. A job that isn't an HTTP route needs a manual-run entry point, such as a workflow input or script.
+- **Assert on its effects, not its exit code.** After the run, check what the job was supposed to change through the same public API the other side uses. For regeneration, that is the matches endpoints returning fresh, well-formed data for every sport and status.
+- **Isolate its data.** A candidate job writes to a mock-mode or throwaway store, never to the production database. Check that the job is safe to run twice (idempotent), since a manual trigger and the schedule can overlap.
+
+Test the schedule itself separately and cheaply. A unit-level check that every `crons[].path` in `vercel.json` matches a real route catches a renamed endpoint that would otherwise silently stop running.
+
+### Upstream and downstream together
+
+These checks complement the existing layers rather than replace them:
+
+| Question | Answered by |
+| :--- | :--- |
+| Do the two sides agree on the shape of the messages? | [Contract tests](./layers/contract-testing.md) (Pact for consumers, Zod schemas for providers) |
+| Does the real behaviour work end to end with the candidate? | The candidate check described here |
+| Has the upstream changed without telling us? | The daily third-party drift check |
+| Is the deployed system healthy right now? | The scheduled live suites (continuous monitoring) |
