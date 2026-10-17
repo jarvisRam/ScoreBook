@@ -45,6 +45,6 @@
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "@types/react": "~19.1.10",
-    "typescript": "~5.9.2"
+    "typescript": "~7.0.2"
   }
 }
