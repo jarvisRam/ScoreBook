@@ -44,7 +44,7 @@ Matrix key: ✅ strong fit · ⚠️ partial / with caveats · ❌ not supported
 | npm | `/mobile` | Weekly | Minor and patch bumps in one PR |
 | GitHub Actions | `/` | Weekly | All action bumps in one PR |
 
-- **Major upgrades arrive as their own PR.** They are the ones that can break behaviour, so they are never folded into a group.
+- **Major npm upgrades arrive as their own PR.** They are the ones that can break behaviour, so they are never folded into the npm groups. GitHub Actions bumps, majors included, share one PR.
 - **Open version-update PRs are capped at 5 per npm directory**, to stop a backlog from flooding the PR list. Security updates aren't held back by this cap.
 - **The Actions ecosystem keeps our pinned SHAs current.** Third-party actions are pinned to a commit SHA, and Dependabot updates the SHA and its version comment together.
 
