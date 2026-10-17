@@ -8,7 +8,7 @@ description: Vulnerable third-party packages are found by Dependabot and blocked
 
 Most of the code in a ScoreBook build isn't ours. It comes from the npm packages in `mobile/`, `backend/` and the repo root, and from the GitHub Actions our workflows call. A vulnerability in any of them ships with the app. This layer answers a question that [static checks](./static-checks.md) can't: **do the packages we depend on have known vulnerabilities?**
 
-It sits at the base of the [test pyramid](../overview.md#the-test-pyramid) with the static checks. It reads manifests and lockfiles without running the code, runs on every change, and costs almost nothing to run.
+It is one of the four checks in the [static checks](./static-checks.md) layer at the base of the [test pyramid](../overview.md#the-test-pyramid). It reads manifests and lockfiles without running the code, runs on every change, and costs almost nothing to run.
 
 :::info Why SonarCloud doesn't cover this
 SonarCloud analyses our *first-party* source. Its security rating and hotspot review say nothing about a vulnerable package in `node_modules`. Scanning dependencies (software composition analysis) is a separate paid add-on in SonarQube Cloud, so we use GitHub's free tooling instead.

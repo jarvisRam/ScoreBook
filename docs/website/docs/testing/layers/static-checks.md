@@ -1,17 +1,18 @@
 ---
 sidebar_position: 1
 title: Static Checks
-description: Compilation & lint, code quality & security analysis, and AI code review. They run on every change without executing the code.
+description: Compilation & lint, code quality & security analysis, dependency security, and AI code review. They run on every change without executing the code.
 ---
 
 # Static Checks
 
-Static checks form the base of the [test pyramid](../overview.md#the-test-pyramid). They analyse the code without running it, run on every change, and are the cheapest place to catch a defect. The layer has three checks, each answering a different question:
+Static checks form the base of the [test pyramid](../overview.md#the-test-pyramid). They analyse the code without running it, run on every change, and are the cheapest place to catch a defect. The layer has four checks, each answering a different question:
 
 | Check | Question it answers | Tool | Blocks merge? |
 | :--- | :--- | :--- | :--- |
 | **Compilation & lint** | Does it compile, and does it follow our rules? | ESLint + TypeScript | Yes |
 | **Code quality & security analysis** | Is the new code reliable, secure and maintainable? | SonarCloud | Yes (quality gate) |
+| **Dependency security** | Do the packages we depend on have known vulnerabilities? | Dependabot, dependency review | Dependency review fails the PR at high severity or above (not a required check yet) |
 | **AI code review** | Would a careful reviewer spot a problem in this diff? | Gitar | No (advisory) |
 
 Matrix key: ✅ strong fit · ⚠️ partial / with caveats · ❌ not supported. The chosen tool is in **bold**.
@@ -80,6 +81,14 @@ SonarCloud analyses the source we write. It doesn't scan the packages we import,
 
 ---
 
+## Dependency security
+
+**What it checks**: known vulnerabilities in the third-party packages and GitHub Actions we depend on, which SonarCloud can't see. Dependabot raises alerts and opens fix PRs for the dependencies we already use, and dependency review fails a PR that introduces a vulnerable one.
+
+The tools, decision matrices, fix targets and setup have their own page: [Dependency Security](./dependency-security.md).
+
+---
+
 ## AI code review
 
 **What it checks**: an AI reviewer reads the PR diff and leaves inline comments on likely logic errors, missed edge cases, inconsistent error handling and risky changes. It adds to human review and doesn't replace it.
@@ -108,5 +117,6 @@ SonarCloud analyses the source we write. It doesn't scan the packages we import,
 
 ## Related
 
+- [Dependency Security](./dependency-security.md): the dependency checks in full
 - [Test Strategy](../strategy.md): where static checks sit in the PR gate
 - [Running Tests](../running-tests.md): coverage commands that feed SonarCloud

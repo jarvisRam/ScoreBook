@@ -58,7 +58,6 @@
 .test-pyramid__tier--contract { width: 52%; background: #a3540a; }
 .test-pyramid__tier--acceptance { width: 70%; background: #8a6d00; }
 .test-pyramid__tier--unit { width: 86%; background: #1f7a4a; }
-.test-pyramid__tier--dependency { width: 93%; background: #5b3f9e; }
 .test-pyramid__tier--static { width: 100%; background: #1d5c96; }
 
 .test-pyramid__axis {
@@ -74,5 +73,4 @@
   .test-pyramid__tier--contract { width: 70%; }
   .test-pyramid__tier--acceptance { width: 80%; }
   .test-pyramid__tier--unit { width: 90%; }
-  .test-pyramid__tier--dependency { width: 95%; }
 }
