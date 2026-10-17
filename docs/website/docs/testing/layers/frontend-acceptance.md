@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 title: Mocked Acceptance (FE)
 description: The real app driven through user journeys with Maestro (mobile) and Playwright (web), against the backend in mock mode.
 ---

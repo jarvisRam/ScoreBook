@@ -15,7 +15,7 @@ This page is the testing philosophy. It defines the layers and the model we use 
 
 | # | Layer | What it is |
 |---|-------|------------|
-| 1 | **Static checks** | Analysis of the code without running it, in three parts. **Compilation & lint** proves the code compiles and follows our rules. **Code quality & security analysis** catches bugs, vulnerabilities and maintainability problems in new code. **AI code review** gives an automated review of every pull request diff. |
+| 1 | **Static checks** | Analysis of the code without running it, in four parts. **Compilation & lint** proves the code compiles and follows our rules. **Code quality & security analysis** catches bugs, vulnerabilities and maintainability problems in new code. **AI code review** gives an automated review of every pull request diff. **Dependency security** checks the third-party packages we import for known vulnerabilities. |
 | 2 | **Unit** | A single function, hook or component tested in isolation, with every dependency mocked. Runs in milliseconds and pins down logic and edge cases. |
 | 3 | **Mocked acceptance (FE)** | The real app (mobile build on an emulator, web build in a browser) driven through user journeys the way a user would, against a mock backend. Proves the UI, navigation and state hang together without depending on live data. |
 | 4 | **Mocked acceptance (BE)** | The real HTTP API exercised end-to-end in-process, with the third-party sports providers stubbed. Proves routing, validation, data transformation and error handling. |
@@ -31,7 +31,7 @@ We follow the **test pyramid** model: a broad base of fast, cheap, isolated chec
   <div className="test-pyramid__tier test-pyramid__tier--contract">Contract<small>every consumed endpoint and provider</small></div>
   <div className="test-pyramid__tier test-pyramid__tier--acceptance">Mocked acceptance (FE &amp; BE)<small>key user journeys and API behaviours</small></div>
   <div className="test-pyramid__tier test-pyramid__tier--unit">Unit<small>the bulk of our tests</small></div>
-  <div className="test-pyramid__tier test-pyramid__tier--static">Static checks<small>compilation &amp; lint · code quality &amp; security · AI review, on every change</small></div>
+  <div className="test-pyramid__tier test-pyramid__tier--static">Static checks<small>compilation &amp; lint · code quality &amp; security · dependency security · AI review, on every change</small></div>
 </div>
 <div className="test-pyramid__axis">
   <span>⬇ Base: more tests · faster · cheaper · more isolated</span>
@@ -50,6 +50,7 @@ The pyramid leads to four rules:
 - [Test Strategy](./strategy.md): every layer's trigger, owner, tooling and runtime target
 - [Testing Layers](/testing/layers): one page per layer, each with a decision matrix behind its tool choice
   - [Static Checks](./layers/static-checks.md)
+    - [Dependency Security](./layers/dependency-security.md)
   - [Unit Testing](./layers/unit-testing.md)
   - [Mocked Acceptance (FE)](./layers/frontend-acceptance.md)
   - [Mocked Acceptance (BE)](./layers/backend-acceptance.md)

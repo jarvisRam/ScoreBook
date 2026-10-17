@@ -82,6 +82,7 @@ const sidebars = {
                     },
                     items: [
                         'testing/layers/static-checks',
+                        'testing/layers/dependency-security',
                         'testing/layers/unit-testing',
                         'testing/layers/frontend-acceptance',
                         'testing/layers/backend-acceptance',

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 title: Integrated E2E
 description: The full stack with nothing mocked. The app and API run against the deployed backend and live providers, on a schedule and before release.
 ---

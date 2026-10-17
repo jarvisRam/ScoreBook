@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 title: Contract Testing
 description: Consumer-driven contracts between mobile and backend with Pact / Pactflow, plus schema checks against third-party providers.
 ---

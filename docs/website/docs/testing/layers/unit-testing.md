@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 title: Unit Testing
 description: Functions, hooks and components tested in isolation with Jest and React Native Testing Library. The bulk of our tests.
 ---
