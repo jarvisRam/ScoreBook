@@ -14,6 +14,7 @@ This page turns the [testing philosophy](./overview.md#testing-philosophy) into 
 | [**Static: compilation & lint**](./layers/static-checks.md#compilation--lint) | Code compiles and follows our style and correctness rules, with zero warnings allowed. | **CI**: every PR and push to `main`. Also locally before commit. | DEV | ESLint, TypeScript (`tsc --noEmit`) for mobile and backend | **< 1 min**. Zero errors, zero warnings. |
 | [**Static: code quality & security analysis**](./layers/static-checks.md#code-quality--security-analysis) | Quality gate on new code: bugs, security vulnerabilities and hotspots, and maintainability (code smells, duplication). | **CI**: every PR and push to `main`. | DEV (Test owns the gate thresholds) | SonarCloud | **< 5 min**. Gate passes: 0 new bugs or vulnerabilities, all hotspots reviewed, A ratings for reliability, security and maintainability, ≤ 3% duplication. |
 | [**Static: AI code review**](./layers/static-checks.md#ai-code-review) | Automated AI review of the PR diff that flags logic errors, missed edge cases and risky changes. It adds to human review and doesn't replace it. | **CI**: on PR open and on every update. | DEV (author resolves, reviewer confirms) | Gitar | **First feedback < 10 min** after push. Every comment resolved or explicitly dismissed before merge. |
+| [**Dependency security**](./layers/dependency-security.md) | Known vulnerabilities in the third-party packages and GitHub Actions we depend on. Finds the ones we already use and blocks a PR that adds a vulnerable one. SonarCloud doesn't cover this. | **CI**: dependency review on every PR to `main` or `develop`. **Schedule**: Dependabot version-update PRs weekly; alerts and security-update PRs whenever a new advisory matches. | DEV (merges the update PRs; Test owns the configuration and severity thresholds) | Dependabot; `actions/dependency-review-action` | Dependency review **< 1 min**. Fails on a **high or critical** vulnerability a PR introduces. No open critical or high alert on a production dependency past its fix target (2 and 5 business days). |
 | [**Unit**](./layers/unit-testing.md) | Functions, hooks and components tested in isolation, with all dependencies mocked. | **CI**: every PR. Also locally in watch mode. | DEV | Jest; React Native Testing Library (frontend); coverage reported to SonarCloud | **< 2 min** for the full suite, each test in milliseconds, 0 flaky tests. **≥ 80% line coverage on new code** (enforced in the SonarCloud gate). |
 | [**Mocked acceptance (FE)**](./layers/frontend-acceptance.md) | The real app (Android build on an emulator, web build in a browser) driven through user journeys against the backend in mock mode (`USE_MOCK_DATA=true`). | **CI**: smoke flows on every PR touching mobile or backend. **Schedule**: full flow suite nightly. | Test (DEV adds flows for new screens) | Maestro (mobile), Playwright (web) | **PR smoke < 15 min. Nightly full suite < 30 min.** Flake rate < 2%. |
 | [**Mocked acceptance (BE)**](./layers/backend-acceptance.md) | The real HTTP API exercised in-process with third-party providers stubbed. Covers routing, validation, data transformation and error handling (4xx, 5xx, 429). | **CI**: every PR. | Test (DEV contributes) | Jest, Supertest, Nock | **< 3 min**. Deterministic, with no network calls. |
@@ -31,7 +32,7 @@ Layers are grouped into suites by when they run.
 ### 🔵 PR gate (every pull request)
 
 - **Goal**: prove the branch is safe to merge. Fast feedback, under 15 minutes.
-- **Layers**: static checks (compilation & lint, code quality & security analysis, AI code review) · unit (FE and BE) with coverage gate · mocked acceptance (BE) · mocked acceptance (FE) smoke flows on the Android emulator · contract (Pact verify, `can-i-deploy`, third-party schema tests) · for backend changes, the web app built against the candidate backend (advisory, see [Candidate API check](./layers/integrated-e2e.md#candidate-api-check-before-a-backend-change-deploys)).
+- **Layers**: static checks (compilation & lint, code quality & security analysis, AI code review) · dependency security (dependency review) · unit (FE and BE) with coverage gate · mocked acceptance (BE) · mocked acceptance (FE) smoke flows on the Android emulator · contract (Pact verify, `can-i-deploy`, third-party schema tests) · for backend changes, the web app built against the candidate backend (advisory, see [Candidate API check](./layers/integrated-e2e.md#candidate-api-check-before-a-backend-change-deploys)).
 - **Trigger**: pull request opened or updated.
 
 ### 🟣 Nightly regression (scheduled)
@@ -43,7 +44,7 @@ Layers are grouped into suites by when they run.
 ### 🟠 Continuous monitoring (scheduled)
 
 - **Goal**: detect breakage we don't cause ourselves, such as provider outages, quota exhaustion or upstream response-shape drift.
-- **Layers**: integrated E2E live API tests (every 6 h) · third-party contract drift check (daily).
+- **Layers**: integrated E2E live API tests (every 6 h) · third-party contract drift check (daily) · dependency security: Dependabot alerts as advisories are published, and grouped update PRs weekly.
 - **Trigger**: cron schedule, plus manual dispatch.
 
 ### 🟢 Release (pre-production)
@@ -58,7 +59,7 @@ Layers are grouped into suites by when they run.
 | :--- | :--- |
 | Lint and type-check errors | AI code review comments (they must be addressed or dismissed, but the reviewer makes the call) |
 | Code quality gate failure (SonarCloud), including unit coverage below 80% on new code | Scheduled-job failures (nightly, live API, drift): these open an issue and notify the owner rather than blocking unrelated PRs |
-| Any failing unit or mocked acceptance test | |
+| Any failing unit or mocked acceptance test | Dependency review failure (a PR introduces a high or critical vulnerability) and Dependabot alerts: the review check turns red but isn't a required status check yet, and alerts are worked to the fix targets on the [Dependency Security](./layers/dependency-security.md#acting-on-findings) page |
 | Pact verification failure or `can-i-deploy` saying no | |
 
 A flaky test is treated as a failing test. Quarantine it with a linked issue, fix it within the sprint, and never just retry it until it passes.

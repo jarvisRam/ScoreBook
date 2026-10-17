@@ -77,11 +77,12 @@ const sidebars = {
                         type: 'generated-index',
                         title: 'Testing Layers',
                         description:
-                            'One page per layer of the test pyramid, from static checks to integrated E2E. Each covers what the layer does, how to run it, and the decision matrix behind its tool choice.',
+                            'One page per layer of the test pyramid, from static checks and dependency security to integrated E2E. Each covers what the layer does, how to run it, and the decision matrix behind its tool choice.',
                         slug: '/testing/layers',
                     },
                     items: [
                         'testing/layers/static-checks',
+                        'testing/layers/dependency-security',
                         'testing/layers/unit-testing',
                         'testing/layers/frontend-acceptance',
                         'testing/layers/backend-acceptance',

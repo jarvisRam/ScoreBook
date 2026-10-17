@@ -95,6 +95,16 @@ cd backend && npm test
 npm run test:contract:local  # from repo root
 ```
 
+### "I'm adding or upgrading a dependency..."
+
+CI runs **dependency review** on the PR and fails it if the new version has a known high or critical vulnerability. To find out before you push, audit the package you changed:
+
+```bash
+cd backend && npm audit --omit=dev   # or cd mobile / the repo root
+```
+
+`npm audit` reports every vulnerability in the tree, including ones that were already there, so only act on what your change introduced. Existing ones arrive as Dependabot PRs. See [Dependency Security](./layers/dependency-security.md#acting-on-findings) for the fix targets.
+
 ### "I'm changing what mobile expects from the API..."
 
 Update the consumer spec in `mobile/pact/consumer/`, then follow the [contract testing lifecycle](./layers/contract-testing.md#the-lifecycle).

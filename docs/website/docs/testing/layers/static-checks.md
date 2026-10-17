@@ -68,6 +68,10 @@ Both packages' `lint` scripts end with `|| echo 'Linting skipped - ESLint not co
 - **The "clean as you code" new-code gate fits a codebase that's still growing.** PRs are judged on what they add, not on inherited debt.
 - **It's the industry-standard dashboard** and widely recognised. CodeQL can be added later as a complementary security scan if needed.
 
+:::note Our code only
+SonarCloud analyses the source we write. It doesn't scan the packages we import, so its security rating says nothing about a vulnerable dependency. That is covered by [Dependency Security](./dependency-security.md).
+:::
+
 **Gate**: 0 new bugs, 0 new vulnerabilities, 100% of new security hotspots reviewed, rating A for reliability, security and maintainability, ≤ 3% duplicated lines on new code.
 
 **Acting on findings**: fix bugs and vulnerabilities in the PR. Review hotspots in SonarCloud and mark each one *Safe* or *Fix*. If you think a code smell is a false positive, mark it *Won't fix* with a reason, and don't silence the rule globally.
