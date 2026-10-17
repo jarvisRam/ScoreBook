@@ -5,4 +5,6 @@ module.exports = {
     ],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
     setupFiles: ['./jest.setup.js'],
+    collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts', '!src/__tests__/**'],
+    coverageReporters: ['text-summary', 'lcov'],
 };
