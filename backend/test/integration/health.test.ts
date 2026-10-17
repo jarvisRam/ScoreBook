@@ -10,4 +10,11 @@ describe('Health Check Integration', () => {
             timestamp: expect.any(Number),
         }));
     });
+
+    it('should report the data mode and respond with HTTP 200', async () => {
+        const res = await request(app).get('/api/health');
+
+        expect(res.status).toBe(200);
+        expect(res.body.mode).toEqual(expect.any(String));
+    });
 });
