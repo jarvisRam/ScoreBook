@@ -70,6 +70,7 @@ const sidebars = {
             items: [
                 'testing/overview',
                 'testing/strategy',
+                'testing/quality-maturity-model',
                 {
                     type: 'category',
                     label: 'Testing Layers',

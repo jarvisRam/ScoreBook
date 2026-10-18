@@ -21,6 +21,10 @@ This page turns the [testing philosophy](./overview.md#testing-philosophy) into 
 | [**Contract**](./layers/contract-testing.md) | Consumer-driven contract between mobile and backend, verified before every backend deploy. Third-party provider responses are checked against our schemas. | **CI**: every PR and push to `main` (Pact verify and `can-i-deploy` gate; provider schema tests). **Schedule**: third-party drift check daily. | DEV | Pact and Pactflow; Jest with Zod schemas; drift-check script | **< 5 min** per PR. Drift job **< 2 min**. |
 | [**Integrated E2E**](./layers/integrated-e2e.md) | The full stack with no mocks: the app against the deployed backend and live providers, plus live API checks against the hosted backend. | **Schedule**: live API tests every 6 h; nightly and release-tag E2E; real devices before a store release. | Test | Maestro, Playwright, Jest + Supertest (live API) | **Live API < 10 min. E2E < 30 min.** Any failure triaged within 1 business day. |
 
+:::note Maturity levels
+The "what good looks like" column is the **Platinum** level of the [Quality Maturity Model](./quality-maturity-model.md). Teams working towards it use the Bronze, Silver and Gold criteria, and the SonarCloud gate for their level, as stepping stones.
+:::
+
 :::tip Total PR feedback
 Everything that runs on a PR runs in parallel jobs. The target is **a green or red signal in under 15 minutes** from push, with the mocked FE acceptance job on the critical path.
 :::
