@@ -15,6 +15,7 @@
 const sidebars = {
     tutorialSidebar: [
         'intro',
+        'demo',
         {
             type: 'category',
             label: '🚀 Getting Started',
@@ -95,6 +96,7 @@ const sidebars = {
                 'testing/running-tests',
             ],
         },
+        'references',
     ],
 };
 
