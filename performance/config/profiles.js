@@ -35,5 +35,5 @@ export function stagesFor(table, profile) {
     return stages;
 }
 
-const seconds = (duration) => parseInt(duration, 10);
+const seconds = (duration) => Number.parseInt(duration, 10);
 export const totalSeconds = (stages) => stages.reduce((sum, stage) => sum + seconds(stage.duration), 0);

@@ -25,7 +25,9 @@ import { api, body, BROWSER_HEADERS, checkEnvelope } from '../../lib/api.js';
 const slo = SLO.hosted;
 const journey = new Trend('smoke_journey_ms', true);
 const journeysCompleted = new Counter('smoke_journeys_completed');
-const API_ENDPOINTS = ['health', 'sports', 'matches_live', 'matches_by_sport', 'match_detail'];
+// Endpoints every iteration calls. match_detail is separate: it is skipped in real mode and when
+// nothing is live, so it must not carry a request-count floor.
+const API_ENDPOINTS = ['health', 'sports', 'matches_live', 'matches_by_sport'];
 
 export const options = {
     ...baseOptions,
@@ -42,6 +44,9 @@ export const options = {
         'http_req_failed{endpoint:html}': [`rate<${slo.errorRate}`],
         'http_req_failed{endpoint:bundle}': [`rate<${slo.errorRate}`],
         ...endpointThresholds(API_ENDPOINTS, slo),
+        // Optional endpoint: latency and error budgets apply only when it was actually exercised
+        'http_req_duration{endpoint:match_detail}': [`p(95)<${slo.p95}`, `p(99)<${slo.p99}`],
+        'http_req_failed{endpoint:match_detail}': [`rate<${slo.errorRate}`],
     },
 };
 

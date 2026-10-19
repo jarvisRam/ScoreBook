@@ -80,7 +80,10 @@ const suite = SUITES[suiteName];
 if (!suite) die(`Usage: run.js <${Object.keys(SUITES).join('|')}> [--profile=...] [--build] [--record-baseline] [--no-browser] [--no-compare]`);
 const profile = option('profile', suite.defaultProfile);
 if (!suite.profiles.includes(profile)) die(`Suite "${suiteName}" supports profiles: ${suite.profiles.join(', ')} (got "${profile}")`);
-if (spawnSync('k6', ['version']).status !== 0) die('k6 is not installed. See https://grafana.com/docs/k6/latest/set-up/install-k6/');
+// k6 and npm are developer/CI tools that are found on PATH on purpose: pinning an absolute path
+// would break every local install. PATH is the caller's own environment, so there is no trust
+// boundary to cross (Sonar S4036 is suppressed on the three lines that spawn them).
+if (spawnSync('k6', ['version']).status !== 0) die('k6 is not installed. See https://grafana.com/docs/k6/latest/set-up/install-k6/'); // NOSONAR
 
 // ---- processes the suite needs -------------------------------------------------------------
 const children = [];
@@ -128,7 +131,7 @@ function ensureWebBuild() {
     if (!flag('build') && built()) return;
     if (!flag('build')) die(`mobile/dist is missing or was built for another API. The API URL is inlined at build time. Build it with:\n  EXPO_PUBLIC_API_BASE_URL=${apiUrl} npm run build:web\nor re-run with --build.`);
     console.log(`building web bundle against ${apiUrl} ...`);
-    const build = spawnSync('npm', ['run', 'build:web'], { cwd: ROOT, stdio: 'inherit', env: { ...process.env, EXPO_PUBLIC_API_BASE_URL: apiUrl } });
+    const build = spawnSync('npm', ['run', 'build:web'], { cwd: ROOT, stdio: 'inherit', env: { ...process.env, EXPO_PUBLIC_API_BASE_URL: apiUrl } }); // NOSONAR
     if (build.status !== 0) die('web build failed');
 }
 
@@ -166,7 +169,7 @@ function runK6(script) {
     k6Args.push(path.join(PERF, script.file));
 
     console.log(`\n=== k6: ${id} ===`);
-    const result = spawnSync('k6', k6Args, {
+    const result = spawnSync('k6', k6Args, { // NOSONAR
         stdio: 'inherit',
         env: {
             ...process.env,

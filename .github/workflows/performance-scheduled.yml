@@ -43,7 +43,6 @@ permissions:
   contents: read
 
 env:
-  K6_VERSION: '2.1.0'
   PERF_PROFILE_INPUT: ${{ inputs.profile || 'standard' }}
   PERF_RECORD: ${{ inputs.record_baseline && '--record-baseline' || '' }}
   # Optional. Without them results are still compared and uploaded, just not charted.
@@ -73,10 +72,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Install k6
-        run: |
-          curl --fail --silent --show-error --location "https://github.com/grafana/k6/releases/download/v${K6_VERSION}/k6-v${K6_VERSION}-linux-amd64.tar.gz" \
-            | tar -xz --strip-components=1 -C /usr/local/bin "k6-v${K6_VERSION}-linux-amd64/k6"
-          k6 version
+        uses: ./.github/actions/setup-k6
 
       - name: Run backend endpoint load test
         run: node performance/scripts/run.js be-mock --profile="$PERF_PROFILE_INPUT" $PERF_RECORD
@@ -121,10 +117,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Install k6
-        run: |
-          curl --fail --silent --show-error --location "https://github.com/grafana/k6/releases/download/v${K6_VERSION}/k6-v${K6_VERSION}-linux-amd64.tar.gz" \
-            | tar -xz --strip-components=1 -C /usr/local/bin "k6-v${K6_VERSION}-linux-amd64/k6"
-          k6 version
+        uses: ./.github/actions/setup-k6
 
       # --build bakes the mock API URL into the web bundle, then serves it and the fixture API
       - name: Run frontend load test

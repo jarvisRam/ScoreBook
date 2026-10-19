@@ -25,6 +25,11 @@ const DEFAULT_TOLERANCE = {
 const FALLBACK_TOLERANCE = { relative: 1.0, absoluteMs: 50 };
 const FAIL_RATE_TOLERANCE = 0.01; // an absolute 1 percentage point
 
+// Metrics a run may legitimately not produce. match_detail is skipped against a backend in real
+// mode (it is uncached and would spend provider quota) and when nothing is live. Absent here is
+// not a regression; absent anywhere else is.
+const OPTIONAL = [/^http_req_duration\{endpoint:match_detail\}$/];
+
 // Time metrics only. CLS has no unit, so a millisecond floor makes no sense for it.
 const TRACKED = /^(http_req_duration\{endpoint:[^}]+\}|fe_[a-z_]+_ms|smoke_journey_ms|browser_web_vital_(lcp|fcp|ttfb))$/;
 
@@ -36,8 +41,10 @@ function extract(summary) {
     const metrics = {};
     for (const [name, m] of Object.entries(summary.metrics)) {
         if (!TRACKED.test(name) || typeof m['p(95)'] !== 'number') continue;
-        metrics[name] = { p95: round(m['p(95)']) };
         const failed = summary.metrics[name.replace('http_req_duration', 'http_req_failed')];
+        // k6 exports a tagged metric that saw no requests as p95 = 0 instead of leaving it out
+        if (name.startsWith('http_req_duration') && failed && failed.passes + failed.fails === 0) continue;
+        metrics[name] = { p95: round(m['p(95)']) };
         if (name.startsWith('http_req_duration') && failed && typeof failed.value === 'number') {
             metrics[name].failRate = round(failed.value);
         }
@@ -89,7 +96,8 @@ function compare(id, profile, summary) {
     for (const [name, base] of Object.entries(baseline.metrics)) {
         const now = current[name];
         if (!now) {
-            rows.push({ metric: name, base: base.p95, now: null, status: 'MISSING' });
+            const optional = OPTIONAL.some((pattern) => pattern.test(name));
+            rows.push({ metric: name, base: base.p95, now: null, status: optional ? 'skipped' : 'MISSING' });
             continue;
         }
         const delta = now.p95 - base.p95;

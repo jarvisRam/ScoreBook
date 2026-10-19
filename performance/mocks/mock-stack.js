@@ -88,8 +88,10 @@ for (const sport of SPORTS) {
 }
 const allMatches = Object.values(fixtures).flat();
 
+// Only the mock web origin may call the mock API, which is all the frontend suite needs
 const CORS = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': `http://localhost:${webPort}`,
+    Vary: 'Origin',
     'Access-Control-Allow-Methods': 'GET,OPTIONS',
     'Access-Control-Allow-Headers': '*',
 };
