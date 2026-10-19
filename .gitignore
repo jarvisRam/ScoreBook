@@ -58,6 +58,7 @@ logs
 *.log
 
 # Testing
+performance/results/
 coverage/
 .nyc_output/
 playwright-report/

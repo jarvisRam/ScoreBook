@@ -1,0 +1,141 @@
+name: Performance (Scheduled Baseline)
+
+# Runs the performance suites that need no hosted environment, once a day, and compares each
+# result with the committed baseline (performance/baselines). Results stream to Grafana when the
+# K6_PROMETHEUS_RW_* secrets are set, so the dashboard shows the trend across runs.
+#
+#   be-mock  isolated backend endpoints, backend started on the runner with DATA_MODE=mock
+#   fe-mock  frontend under load: web build served locally, API answered from fixtures,
+#            plus a real-browser web-vitals journey
+#
+# Kept out of the PR pipeline on purpose: shared-runner timings are too noisy to gate a merge.
+# A regression fails this run, which notifies the repository's watchers.
+#
+# To refresh a baseline after an intended change, dispatch with record_baseline and commit the
+# baselines/ files from the uploaded artifact. See docs/website/docs/testing/performance-testing-strategy.md.
+
+on:
+  schedule:
+    # Daily, 03:15 UTC
+    - cron: '15 3 * * *'
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Which suite to run'
+        type: choice
+        options: [all, be-mock, fe-mock]
+        default: all
+      profile:
+        description: 'Load profile (stress is for finding limits and is never compared with a baseline)'
+        type: choice
+        options: [standard, quick, stress]
+        default: standard
+      record_baseline:
+        description: 'Record this run as the new baseline (uploaded as an artifact, not committed)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: performance-scheduled
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  K6_VERSION: '2.1.0'
+  PERF_PROFILE_INPUT: ${{ inputs.profile || 'standard' }}
+  PERF_RECORD: ${{ inputs.record_baseline && '--record-baseline' || '' }}
+  # Optional. Without them results are still compared and uploaded, just not charted.
+  K6_PROMETHEUS_RW_SERVER_URL: ${{ secrets.K6_PROMETHEUS_RW_SERVER_URL }}
+  K6_PROMETHEUS_RW_USERNAME: ${{ secrets.K6_PROMETHEUS_RW_USERNAME }}
+  K6_PROMETHEUS_RW_PASSWORD: ${{ secrets.K6_PROMETHEUS_RW_PASSWORD }}
+
+jobs:
+  be-mock:
+    name: Backend endpoints (mocked backend)
+    if: ${{ inputs.suite != 'fe-mock' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci --ignore-scripts
+
+      - name: Install k6
+        run: |
+          curl --fail --silent --show-error --location "https://github.com/grafana/k6/releases/download/v${K6_VERSION}/k6-v${K6_VERSION}-linux-amd64.tar.gz" \
+            | tar -xz --strip-components=1 -C /usr/local/bin "k6-v${K6_VERSION}-linux-amd64/k6"
+          k6 version
+
+      - name: Run backend endpoint load test
+        run: node performance/scripts/run.js be-mock --profile="$PERF_PROFILE_INPUT" $PERF_RECORD
+
+      - name: Upload results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-be-mock
+          path: |
+            performance/results/
+            performance/baselines/
+          retention-days: 30
+
+  fe-mock:
+    name: Frontend load (mocked frontend stack)
+    if: ${{ inputs.suite != 'be-mock' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # Chrome is preinstalled on ubuntu-latest. The runner is single-use, so the sandbox is not needed.
+      K6_BROWSER_EXECUTABLE_PATH: /usr/bin/google-chrome
+      K6_BROWSER_ARGS: no-sandbox
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            mobile/package-lock.json
+
+      - name: Install root dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install mobile dependencies
+        working-directory: ./mobile
+        run: npm ci --ignore-scripts
+
+      - name: Install k6
+        run: |
+          curl --fail --silent --show-error --location "https://github.com/grafana/k6/releases/download/v${K6_VERSION}/k6-v${K6_VERSION}-linux-amd64.tar.gz" \
+            | tar -xz --strip-components=1 -C /usr/local/bin "k6-v${K6_VERSION}-linux-amd64/k6"
+          k6 version
+
+      # --build bakes the mock API URL into the web bundle, then serves it and the fixture API
+      - name: Run frontend load test
+        run: node performance/scripts/run.js fe-mock --build --profile="$PERF_PROFILE_INPUT" $PERF_RECORD
+
+      - name: Upload results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-fe-mock
+          path: |
+            performance/results/
+            performance/baselines/
+          retention-days: 30

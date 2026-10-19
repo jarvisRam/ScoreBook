@@ -56,5 +56,6 @@ The pyramid leads to four rules:
   - [Mocked Acceptance (BE)](./layers/backend-acceptance.md)
   - [Contract Testing](./layers/contract-testing.md)
   - [Integrated E2E](./layers/integrated-e2e.md)
+- [Performance Test Strategy](./performance-testing-strategy.md): k6 suites for the backend, the frontend and the hosted environment, with baseline monitoring and a Grafana dashboard
 - [Test Data](./test-data.md): fixtures, mock data and data modes
 - [Running Tests](./running-tests.md): commands, folder layout and "what do I run?"

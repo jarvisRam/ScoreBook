@@ -1,0 +1,3 @@
+# Nothing is scraped: k6 pushes its metrics with remote write. This file only sets defaults.
+global:
+  scrape_interval: 15s

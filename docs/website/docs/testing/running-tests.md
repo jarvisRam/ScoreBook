@@ -42,6 +42,12 @@ ScoreBook/
 | `npm run test:contract:local` | Regenerate the pact, then verify the backend against it locally (no broker token) |
 | `npm run test:e2e:mobile` | Maestro flows (needs a running emulator/simulator with the app installed) |
 | `npm run test:e2e:web` | Playwright (needs the web dev server running) |
+| `npm run perf:be` | Backend endpoint load test on a mocked backend (needs [k6](https://grafana.com/docs/k6/latest/set-up/install-k6/)) |
+| `npm run perf:fe -- --build` | Frontend load test and web vitals on the mocked stack (needs k6 and Chrome) |
+| `npm run perf:smoke` | Performance smoke against the hosted environment |
+| `npm run perf:grafana:up` | Local Prometheus + Grafana dashboard for the k6 results |
+
+See the [Performance Test Strategy](./performance-testing-strategy.md) for options and what each suite measures.
 
 ### Mobile (`cd mobile`)
 
