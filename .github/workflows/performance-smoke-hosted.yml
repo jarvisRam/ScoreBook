@@ -1,6 +1,7 @@
 name: Performance Smoke (Hosted)
 
-# A small, paced performance check of the deployed frontend and backend together, every 4 hours.
+# A small, paced performance check of the deployed frontend and backend together: after a merge
+# to main that could change what is deployed, and every 4 hours as a steady signal.
 # It is a smoke test, not a load test: five iterations, one virtual user, only cacheable
 # endpoints, so it cannot hurt the hosted environment or burn provider quota. It checks the two
 # halves are wired together (CORS, compression, health) and within a sane latency budget, and
@@ -9,6 +10,14 @@ name: Performance Smoke (Hosted)
 # The unmocked functional equivalents are web-e2e-live.yml and live-api-tests.yml.
 
 on:
+  push:
+    branches: [main]
+    # Only merges that can change the deployed frontend or backend (or this check itself)
+    paths:
+      - 'backend/**'
+      - 'mobile/**'
+      - 'performance/**'
+      - '.github/workflows/performance-smoke-hosted.yml'
   schedule:
     # Every 4 hours, at :20 (off the hour to dodge the scheduler's busiest minute)
     - cron: '20 */4 * * *'
@@ -61,6 +70,12 @@ jobs:
           curl --fail --silent --show-error --location "https://github.com/grafana/k6/releases/download/v${K6_VERSION}/k6-v${K6_VERSION}-linux-amd64.tar.gz" \
             | tar -xz --strip-components=1 -C /usr/local/bin "k6-v${K6_VERSION}-linux-amd64/k6"
           k6 version
+
+      # A merge to main starts the Vercel deploy at the same moment this job starts. Without a
+      # pause the smoke would measure the previous deployment.
+      - name: Wait for the hosted deployment to pick up the merge
+        if: ${{ github.event_name == 'push' }}
+        run: sleep 180
 
       - name: Check hosted environment is reachable
         run: |

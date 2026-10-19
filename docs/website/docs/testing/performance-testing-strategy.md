@@ -22,7 +22,7 @@ Each suite targets the narrowest environment that can answer its question.
 | :--- | :--- | :--- | :--- | :--- |
 | **Backend endpoints** (`be-mock`) | How fast is each endpoint on its own, and where does it break? | Backend started from the branch with `DATA_MODE=mock`, no providers, no database | Up to 40 req/s per endpoint (stress: 1,000) | Daily |
 | **Frontend load** (`fe-mock`) | How does the web app's delivery path hold up under concurrent visitors, and how fast does it render? | Web build served locally with every `/api` call answered from fixtures | 20 concurrent visitors (stress: 400), plus a real Chromium for web vitals | Daily |
-| **Hosted smoke** (`hosted-smoke`) | Are the deployed frontend and backend wired together and within a sane latency budget *right now*? | The hosted environment (Vercel) | One user, 5 paced iterations. Not a load test | Every 4 hours |
+| **Hosted smoke** (`hosted-smoke`) | Are the deployed frontend and backend wired together and within a sane latency budget *right now*? | The hosted environment (Vercel) | One user, 5 paced iterations. Not a load test | After merges to `main`, and every 4 hours |
 
 ### Why isolated
 
@@ -83,9 +83,9 @@ Baselines must be recorded on **GitHub Actions**, not a laptop. The files record
 | Workflow | Trigger | Runs |
 | :--- | :--- | :--- |
 | `performance-scheduled.yml` | Daily 03:15 UTC, plus manual dispatch | `be-mock` and `fe-mock`, in parallel jobs, `standard` profile |
-| `performance-smoke-hosted.yml` | Every 4 hours, plus manual dispatch | `hosted-smoke` |
+| `performance-smoke-hosted.yml` | After a merge to `main` that touches `backend/`, `mobile/` or `performance/` (it waits 3 minutes for the Vercel deploy first), every 4 hours, plus manual dispatch | `hosted-smoke` |
 
-Neither runs on pull requests. Timings on a shared runner are too noisy to gate a merge, and the functional behaviour is already gated by the [mocked acceptance](./layers/backend-acceptance.md) suites. A regression fails the scheduled run, which notifies repository watchers. Triage works as described for [integrated E2E](./layers/integrated-e2e.md#handling-failures): fix with a regression test at the lowest layer that can reproduce it, or re-record the baseline if the change was intended.
+Neither runs on pull requests, and the post-merge smoke is the only one that follows a deploy. Timings on a shared runner are too noisy to gate a merge, and the functional behaviour is already gated by the [mocked acceptance](./layers/backend-acceptance.md) suites. A regression fails the scheduled run, which notifies repository watchers. Triage works as described for [integrated E2E](./layers/integrated-e2e.md#handling-failures): fix with a regression test at the lowest layer that can reproduce it, or re-record the baseline if the change was intended.
 
 Manual dispatch can also pick a profile:
 
