@@ -41,7 +41,7 @@ const config = {
                     routeBasePath: '/',
                     // Please change this to your repo.
                     editUrl:
-                        'https://github.com/jarvisRam/scorebook/tree/main/docs/',
+                        'https://github.com/jarvisRam/ScoreBook/tree/main/docs/website/',
                 },
                 blog: false,
                 theme: {
@@ -74,7 +74,17 @@ const config = {
                         label: 'Documentation',
                     },
                     {
-                        href: 'https://github.com/jarvisRam/scorebook',
+                        to: '/demo',
+                        label: 'Demo',
+                        position: 'left',
+                    },
+                    {
+                        to: '/references',
+                        label: 'References',
+                        position: 'left',
+                    },
+                    {
+                        href: 'https://github.com/jarvisRam/ScoreBook',
                         label: 'GitHub',
                         position: 'right',
                     },
@@ -86,27 +96,46 @@ const config = {
                     {
                         title: 'Docs',
                         items: [
-                            {
-                                label: 'Introduction',
-                                to: '/intro',
-                            },
-                            {
-                                label: 'Architecture',
-                                to: '/architecture/system-architecture',
-                            },
-                            {
-                                label: 'API Reference',
-                                to: '/api/overview',
-                            },
+                            { label: 'Introduction', to: '/intro' },
+                            { label: 'Demo video', to: '/demo' },
+                            { label: 'Getting Started', to: '/getting-started/installation' },
+                            { label: 'Architecture', to: '/architecture/system-architecture' },
+                            { label: 'API Reference', to: '/api/overview' },
                         ],
                     },
                     {
-                        title: 'More',
+                        title: 'Testing',
                         items: [
+                            { label: 'Testing Overview', to: '/testing/overview' },
+                            { label: 'Test Strategy', to: '/testing/strategy' },
+                            { label: 'Quality Maturity Model', to: '/testing/quality-maturity-model' },
+                            { label: 'Testing Layers', to: '/testing/layers' },
+                            { label: 'Running Tests', to: '/testing/running-tests' },
+                        ],
+                    },
+                    {
+                        title: 'Quality Tools',
+                        items: [
+                            { label: 'References', to: '/references' },
                             {
-                                label: 'GitHub',
-                                href: 'https://github.com/jarvisRam/scorebook',
+                                label: 'SonarQube Cloud',
+                                href: 'https://sonarcloud.io/project/overview?id=jarvisRam_ScoreBook',
                             },
+                            { label: 'Pact (Pactflow)', href: 'https://fanduel-a13fd6f7.pactflow.io/pacticipants?filter=favorites' },
+                            { label: 'Gitar', href: 'https://app.gitar.ai/sriram20mail/dashboard' },
+                            { label: 'BrowserStack', href: 'https://app-automate.browserstack.com/overview' },
+                        ],
+                    },
+                    {
+                        title: 'Source',
+                        items: [
+                            { label: 'GitHub', href: 'https://github.com/jarvisRam/ScoreBook' },
+                            {
+                                label: 'GitHub Actions',
+                                href: 'https://github.com/jarvisRam/ScoreBook/actions',
+                            },
+                            { label: 'Issues', href: 'https://github.com/jarvisRam/ScoreBook/issues' },
+                            { label: 'Pull Requests', href: 'https://github.com/jarvisRam/ScoreBook/pulls' },
                         ],
                     },
                 ],
