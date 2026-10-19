@@ -1,0 +1,31 @@
+{
+  "suite": "fe-mock",
+  "script": "web-load",
+  "profile": "standard",
+  "recordedAt": "2026-10-19",
+  "recordedOn": "local",
+  "tolerance": {
+    "relative": 1,
+    "absoluteMs": 25
+  },
+  "metrics": {
+    "http_req_duration{endpoint:asset}": {
+      "p95": 9.93,
+      "failRate": 0
+    },
+    "fe_bundle_load_ms": {
+      "p95": 11
+    },
+    "http_req_duration{endpoint:api_matches}": {
+      "p95": 1.33,
+      "failRate": 0
+    },
+    "http_req_duration{endpoint:html}": {
+      "p95": 1.04,
+      "failRate": 0
+    },
+    "fe_page_load_ms": {
+      "p95": 16
+    }
+  }
+}

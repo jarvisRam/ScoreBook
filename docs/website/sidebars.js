@@ -72,6 +72,7 @@ const sidebars = {
                 'testing/overview',
                 'testing/strategy',
                 'testing/quality-maturity-model',
+                'testing/performance-testing-strategy',
                 {
                     type: 'category',
                     label: 'Testing Layers',

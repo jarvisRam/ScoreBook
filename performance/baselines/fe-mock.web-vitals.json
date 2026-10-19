@@ -1,0 +1,25 @@
+{
+  "suite": "fe-mock",
+  "script": "web-vitals",
+  "profile": "standard",
+  "recordedAt": "2026-10-19",
+  "recordedOn": "local",
+  "tolerance": {
+    "relative": 0.75,
+    "absoluteMs": 150
+  },
+  "metrics": {
+    "browser_web_vital_lcp": {
+      "p95": 96
+    },
+    "browser_web_vital_ttfb": {
+      "p95": 1.46
+    },
+    "fe_app_ready_ms": {
+      "p95": 176.3
+    },
+    "browser_web_vital_fcp": {
+      "p95": 96
+    }
+  }
+}

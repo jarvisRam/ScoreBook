@@ -1,0 +1,32 @@
+name: Set up k6
+description: Installs a pinned k6 release for Linux, verifying its published SHA-256 checksum, and adds it to PATH.
+
+inputs:
+  version:
+    description: 'k6 version, without the leading v'
+    default: '2.1.0'
+
+runs:
+  using: composite
+  steps:
+    - name: Download, verify and install k6
+      shell: bash
+      env:
+        K6_VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        base="https://github.com/grafana/k6/releases/download/v${K6_VERSION}"
+        archive="k6-v${K6_VERSION}-linux-amd64.tar.gz"
+        dir="${RUNNER_TEMP}/k6"
+        mkdir -p "$dir"
+
+        # HTTPS only, including across redirects
+        fetch() { curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location --output "$2" "$1"; }
+        fetch "${base}/${archive}" "${dir}/${archive}"
+        fetch "${base}/k6-v${K6_VERSION}-checksums.txt" "${dir}/checksums.txt"
+
+        (cd "$dir" && grep " ${archive}\$" checksums.txt | sha256sum --check -)
+        tar -xzf "${dir}/${archive}" -C "$dir" --strip-components=1 "k6-v${K6_VERSION}-linux-amd64/k6"
+
+        echo "$dir" >> "$GITHUB_PATH"
+        "${dir}/k6" version

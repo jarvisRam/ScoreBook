@@ -1,0 +1,92 @@
+name: Performance Smoke (Hosted)
+
+# A small, paced performance check of the deployed frontend and backend together: after a merge
+# to main that could change what is deployed, and every 4 hours as a steady signal.
+# It is a smoke test, not a load test: five iterations, one virtual user, only cacheable
+# endpoints, so it cannot hurt the hosted environment or burn provider quota. It checks the two
+# halves are wired together (CORS, compression, health) and within a sane latency budget, and
+# gives the dashboard a steady signal. Compared with performance/baselines/hosted-smoke.*.json.
+#
+# The unmocked functional equivalents are web-e2e-live.yml and live-api-tests.yml.
+
+on:
+  push:
+    branches: [main]
+    # Only merges that can change the deployed frontend or backend (or this check itself)
+    paths:
+      - 'backend/**'
+      - 'mobile/**'
+      - 'performance/**'
+      - '.github/workflows/performance-smoke-hosted.yml'
+  schedule:
+    # Every 4 hours, at :20 (off the hour to dodge the scheduler's busiest minute)
+    - cron: '20 */4 * * *'
+  workflow_dispatch:
+    inputs:
+      web_base_url:
+        description: 'Hosted frontend URL (defaults to the WEB_BASE_URL repo variable)'
+        required: false
+      api_base_url:
+        description: 'Hosted backend URL (defaults to the API_BASE_URL repo variable)'
+        required: false
+      record_baseline:
+        description: 'Record this run as the new baseline (uploaded as an artifact, not committed)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: performance-smoke-hosted
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  hosted-smoke:
+    name: Smoke against the hosted environment
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      WEB_BASE_URL: ${{ inputs.web_base_url || vars.WEB_BASE_URL || 'https://scorebook-web.vercel.app' }}
+      API_BASE_URL: ${{ inputs.api_base_url || vars.API_BASE_URL || 'https://scorebook-backend-virid.vercel.app' }}
+      PERF_RECORD: ${{ inputs.record_baseline && '--record-baseline' || '' }}
+      K6_BROWSER_EXECUTABLE_PATH: /usr/bin/google-chrome
+      K6_BROWSER_ARGS: no-sandbox
+      K6_PROMETHEUS_RW_SERVER_URL: ${{ secrets.K6_PROMETHEUS_RW_SERVER_URL }}
+      K6_PROMETHEUS_RW_USERNAME: ${{ secrets.K6_PROMETHEUS_RW_USERNAME }}
+      K6_PROMETHEUS_RW_PASSWORD: ${{ secrets.K6_PROMETHEUS_RW_PASSWORD }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install k6
+        uses: ./.github/actions/setup-k6
+
+      # A merge to main starts the Vercel deploy at the same moment this job starts. Without a
+      # pause the smoke would measure the previous deployment.
+      - name: Wait for the hosted deployment to pick up the merge
+        if: ${{ github.event_name == 'push' }}
+        run: sleep 180
+
+      - name: Check hosted environment is reachable
+        run: |
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --output /dev/null "$WEB_BASE_URL"
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --output /dev/null "$API_BASE_URL/api/health"
+
+      - name: Run hosted performance smoke
+        run: node performance/scripts/run.js hosted-smoke $PERF_RECORD
+
+      - name: Upload results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-hosted-smoke
+          path: |
+            performance/results/
+            performance/baselines/
+          retention-days: 30

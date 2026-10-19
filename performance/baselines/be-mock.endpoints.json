@@ -1,0 +1,41 @@
+{
+  "suite": "be-mock",
+  "script": "endpoints",
+  "profile": "standard",
+  "recordedAt": "2026-10-19",
+  "recordedOn": "local",
+  "tolerance": {
+    "relative": 1,
+    "absoluteMs": 10
+  },
+  "metrics": {
+    "http_req_duration{endpoint:match_detail}": {
+      "p95": 2.67,
+      "failRate": 0
+    },
+    "http_req_duration{endpoint:sport_not_found}": {
+      "p95": 0.92,
+      "failRate": 0
+    },
+    "http_req_duration{endpoint:matches_live}": {
+      "p95": 2.29,
+      "failRate": 0
+    },
+    "http_req_duration{endpoint:matches_by_sport}": {
+      "p95": 1.46,
+      "failRate": 0
+    },
+    "http_req_duration{endpoint:sports}": {
+      "p95": 0.99,
+      "failRate": 0
+    },
+    "http_req_duration{endpoint:match_not_found}": {
+      "p95": 2.82,
+      "failRate": 0
+    },
+    "http_req_duration{endpoint:health}": {
+      "p95": 1.1,
+      "failRate": 0
+    }
+  }
+}

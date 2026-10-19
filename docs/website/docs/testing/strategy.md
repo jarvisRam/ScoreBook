@@ -51,6 +51,13 @@ Layers are grouped into suites by when they run.
 - **Layers**: integrated E2E live API tests (every 6 h) · third-party contract drift check (daily) · dependency security: Dependabot alerts as advisories are published, and grouped update PRs weekly.
 - **Trigger**: cron schedule, plus manual dispatch.
 
+### 🟡 Performance monitoring (scheduled)
+
+- **Goal**: catch slow-downs and drift in latency, not just breakage, before users do.
+- **Layers**: not a layer of the pyramid; it asks a different question of the same environments. Backend endpoints on a mocked backend (daily) · frontend load and web vitals on a mocked frontend (daily) · a paced smoke of the hosted frontend and backend together (every 4 h). Each run is checked against fixed budgets and a recorded baseline, and charted in Grafana.
+- **Trigger**: cron schedule, plus manual dispatch. Never on pull requests.
+- **Detail**: [Performance Test Strategy](./performance-testing-strategy.md).
+
 ### 🟢 Release (pre-production)
 
 - **Goal**: final sign-off before an App Store or Play Store release.
