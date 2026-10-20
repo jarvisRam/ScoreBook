@@ -6,7 +6,7 @@ import { EnvironmentProvider } from './src/context/EnvironmentContext';
 
 import { theme } from './src/theme/theme';
 
-// Create React Query client
+// Create the shared React Query client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
