@@ -160,9 +160,9 @@ jobs:
   # simulator Release build, so no signing credentials are needed.
   #
   # Artifact `ios-simulator-build` contains ScoreBook-simulator.tar.gz, which
-  # unpacks to ScoreBook.app (bundle id com.anonymous.mobile). Consume it with:
+  # unpacks to mobile.app (bundle id com.anonymous.mobile). Consume it with:
   #   tar -xzf ScoreBook-simulator.tar.gz
-  #   xcrun simctl install booted ScoreBook.app
+  #   xcrun simctl install booted mobile.app
   # (A tarball is used because upload-artifact zips do not preserve the
   # symlinks and permissions inside an .app bundle.)
   build-ios:
