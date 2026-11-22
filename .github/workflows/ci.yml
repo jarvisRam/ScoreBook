@@ -153,12 +153,23 @@ jobs:
           retention-days: 7
 
   # ============================================
-  # PHASE 2: Build - iOS (EAS Build)
+  # PHASE 2: Build - iOS (simulator build on a GitHub-hosted macOS runner)
   # ============================================
+  # Runs `eas build --local` so the build uses this runner instead of Expo's
+  # cloud builders (which are quota-limited). The `preview` profile is an iOS
+  # simulator Release build, so no signing credentials are needed.
+  #
+  # Artifact `ios-simulator-build` contains ScoreBook-simulator.tar.gz, which
+  # unpacks to mobile.app (bundle id com.anonymous.mobile). Consume it with:
+  #   tar -xzf ScoreBook-simulator.tar.gz
+  #   xcrun simctl install booted mobile.app
+  # (A tarball is used because upload-artifact zips do not preserve the
+  # symlinks and permissions inside an .app bundle.)
   build-ios:
-    name: Build iOS (EAS)
-    runs-on: ubuntu-latest
+    name: Build iOS (Simulator)
+    runs-on: macos-15
     needs: lint-and-test
+    timeout-minutes: 60
 
     steps:
       - name: Checkout code
@@ -183,13 +194,34 @@ jobs:
         working-directory: ./mobile
         run: npm ci
 
-      - name: Build iOS with EAS
+      - name: Build iOS simulator app (local EAS build)
         working-directory: ./mobile
-        run: eas build --platform ios --profile preview --non-interactive --no-wait
+        run: |
+          mkdir -p "$RUNNER_TEMP/ios-build"
+          eas build --local --platform ios --profile preview --non-interactive \
+            --output "$RUNNER_TEMP/ios-build/ScoreBook-simulator.tar.gz"
 
-      # Note: EAS builds happen on Expo servers, so we don't wait or download here
-      # Builds can be accessed via: eas build:list
-      # To download: eas build:download --platform ios --latest
+      - name: Verify build output
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/ios-build/ScoreBook-simulator.tar.gz"
+          ls -lh "$archive"
+          tar -tzf "$archive" | head -20
+          mkdir -p "$RUNNER_TEMP/ios-verify"
+          tar -xzf "$archive" -C "$RUNNER_TEMP/ios-verify"
+          app=$(find "$RUNNER_TEMP/ios-verify" -maxdepth 2 -name '*.app' -type d | head -1)
+          test -n "$app"
+          plutil -p "$app/Info.plist" | grep -E 'CFBundleIdentifier|CFBundleName'
+
+      - name: Upload iOS simulator build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-simulator-build
+          path: ${{ runner.temp }}/ios-build/ScoreBook-simulator.tar.gz
+          if-no-files-found: error
+          # already gzip-compressed
+          compression-level: 0
+          retention-days: 7
 
   # ============================================
   # PHASE 3: E2E Tests (Commented - Ready for Future Implementation)
