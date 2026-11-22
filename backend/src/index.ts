@@ -9,7 +9,7 @@ import matchRoutes from './routes/match.routes';
 const app = express();
 const PORT = config.port;
 
-// Middleware
+// Middleware (applied to every request)
 app.use(cors());
 app.use(express.json());
 
