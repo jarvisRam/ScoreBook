@@ -26,9 +26,9 @@ jobs:
     env:
       API_BASE_URL: ${{ inputs.api_base_url || vars.API_BASE_URL || 'https://scorebook-backend-virid.vercel.app' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '20'
           cache: npm
