@@ -81,7 +81,7 @@ router.get('/:sport', async (req: Request, res: Response) => {
         const matches = await dataService.getMatchesBySport(sport as any, status as any);
 
         res.json({
-            data: matches,
+            matches,
             timestamp: Date.now(),
             mode: dataService.getMode(),
         });
